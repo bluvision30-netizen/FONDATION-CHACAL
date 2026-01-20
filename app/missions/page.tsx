@@ -1,0 +1,136 @@
+import { Metadata } from 'next';
+import PageTemplate from '@/components/templates/PageTemplate';
+import { Target, Heart, Users, Home, Stethoscope, CheckCircle } from 'lucide-react';
+
+export const metadata: Metadata = {
+  title: "Nos Missions - Fondation Chacal",
+  description: "Découvrez nos engagements pour améliorer le quotidien des seniors. Santé, logement, inclusion sociale.",
+  keywords: ["missions", "actions humanitaires", "seniors", "solidarité", "Cameroun"],
+};
+
+export default function MissionsPage() {
+  const missions = [
+    {
+      icon: <Stethoscope className="w-8 h-8" />,
+      title: "Santé & Soins",
+      description: "Accès aux soins médicaux spécialisés",
+      features: ["Consultations gratuites", "Médicaments essentiels", "Suivi nutritionnel", "Prévention santé"],
+      color: "from-blue-500 to-blue-600",
+      iconColor: "text-blue-500"
+    },
+    {
+      icon: <Home className="w-8 h-8" />,
+      title: "Logement Digne",
+      description: "Amélioration des conditions de vie",
+      features: ["Réhabilitation", "Accès eau potable", "Sécurité", "Confort adapté"],
+      color: "from-emerald-500 to-emerald-600",
+      iconColor: "text-emerald-500"
+    },
+    {
+      icon: <Users className="w-8 h-8" />,
+      title: "Inclusion Sociale",
+      description: "Lutte contre l'isolement",
+      features: ["Activités sociales", "Groupes de parole", "Événements", "Transmission"],
+      color: "from-amber-500 to-amber-600",
+      iconColor: "text-amber-500"
+    },
+    {
+      icon: <Heart className="w-8 h-8" />,
+      title: "Autonomisation",
+      description: "Soutien à l'indépendance",
+      features: ["Micro-crédits", "Formation", "Activités génératrices", "Coopératives"],
+      color: "from-rose-500 to-rose-600",
+      iconColor: "text-rose-500"
+    }
+  ];
+
+  return (
+    <PageTemplate
+      heroTitle="Nos Missions"
+      heroSubtitle="Notre engagement"
+      heroDescription="Découvrez comment nous transformons chaque jour la vie des seniors à travers des actions concrètes et durables."
+      heroImage="https://images.unsplash.com/photo-1573497620053-ea5300f94f21?q=80&w=2000"
+      heroHeight="medium"
+    >
+      {/* Introduction */}
+      <div className="text-center mb-20">
+        <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-900 px-6 py-2 rounded-full font-bold mb-6">
+          <Target className="w-5 h-5" />
+          Notre Vision
+        </div>
+        <h2 className="text-4xl md:text-5xl font-serif text-blue-900 mb-8">
+          Un avenir meilleur pour <span className="text-amber-600">chaque senior</span>
+        </h2>
+        <p className="text-slate-600 text-lg max-w-3xl mx-auto leading-relaxed">
+          Notre approche holistique combine santé, logement, inclusion sociale et autonomie économique 
+          pour offrir des solutions durables et adaptées aux besoins spécifiques de chaque bénéficiaire.
+        </p>
+      </div>
+
+      {/* Missions Grid */}
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
+        {missions.map((mission, index) => (
+          <div 
+            key={index}
+            className="group bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
+          >
+            <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${mission.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+              <div className="text-white">
+                {mission.icon}
+              </div>
+            </div>
+            
+            <h3 className="text-2xl font-bold text-blue-900 mb-3">{mission.title}</h3>
+            <p className="text-slate-600 mb-6">{mission.description}</p>
+            
+            <ul className="space-y-3">
+              {mission.features.map((feature, i) => (
+                <li key={i} className="flex items-center gap-3">
+                  <CheckCircle className="w-5 h-5 text-emerald-500" />
+                  <span className="text-slate-700">{feature}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      {/* Stats */}
+      <div className="bg-gradient-to-r from-blue-900 to-blue-950 rounded-3xl p-12 text-center text-white mb-20">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          {[
+            { value: "1,200+", label: "Seniors accompagnés" },
+            { value: "85%", label: "Satisfaction" },
+            { value: "25", label: "Communautés" },
+            { value: "15", label: "Années d'action" }
+          ].map((stat, index) => (
+            <div key={index}>
+              <div className="text-4xl md:text-5xl font-bold mb-2">{stat.value}</div>
+              <div className="text-blue-200 text-sm uppercase tracking-wider">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Approach */}
+      <div className="max-w-4xl mx-auto">
+        <h3 className="text-3xl font-bold text-center text-blue-900 mb-12">Notre Approche Innovante</h3>
+        <div className="grid md:grid-cols-3 gap-8">
+          {[
+            { title: "Sur Mesure", desc: "Chaque solution est adaptée aux besoins spécifiques" },
+            { title: "Durable", desc: "Nous créons des impacts à long terme" },
+            { title: "Participative", desc: "Les bénéficiaires sont acteurs du changement" }
+          ].map((item, index) => (
+            <div key={index} className="text-center">
+              <div className="w-12 h-12 bg-amber-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <div className="text-amber-600 font-bold text-xl">{index + 1}</div>
+              </div>
+              <h4 className="font-bold text-xl mb-3">{item.title}</h4>
+              <p className="text-slate-600">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </PageTemplate>
+  );
+}
