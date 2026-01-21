@@ -9,12 +9,14 @@ import {
   Mail, Phone, ExternalLink, ArrowRight
 } from 'lucide-react';
 
-// --- ANIMATIONS VARIANTS ---
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: { 
     opacity: 1, 
-    transition: { staggerChildren: 0.2, delayChildren: 0.3 } 
+    transition: { 
+      staggerChildren: 0.2, 
+      delayChildren: 0.3 
+    } 
   }
 };
 
@@ -22,11 +24,12 @@ const itemVariants = {
   hidden: { y: 40, opacity: 0 },
   visible: { 
     y: 0, 
-    opacity: 1, 
+    opacity: 1,
     transition: { 
-      duration: 0.8, 
-      ease: "easeOut" // <-- CHANGEMENT ICI
-    } 
+      type: "spring",
+      stiffness: 100,
+      damping: 15
+    }
   }
 };
 

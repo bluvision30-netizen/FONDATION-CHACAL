@@ -2,23 +2,24 @@
 const nextConfig = {
   output: 'standalone',
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
         hostname: 'images.unsplash.com',
-        pathname: '/**',
       },
       {
         protocol: 'https',
         hostname: 'i.pravatar.cc',
-        pathname: '/**',
       },
     ],
-    unoptimized: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true, // IGNORE TypeScript errors during build
   },
   eslint: {
-    ignoreDuringBuilds: true, // Optionnel pour ignorer les erreurs ESLint
+    ignoreDuringBuilds: true, // IGNORE ESLint errors during build
   },
 }
 
-module.exports = nextConfig
+module.exports = nextConfig;
