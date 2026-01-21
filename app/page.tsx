@@ -20,7 +20,14 @@ const containerVariants = {
 
 const itemVariants = {
   hidden: { y: 40, opacity: 0 },
-  visible: { y: 0, opacity: 1, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }
+  visible: { 
+    y: 0, 
+    opacity: 1, 
+    transition: { 
+      duration: 0.8, 
+      ease: "easeOut" // <-- CHANGEMENT ICI
+    } 
+  }
 };
 
 const NAV_LINKS = [

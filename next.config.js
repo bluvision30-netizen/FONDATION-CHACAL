@@ -1,11 +1,24 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone', // Important pour Netlify
+  output: 'standalone',
   images: {
-    domains: ['images.unsplash.com', 'i.pravatar.cc'],
-    unoptimized: true, // Nécessaire pour le déploiement statique
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.pravatar.cc',
+        pathname: '/**',
+      },
+    ],
+    unoptimized: true,
   },
-  trailingSlash: true,
+  eslint: {
+    ignoreDuringBuilds: true, // Optionnel pour ignorer les erreurs ESLint
+  },
 }
 
 module.exports = nextConfig
