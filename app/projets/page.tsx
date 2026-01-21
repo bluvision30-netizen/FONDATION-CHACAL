@@ -1,132 +1,179 @@
 import { Metadata } from 'next';
-import { CheckCircle, Clock, Target } from 'lucide-react';
+import ModernPageTemplate from '@/components/templates/ModernPageTemplate';
+import { CheckCircle, Clock, Target, TrendingUp, Heart } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: "Nos Projets - Fondation Chacal",
-  description: "Découvrez nos projets en cours et réalisés",
+  description: "Découvrez nos projets en cours et réalisés pour le bien-être des seniors.",
 };
 
 export default function ProjetsPage() {
-  const projects = [
-    {
-      status: 'en-cours',
-      title: 'Centre Chacal Horizon',
-      description: 'Construction d\'un centre médical gériatrique',
-      progress: 65,
-      amount: '32,000€ / 50,000€',
-      color: 'border-blue-500'
-    },
-    {
-      status: 'en-cours',
-      title: 'Cantine Solidaire',
-      description: 'Distribution de repas pour seniors isolés',
-      progress: 40,
-      amount: '4,500€ / 12,000€',
-      color: 'border-amber-500'
-    },
-    {
-      status: 'realise',
-      title: 'Puits de Loum',
-      description: 'Accès à l\'eau potable pour 500 personnes',
-      progress: 100,
-      amount: 'Terminé',
-      color: 'border-emerald-500'
-    },
-  ];
+  const projects = {
+    enCours: [
+      {
+        title: 'Centre Chacal Horizon',
+        description: 'Construction d\'un centre médical gériatrique moderne',
+        progress: 65,
+        amount: '32,000€ / 50,000€',
+        image: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=1000'
+      },
+      {
+        title: 'Cantine Solidaire',
+        description: 'Distribution quotidienne de repas nutritifs',
+        progress: 40,
+        amount: '4,500€ / 12,000€',
+        image: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1000'
+      }
+    ],
+    realises: [
+      {
+        title: 'Puits Communautaire de Loum',
+        description: 'Accès à l\'eau potable pour 500 personnes',
+        year: '2023',
+        impact: '500 bénéficiaires',
+        image: 'https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?q=80&w=1000'
+      },
+      {
+        title: 'Ateliers d\'Artisanat Senior',
+        description: 'Formation de 150 seniors aux métiers artisanaux',
+        year: '2024',
+        impact: '150 formés',
+        image: 'https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=1000'
+      }
+    ]
+  };
 
   return (
-    <div className="min-h-screen">
-      {/* Hero */}
-      <div className="bg-gradient-to-r from-blue-900 to-blue-950 text-white py-24 px-4">
-        <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6">
-            Nos <span className="text-amber-400">Projets</span>
-          </h1>
-          <p className="text-xl text-blue-200 max-w-3xl mx-auto">
-            Des actions concrètes qui transforment des vies
-          </p>
-        </div>
-      </div>
-
-      {/* Contenu */}
-      <div className="max-w-7xl mx-auto px-4 py-16">
-        {/* Filtres */}
-        <div className="flex gap-4 mb-12 overflow-x-auto pb-4">
-          {['Tous', 'En cours', 'Réalisés', 'À venir'].map((filter) => (
-            <button
-              key={filter}
-              className="px-6 py-3 rounded-full font-medium whitespace-nowrap bg-white border border-slate-200 hover:border-blue-500 hover:text-blue-600 transition-colors"
-            >
-              {filter}
-            </button>
-          ))}
+    <ModernPageTemplate
+      heroTitle="Nos Projets"
+      heroSubtitle="Actions concrètes"
+      heroDescription="Découvrez nos initiatives qui transforment la vie des seniors chaque jour."
+      heroImage="https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=2000"
+    >
+      {/* En cours */}
+      <div id="en-cours" className="scroll-mt-24 mb-20">
+        <div className="flex items-center justify-between mb-12">
+          <div>
+            <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-900 px-6 py-2 rounded-full font-bold mb-4">
+              <Clock className="w-5 h-5" />
+              En cours
+            </div>
+            <h2 className="text-4xl font-serif text-blue-900">Projets Actifs</h2>
+          </div>
+          <Target className="w-8 h-8 text-blue-900" />
         </div>
 
-        {/* Grille de projets */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-          {projects.map((project, index) => (
-            <div key={index} className={`bg-white rounded-3xl p-8 shadow-lg border-t-4 ${project.color}`}>
-              <div className="flex items-center justify-between mb-6">
-                <span className={`px-4 py-1 rounded-full text-xs font-bold uppercase ${
-                  project.status === 'realise' 
-                    ? 'bg-emerald-100 text-emerald-700' 
-                    : 'bg-blue-100 text-blue-700'
-                }`}>
-                  {project.status === 'realise' ? 'Réalisé' : 'En cours'}
-                </span>
-                {project.status === 'en-cours' ? (
-                  <Clock className="w-5 h-5 text-blue-500" />
-                ) : (
-                  <CheckCircle className="w-5 h-5 text-emerald-500" />
-                )}
+        <div className="grid lg:grid-cols-2 gap-8">
+          {projects.enCours.map((project, index) => (
+            <div key={index} className="bg-white rounded-3xl overflow-hidden shadow-xl border border-slate-100">
+              <div className="h-48 overflow-hidden">
+                <img src={project.image} className="w-full h-full object-cover" alt={project.title} />
               </div>
-              
-              <h3 className="text-2xl font-bold text-blue-900 mb-4">{project.title}</h3>
-              <p className="text-slate-600 mb-6">{project.description}</p>
-              
-              {project.status === 'en-cours' && (
-                <>
-                  <div className="mb-4">
-                    <div className="flex justify-between text-sm mb-2">
-                      <span className="text-slate-500">Progression</span>
-                      <span className="font-bold text-blue-900">{project.progress}%</span>
-                    </div>
-                    <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
-                      <div 
-                        className="h-full bg-gradient-to-r from-blue-500 to-blue-600"
-                        style={{ width: `${project.progress}%` }}
-                      />
-                    </div>
+              <div className="p-8">
+                <h3 className="text-2xl font-bold text-blue-900 mb-3">{project.title}</h3>
+                <p className="text-slate-600 mb-6">{project.description}</p>
+                
+                <div className="mb-6">
+                  <div className="flex justify-between text-sm mb-2">
+                    <span className="text-slate-500">Progression</span>
+                    <span className="font-bold text-blue-900">{project.progress}%</span>
                   </div>
-                  <p className="text-sm text-slate-500 mb-6">{project.amount}</p>
-                </>
-              )}
-              
-              <button className="w-full bg-blue-50 hover:bg-blue-100 text-blue-900 py-3 rounded-xl font-bold transition-colors">
-                {project.status === 'realise' ? 'Voir les résultats' : 'Soutenir ce projet'}
-              </button>
+                  <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                    <div 
+                      className="h-full bg-gradient-to-r from-blue-500 to-blue-600"
+                      style={{ width: `${project.progress}%` }}
+                    />
+                  </div>
+                  <p className="text-sm text-slate-500 mt-2">{project.amount}</p>
+                </div>
+                
+                <button className="w-full bg-amber-500 hover:bg-amber-600 text-white py-3 rounded-xl font-bold transition-colors">
+                  Soutenir ce projet
+                </button>
+              </div>
             </div>
           ))}
         </div>
+      </div>
 
-        {/* Stats */}
-        <div className="bg-gradient-to-r from-blue-900 to-blue-950 rounded-3xl p-12 text-white text-center">
-          <h3 className="text-3xl font-bold mb-12">Notre Impact en Chiffres</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[
-              { value: '15', label: 'Projets actifs' },
-              { value: '1,200+', label: 'Bénéficiaires' },
-              { value: '85%', label: 'Taux de réussite' },
-              { value: '25', label: 'Partenaires' },
-            ].map((stat, index) => (
-              <div key={index}>
-                <div className="text-4xl md:text-5xl font-bold mb-2">{stat.value}</div>
-                <div className="text-blue-200">{stat.label}</div>
-              </div>
-            ))}
+      {/* Réalisés */}
+      <div id="realises" className="scroll-mt-24 mb-20">
+        <div className="flex items-center justify-between mb-12">
+          <div>
+            <div className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-900 px-6 py-2 rounded-full font-bold mb-4">
+              <CheckCircle className="w-5 h-5" />
+              Réalisés
+            </div>
+            <h2 className="text-4xl font-serif text-blue-900">Projets Accomplis</h2>
           </div>
+          <TrendingUp className="w-8 h-8 text-emerald-600" />
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-8">
+          {projects.realises.map((project, index) => (
+            <div key={index} className="group bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow border border-slate-100">
+              <div className="h-48 overflow-hidden">
+                <img src={project.image} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={project.title} />
+              </div>
+              <div className="p-8">
+                <div className="flex justify-between items-start mb-4">
+                  <h3 className="text-2xl font-bold text-blue-900 group-hover:text-amber-600 transition-colors">
+                    {project.title}
+                  </h3>
+                  <span className="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-sm font-bold">
+                    {project.year}
+                  </span>
+                </div>
+                <p className="text-slate-600 mb-6">{project.description}</p>
+                <div className="flex items-center gap-2 text-emerald-600 font-bold">
+                  <Heart className="w-5 h-5" />
+                  <span>{project.impact}</span>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
-    </div>
+
+      {/* Stats */}
+      <div className="bg-gradient-to-r from-blue-900 to-blue-950 rounded-3xl p-12 text-white text-center mb-20">
+        <h3 className="text-3xl font-bold mb-12">Notre Impact Collectif</h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          {[
+            { value: "15", label: "Projets menés" },
+            { value: "85%", label: "Taux de réussite" },
+            { value: "50+", label: "Partenaires" },
+            { value: "1.2M€", label: "Investis" }
+          ].map((stat, index) => (
+            <div key={index}>
+              <div className="text-4xl md:text-5xl font-bold mb-2">{stat.value}</div>
+              <div className="text-blue-200">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* CTA */}
+      <div className="text-center">
+        <h3 className="text-3xl font-bold text-blue-900 mb-6">Vous avez un projet en tête ?</h3>
+        <p className="text-slate-600 mb-8 max-w-2xl mx-auto">
+          Partagez-nous vos idées ou proposez un partenariat pour soutenir nos actions.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="/contact"
+            className="bg-amber-500 hover:bg-amber-600 text-white px-8 py-4 rounded-full font-bold text-lg transition-all duration-300"
+          >
+            Proposer un projet
+          </a>
+          <a
+            href="/faire-un-don"
+            className="bg-white border-2 border-blue-900 hover:border-amber-500 text-blue-900 hover:text-amber-600 px-8 py-4 rounded-full font-bold text-lg transition-all duration-300"
+          >
+            Soutenir tous les projets
+          </a>
+        </div>
+      </div>
+    </ModernPageTemplate>
   );
 }
