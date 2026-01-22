@@ -54,7 +54,7 @@ const PROJECTS = [
     id: 1,
     title: "Consultations Médicales Gratuites",
     status: "À venir",
-    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1000",
+    image: "https://res.cloudinary.com/dkuciagop/image/upload/v1769027102/WhatsApp_Image_2026-01-20_at_13.21.35_s6m8at.jpg",
     collected: 8500,
     goal: 15000,
     desc: "Journée de consultations médicales gratuites le 23 mai 2026 à l'école publique Newbell Bamiléké, Douala."
@@ -63,7 +63,7 @@ const PROJECTS = [
     id: 2,
     title: "Dons Matériels pour Seniors",
     status: "En cours",
-    image: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1000",
+    image: "https://res.cloudinary.com/dkuciagop/image/upload/v1769027104/WhatsApp_Image_2026-01-20_at_13.21.33_fmzfs6.jpg",
     collected: 4500,
     goal: 10000,
     desc: "Distribution de kits de soins et d'aide matérielle aux personnes âgées vulnérables de Douala."
@@ -156,7 +156,7 @@ export default function FondationChacalUnifie() {
       <section className="relative h-screen flex items-center justify-center overflow-hidden bg-black">
         <motion.div style={{ y: yRange }} className="absolute inset-0 opacity-60">
           <img 
-            src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?q=80&w=2040&auto=format&fit=crop" 
+            src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027105/WhatsApp_Image_2026-01-20_at_13.21.36_dhnrxw.jpg" 
             className="w-full h-full object-cover scale-110"
             alt="Humanitarian Hero"
           />
@@ -203,7 +203,7 @@ export default function FondationChacalUnifie() {
           <div className="relative">
             <div className="absolute -top-10 -left-10 w-64 h-64 bg-amber-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob" />
             <img 
-              src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1000" 
+              src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027105/WhatsApp_Image_2026-01-20_at_13.21.39_ri3mn4.jpg" 
               className="relative rounded-[3rem] shadow-2xl z-10 w-full h-[500px] object-cover"
               alt="Équipe Fondation Le Chacal" 
             />
@@ -283,9 +283,9 @@ export default function FondationChacalUnifie() {
 
         <div className="grid md:grid-cols-3 gap-8">
           {[
-            { title: "Consultations Médicales", img: "https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?q=80&w=1000", color: "bg-blue-50" },
-            { title: "Prévention & Conseils", img: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=1000", color: "bg-amber-50" },
-            { title: "Soutien Matériel", img: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1000", color: "bg-emerald-50" }
+            { title: "Consultations Médicales", img: "https://res.cloudinary.com/dkuciagop/image/upload/v1769027104/WhatsApp_Image_2026-01-20_at_13.21.38_b6wev3.jpg", color: "bg-blue-50" },
+            { title: "Prévention & Conseils", img: "https://res.cloudinary.com/dkuciagop/image/upload/v1769027105/WhatsApp_Image_2026-01-20_at_13.21.41_xop86n.jpg", color: "bg-amber-50" },
+            { title: "Soutien Matériel", img: "https://res.cloudinary.com/dkuciagop/image/upload/v1769027102/WhatsApp_Image_2026-01-20_at_13.21.35_s6m8at.jpg", color: "bg-emerald-50" }
           ].map((action, i) => (
             <motion.div 
               key={i}
@@ -326,7 +326,7 @@ export default function FondationChacalUnifie() {
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 h-[600px]">
           <div className="md:col-span-8 relative rounded-[2.5rem] overflow-hidden group">
-            <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1000" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+            <img src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027105/WhatsApp_Image_2026-01-20_at_13.21.37_syduvr.jpg" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
             <div className="absolute bottom-10 left-10 text-white">
               <span className="bg-white/20 backdrop-blur-md px-4 py-1 rounded-full text-xs uppercase mb-4 inline-block">Mai 2025</span>
@@ -335,7 +335,7 @@ export default function FondationChacalUnifie() {
           </div>
           <div className="md:col-span-4 grid grid-rows-2 gap-6">
             <div className="relative rounded-[2.5rem] overflow-hidden group">
-              <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=1000" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+              <img src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027105/WhatsApp_Image_2026-01-20_at_13.21.36_dhnrxw.jpg" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
               <div className="absolute inset-0 bg-blue-900/20 group-hover:bg-transparent transition-colors" />
             </div>
             <div className="relative rounded-[2.5rem] overflow-hidden group bg-amber-500 flex items-center justify-center p-10 text-center">
@@ -355,7 +355,7 @@ export default function FondationChacalUnifie() {
           >
             <div className="absolute -top-10 -left-10 w-40 h-40 bg-amber-500/20 rounded-full blur-3xl" />
             <img 
-              src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1000" 
+              src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027106/WhatsApp_Image_2026-01-20_at_13.21.42_hru7cx.jpg" 
               className="rounded-[3rem] shadow-2xl border-4 border-white/10"
               alt="Événement médical"
             />
@@ -442,7 +442,7 @@ export default function FondationChacalUnifie() {
           <div className="group bg-white rounded-[2rem] overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border border-slate-100">
             <div className="relative h-64 overflow-hidden">
               <img 
-                src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1000" 
+                src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027105/WhatsApp_Image_2026-01-20_at_13.21.39_ri3mn4.jpg" 
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 alt="Dons matériels"
               />
@@ -480,7 +480,7 @@ export default function FondationChacalUnifie() {
           <div className="group bg-white rounded-[2rem] overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border border-slate-100">
             <div className="relative h-64 overflow-hidden">
               <img 
-                src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=1000" 
+                src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027102/WhatsApp_Image_2026-01-20_at_13.21.35_s6m8at.jpg" 
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 alt="Sensibilisation santé"
               />
@@ -596,7 +596,7 @@ export default function FondationChacalUnifie() {
           {NEWS.map((item, i) => (
             <div key={i} className="group cursor-pointer">
               <div className="overflow-hidden rounded-3xl mb-6">
-                <img src={`https://images.unsplash.com/photo-${1576091160000 + i * 5000}?q=80&w=600`} className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-700" />
+                <img src={`https://res.cloudinary.com/dkuciagop/image/upload/v1769027104/WhatsApp_Image_2026-01-20_at_13.21.33_fmzfs6.jpg`} className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-700" />
               </div>
               <span className="text-amber-600 font-bold text-xs uppercase tracking-widest">{item.cat} — {item.date}</span>
               <h4 className="text-xl font-bold text-blue-950 mt-3 group-hover:text-amber-600 transition-colors">{item.title}</h4>
@@ -639,7 +639,7 @@ export default function FondationChacalUnifie() {
             {/* Photo 1 (Grande) */}
             <div className="lg:col-span-2 relative rounded-3xl overflow-hidden group">
               <img 
-                src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1000" 
+                src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027105/WhatsApp_Image_2026-01-20_at_13.21.41_xop86n.jpg" 
                 className="w-full h-[400px] object-cover group-hover:scale-110 transition-transform duration-700"
                 alt="Consultation médicale"
               />
@@ -657,7 +657,7 @@ export default function FondationChacalUnifie() {
             {/* Photo 2 */}
             <div className="relative rounded-3xl overflow-hidden group">
               <img 
-                src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=1000" 
+                src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027106/WhatsApp_Image_2026-01-20_at_13.21.43_xktlqo.jpg" 
                 className="w-full h-[400px] object-cover group-hover:scale-110 transition-transform duration-700"
                 alt="Distribution de médicaments"
               />
@@ -667,7 +667,7 @@ export default function FondationChacalUnifie() {
             {/* Photo 3 */}
             <div className="relative rounded-3xl overflow-hidden group">
               <img 
-                src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1000" 
+                src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027104/WhatsApp_Image_2026-01-20_at_13.21.34_ngrlue.jpg" 
                 className="w-full h-[400px] object-cover group-hover:scale-110 transition-transform duration-700"
                 alt="Remise de dons"
               />
@@ -690,7 +690,7 @@ export default function FondationChacalUnifie() {
             {/* Photo 4 */}
             <div className="relative rounded-3xl overflow-hidden group">
               <img 
-                src="https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?q=80&w=1000" 
+                src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027105/WhatsApp_Image_2026-01-20_at_13.21.37_syduvr.jpg" 
                 className="w-full h-[300px] object-cover group-hover:scale-110 transition-transform duration-700"
                 alt="Équipe médicale"
               />
@@ -699,7 +699,7 @@ export default function FondationChacalUnifie() {
             {/* Photo 5 */}
             <div className="relative rounded-3xl overflow-hidden group">
               <img 
-                src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=1000" 
+                src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027102/WhatsApp_Image_2026-01-20_at_13.21.35_s6m8at.jpg" 
                 className="w-full h-[300px] object-cover group-hover:scale-110 transition-transform duration-700"
                 alt="Bénéficiaires"
               />
@@ -708,7 +708,7 @@ export default function FondationChacalUnifie() {
             {/* Photo 6 */}
             <div className="relative rounded-3xl overflow-hidden group">
               <img 
-                src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?q=80&w=1000" 
+                src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027105/WhatsApp_Image_2026-01-20_at_13.21.36_dhnrxw.jpg" 
                 className="w-full h-[300px] object-cover group-hover:scale-110 transition-transform duration-700"
                 alt="Action terrain"
               />
@@ -717,7 +717,7 @@ export default function FondationChacalUnifie() {
             {/* Photo 7 */}
             <div className="relative rounded-3xl overflow-hidden group">
               <img 
-                src="https://images.unsplash.com/photo-1573497620053-ea5300f94f21?q=80&w=1000" 
+                src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027102/WhatsApp_Image_2026-01-20_at_13.21.31_okyfkl.jpg" 
                 className="w-full h-[300px] object-cover group-hover:scale-110 transition-transform duration-700"
                 alt="Seniors heureux"
               />
