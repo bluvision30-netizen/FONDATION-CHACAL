@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform, useSpring, MotionValue } from 'framer-motion';
+
 import { 
   Heart, Users, Star, ArrowUpRight, CheckCircle2, 
   Menu, X, Play, Quote, Globe, HandHeart,
@@ -8,7 +9,6 @@ import {
   MapPin, Share2, Facebook, Twitter, Instagram, 
   Mail, Phone, ExternalLink, ArrowRight
 } from 'lucide-react';
-
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: { 
@@ -79,6 +79,8 @@ const NEWS = [
 export default function FondationChacalUnifie() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // ⬅️ AJOUTEZ CETTE LIGNE ICI
+  
   const { scrollYProgress } = useScroll();
   const yRange = useTransform(scrollYProgress, [0, 1], [0, -100]);
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
@@ -95,21 +97,23 @@ export default function FondationChacalUnifie() {
       {/* Barre de progression */}
       <motion.div className="fixed top-0 left-0 right-0 h-1 bg-amber-500 z-[110] origin-left" style={{ scaleX }} />
 
-      {/* 1. NAVBAR DYNAMIQUE */}
+      {/* 1. NAVBAR DYNAMIQUE - VERSION RESPONSIVE */}
       <nav className={`fixed w-full z-[100] transition-all duration-500 ${
         isScrolled ? 'bg-white/90 backdrop-blur-xl py-4 shadow-sm' : 'bg-transparent py-6'
       }`}>
-        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+          {/* Logo */}
           <div className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-blue-900 rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 bg-blue-900 rounded-lg flex items-center justify-center flex-shrink-0">
               <span className="text-white font-black text-xl italic">C</span>
             </div>
-            <span className={`text-xl font-bold tracking-tighter ${!isScrolled ? 'text-white' : 'text-blue-900'}`}>
+            <span className={`text-base sm:text-xl font-bold tracking-tighter ${!isScrolled ? 'text-white' : 'text-blue-900'}`}>
               FONDATION <span className="text-amber-500 uppercase">Le Chacal</span>
             </span>
           </div>
           
-          <div className={`hidden lg:flex items-center gap-10 font-medium text-sm uppercase tracking-widest ${!isScrolled ? 'text-white/90' : 'text-slate-600'}`}>
+          {/* Desktop Navigation */}
+          <div className={`hidden lg:flex items-center gap-6 xl:gap-10 font-medium text-sm uppercase tracking-widest ${!isScrolled ? 'text-white/90' : 'text-slate-600'}`}>
             {NAV_LINKS.map((link) => (
               <div 
                 key={link.name} 
@@ -145,11 +149,75 @@ export default function FondationChacalUnifie() {
                 </AnimatePresence>
               </div>
             ))}
-            <button className="bg-amber-500 hover:bg-amber-600 text-white px-8 py-3 rounded-full transition-transform active:scale-95 shadow-lg shadow-amber-500/20">
+            <button className="bg-amber-500 hover:bg-amber-600 text-white px-6 xl:px-8 py-3 rounded-full transition-transform active:scale-95 shadow-lg shadow-amber-500/20 text-sm">
               Faire un Don
             </button>
           </div>
+
+          {/* Mobile Menu Button */}
+          <button 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="lg:hidden p-2 rounded-lg hover:bg-white/10 transition-colors z-[110]"
+            aria-label="Toggle menu"
+          >
+            {isMobileMenuOpen ? (
+              <X className={!isScrolled ? 'text-white' : 'text-blue-900'} size={24} />
+            ) : (
+              <Menu className={!isScrolled ? 'text-white' : 'text-blue-900'} size={24} />
+            )}
+          </button>
         </div>
+
+        {/* Mobile Menu */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="lg:hidden fixed top-[72px] left-0 right-0 bg-white shadow-2xl overflow-hidden z-[90]"
+            >
+              <div className="max-h-[calc(100vh-72px)] overflow-y-auto">
+                <div className="px-4 sm:px-6 py-6 space-y-1">
+                  {NAV_LINKS.map((link) => (
+                    <div key={link.name}>
+                      <a 
+                        href={link.href || '#'} 
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="block px-4 py-3 text-base font-medium text-slate-700 hover:text-amber-600 hover:bg-amber-50 rounded-xl transition-all"
+                      >
+                        {link.name}
+                      </a>
+                      {link.submenu && (
+                        <div className="ml-4 mt-2 space-y-1">
+                          {link.submenu.map((sub) => (
+                            <a
+                              key={sub.name}
+                              href={sub.href}
+                              onClick={() => setIsMobileMenuOpen(false)}
+                              className="block px-4 py-2 text-sm text-slate-500 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition-all"
+                            >
+                              {sub.name}
+                            </a>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                
+                <div className="px-4 sm:px-6 py-4 border-t border-slate-200">
+                  <button 
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="w-full bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-full font-bold transition-colors shadow-lg"
+                  >
+                    Faire un Don
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
 
       {/* 2. HERO SECTION */}
@@ -807,48 +875,126 @@ export default function FondationChacalUnifie() {
         </div>
       </section>
 
-      {/* FOOTER PREMIUM */}
-      <footer className="bg-slate-950 pt-24 pb-12 text-white/80">
-        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-16 mb-16">
-          <div className="col-span-2">
-            <h2 className="text-3xl font-bold text-white mb-6">FONDATION <span className="text-amber-500">LE CHACAL</span></h2>
-            <p className="max-w-sm text-lg leading-relaxed text-slate-400">
-              Soutenue par la marque LE CHACAL. Engagés pour la santé et la dignité des personnes du troisième âge au Cameroun.
-            </p>
-            <div className="flex gap-4 mt-6">
-              {[Facebook, Twitter, Instagram].map((Icon, i) => (
-                <a key={i} href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-amber-500 transition-colors">
-                  <Icon size={18} />
+{/* FOOTER PREMIUM - VERSION RESPONSIVE */}
+      <footer className="w-full bg-slate-950 pt-16 md:pt-24 pb-8 md:pb-12 text-white/80 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 lg:gap-16 mb-12 md:mb-16">
+            {/* Colonne 1 - Info principale */}
+            <div className="sm:col-span-2 lg:col-span-1">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 md:mb-6">
+                FONDATION <span className="text-amber-500">LE CHACAL</span>
+              </h2>
+              <p className="max-w-sm text-base md:text-lg leading-relaxed text-slate-400 mb-6">
+                Soutenue par la marque LE CHACAL. Engagés pour la santé et la dignité des personnes du troisième âge au Cameroun.
+              </p>
+              <div className="flex gap-3 md:gap-4">
+                {[Facebook, Twitter, Instagram].map((Icon, i) => (
+                  <a 
+                    key={i} 
+                    href="#" 
+                    className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-amber-500 hover:border-amber-500 transition-colors"
+                  >
+                    <Icon size={18} />
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Colonne 2 - Navigation */}
+            <div>
+              <h4 className="text-white font-bold mb-4 md:mb-6 uppercase tracking-widest text-xs md:text-sm">
+                Navigation
+              </h4>
+              <ul className="space-y-3 md:space-y-4">
+                <li>
+                  <a href="#missions" className="text-sm md:text-base hover:text-amber-500 transition-colors">
+                    Nos Missions
+                  </a>
+                </li>
+                <li>
+                  <a href="#projets" className="text-sm md:text-base hover:text-amber-500 transition-colors">
+                    Nos Projets
+                  </a>
+                </li>
+                <li>
+                  <a href="#actualites" className="text-sm md:text-base hover:text-amber-500 transition-colors">
+                    Actualités
+                  </a>
+                </li>
+                <li>
+                  <a href="#impact" className="text-sm md:text-base hover:text-amber-500 transition-colors">
+                    Notre Impact
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Colonne 3 - Contact */}
+            <div>
+              <h4 className="text-white font-bold mb-4 md:mb-6 uppercase tracking-widest text-xs md:text-sm">
+                Contact
+              </h4>
+              <div className="space-y-3 md:space-y-4 text-white/60 text-sm md:text-base">
+                <p className="flex items-start gap-3">
+                  <MapPin size={16} className="text-amber-500 mt-1 flex-shrink-0" />
+                  <span>Douala, Cameroun</span>
+                </p>
+                <p className="flex items-start gap-3">
+                  <Phone size={16} className="text-amber-500 mt-1 flex-shrink-0" />
+                  <a href="tel:+237XXXXXXXXX" className="hover:text-amber-500 transition-colors">
+                    +237 6XX XXX XXX
+                  </a>
+                </p>
+                <p className="flex items-start gap-3">
+                  <Mail size={16} className="text-amber-500 mt-1 flex-shrink-0" />
+                  <a 
+                    href="mailto:contact@fondationlechacal.org" 
+                    className="hover:text-amber-500 transition-colors break-all"
+                  >
+                    contact@fondationlechacal.org
+                  </a>
+                </p>
+              </div>
+            </div>
+
+            {/* Colonne 4 - Newsletter */}
+            <div>
+              <h4 className="text-white font-bold mb-4 md:mb-6 uppercase tracking-widest text-xs md:text-sm">
+                Newsletter
+              </h4>
+              <p className="text-sm text-white/60 mb-4">
+                Restez informé de nos actions
+              </p>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <input 
+                  type="email" 
+                  placeholder="Votre email" 
+                  className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-amber-500 transition-colors"
+                />
+                <button className="bg-amber-500 p-2.5 rounded-lg hover:bg-amber-600 transition-colors flex items-center justify-center">
+                  <ArrowUpRight size={20} />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Section */}
+          <div className="pt-8 md:pt-12 border-t border-white/5">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs md:text-sm text-center md:text-left">
+              <p className="text-white/60">
+                © 2026 Fondation LE CHACAL • Basée aux États-Unis • Soutenue par la marque LE CHACAL
+              </p>
+              <div className="flex flex-wrap justify-center md:justify-end gap-4">
+                <a href="#" className="text-white/60 hover:text-amber-500 transition-colors">
+                  Mentions légales
                 </a>
-              ))}
+                <span className="text-white/20">•</span>
+                <a href="#" className="text-white/60 hover:text-amber-500 transition-colors">
+                  Politique de confidentialité
+                </a>
+              </div>
             </div>
           </div>
-          <div>
-            <h4 className="text-white font-bold mb-6 uppercase tracking-widest text-sm">Navigation</h4>
-            <ul className="space-y-4">
-              <li><a href="#missions" className="hover:text-amber-500">Nos Missions</a></li>
-              <li><a href="#projets" className="hover:text-amber-500">Nos Projets</a></li>
-              <li><a href="#actualites" className="hover:text-amber-500">Actualités</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-white font-bold mb-6 uppercase tracking-widest text-sm">Contact</h4>
-            <div className="space-y-4 text-white/60 text-sm">
-              <p className="flex items-center gap-3"><MapPin size={16} className="text-amber-500"/> Douala, Cameroun</p>
-              <p className="flex items-center gap-3"><Phone size={16} className="text-amber-500"/> +237 6XX XXX XXX</p>
-              <p className="flex items-center gap-3"><Mail size={16} className="text-amber-500"/> contact@fondationlechacal.org</p>
-            </div>
-          </div>
-          <div>
-            <h4 className="text-white font-bold mb-6 uppercase tracking-widest text-sm">Newsletter</h4>
-            <div className="flex gap-2">
-              <input type="email" placeholder="Email" className="bg-white/5 border border-white/10 rounded-lg px-4 py-2 w-full outline-none focus:border-amber-500" />
-              <button className="bg-amber-500 p-2 rounded-lg hover:bg-amber-600 transition"><ArrowUpRight/></button>
-            </div>
-          </div>
-        </div>
-        <div className="max-w-7xl mx-auto px-6 pt-12 border-t border-white/5 text-center text-sm">
-          © 2026 Fondation LE CHACAL – Basée aux États-Unis • Soutenue par la marque LE CHACAL
         </div>
       </footer>
 

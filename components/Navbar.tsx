@@ -1,174 +1,124 @@
-"use client";
+'use client';
+
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
+  // Fermer le menu mobile lors du scroll
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+      if (isOpen && window.innerWidth < 768) {
+        setIsOpen(false);
+      }
+    };
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isOpen]);
 
-  const navItems = [
-    { 
-      name: "La Fondation", 
-      href: "/a-propos",
-      submenu: [
-        { name: "Notre Histoire", href: "/a-propos#histoire" },
-        { name: "Notre Équipe", href: "/a-propos#equipe" },
-        { name: "Gouvernance", href: "/a-propos#gouvernance" },
-        { name: "Rapports", href: "/a-propos#rapports" }
-      ]
-    },
-    { name: "Missions", href: "/missions" },
-    { name: "Projets", href: "/projets" },
-    { name: "Réalisations", href: "/realisations" },
-    { name: "Galerie", href: "/galerie" },
-    { name: "Impact", href: "/impact" },
-    { name: "Actualités", href: "/actualites" },
+  // Empêcher le scroll quand le menu mobile est ouvert
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
+  const navLinks = [
+    { href: '/', label: 'Accueil' },
+    { href: '/a-propos', label: 'À Propos' },
+    { href: '/programmes', label: 'Programmes' },
+    { href: '/actions', label: 'Nos Actions' },
+    { href: '/galerie', label: 'Galerie' },
+    { href: '/contact', label: 'Contact' },
   ];
 
   return (
-    <nav className={`fixed w-full z-[100] transition-all duration-500 ${
-      isScrolled ? 'bg-white/95 backdrop-blur-xl py-4 shadow-lg' : 'bg-transparent py-6'
-    }`}>
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 bg-blue-900 rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform">
-            <span className="text-white font-black text-xl italic">C</span>
-          </div>
-          <span className={`text-xl font-bold tracking-tighter ${!isScrolled ? 'text-white' : 'text-blue-900'}`}>
-            FONDATION <span className="text-amber-500 uppercase">Chacal</span>
-          </span>
-        </Link>
-
-        {/* Desktop Navigation */}
-        <div className={`hidden lg:flex items-center gap-8 font-medium text-sm uppercase tracking-widest ${!isScrolled ? 'text-white/90' : 'text-slate-600'}`}>
-          {navItems.map((item) => (
-            <div 
-              key={item.name} 
-              className="relative"
-              onMouseEnter={() => setActiveDropdown(item.name)}
-              onMouseLeave={() => setActiveDropdown(null)}
-            >
-              <Link 
-                href={item.href}
-                className="hover:text-amber-500 transition-colors flex items-center gap-1"
-              >
-                {item.name} {item.submenu && <ChevronDown size={14} />}
-              </Link>
-              
-              {/* Menu déroulant */}
-              <AnimatePresence>
-                {item.submenu && activeDropdown === item.name && (
-                  <motion.div 
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    className="absolute top-full left-0 mt-4 w-56 bg-white shadow-2xl rounded-2xl p-4 border border-slate-100"
-                  >
-                    {item.submenu.map((sub) => (
-                      <Link
-                        key={sub.name}
-                        href={sub.href}
-                        className="block p-3 text-sm text-slate-500 hover:bg-amber-50 hover:text-amber-700 rounded-xl transition-all"
-                        onClick={() => setActiveDropdown(null)}
-                      >
-                        {sub.name}
-                      </Link>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled ? 'bg-white shadow-lg' : 'bg-white/95 backdrop-blur-sm'
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16 md:h-20">
+          {/* Logo */}
+          <Link href="/" className="flex items-center space-x-2 flex-shrink-0">
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-amber-500 to-amber-600 rounded-full flex items-center justify-center">
+              <span className="text-white font-bold text-xl md:text-2xl">FC</span>
             </div>
-          ))}
-          
-          <Link 
-            href="/faire-un-don"
-            className="bg-amber-500 hover:bg-amber-600 text-white px-8 py-3 rounded-full transition-transform active:scale-95 shadow-lg shadow-amber-500/20"
-          >
-            Faire un Don
+            <span className="font-bold text-lg md:text-xl text-gray-800 hidden sm:block">
+              Fondation Chacal
+            </span>
           </Link>
-        </div>
 
-        {/* Mobile Menu Button */}
-        <button 
-          className="lg:hidden text-white"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        >
-          <div className="space-y-1.5">
-            <span className={`block w-6 h-0.5 bg-current transition-transform ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
-            <span className={`block w-6 h-0.5 bg-current ${mobileMenuOpen ? 'opacity-0' : ''}`}></span>
-            <span className={`block w-6 h-0.5 bg-current transition-transform ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-1 lg:space-x-2">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="px-3 lg:px-4 py-2 text-sm lg:text-base text-gray-700 hover:text-amber-600 font-medium transition-colors rounded-lg hover:bg-amber-50"
+              >
+                {link.label}
+              </Link>
+            ))}
+            <button className="ml-2 lg:ml-4 px-4 lg:px-6 py-2 bg-amber-600 text-white font-medium rounded-lg hover:bg-amber-700 transition-colors text-sm lg:text-base">
+              Faire un Don
+            </button>
           </div>
-        </button>
+
+          {/* Mobile menu button */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
+            aria-label="Toggle menu"
+          >
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-white/95 backdrop-blur-xl border-t border-white/20"
-          >
-            <div className="max-w-7xl mx-auto px-6 py-8">
-              <div className="space-y-2">
-                {navItems.map((item) => (
-                  <div key={item.name}>
-                    {item.submenu ? (
-                      <details className="group">
-                        <summary className="flex items-center justify-between p-3 text-slate-700 hover:text-blue-900 font-semibold text-sm uppercase cursor-pointer">
-                          {item.name}
-                          <ChevronDown className="group-open:rotate-180 transition-transform" size={16} />
-                        </summary>
-                        <div className="ml-4 mt-1 space-y-1 border-l border-slate-200 pl-4">
-                          {item.submenu.map((sub) => (
-                            <Link
-                              key={sub.name}
-                              href={sub.href}
-                              className="block px-3 py-3 text-sm text-slate-600 hover:text-amber-600 hover:bg-amber-50/50 rounded-lg transition-colors"
-                              onClick={() => setMobileMenuOpen(false)}
-                            >
-                              {sub.name}
-                            </Link>
-                          ))}
-                        </div>
-                      </details>
-                    ) : (
-                      <Link
-                        href={item.href}
-                        className="block p-3 text-slate-700 hover:text-blue-900 font-semibold text-sm uppercase rounded-lg hover:bg-blue-50/50 transition-colors"
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        {item.name}
-                      </Link>
-                    )}
-                  </div>
-                ))}
-                
-                <div className="pt-4 border-t border-slate-200">
-                  <Link
-                    href="/faire-un-don"
-                    className="block w-full bg-amber-500 text-white text-center py-4 rounded-xl font-bold text-sm uppercase tracking-wider"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Faire un don
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Mobile Navigation */}
+      <div
+        className={`md:hidden fixed inset-0 top-16 bg-white transition-all duration-300 ease-in-out ${
+          isOpen
+            ? 'opacity-100 translate-x-0'
+            : 'opacity-0 translate-x-full pointer-events-none'
+        }`}
+      >
+        <div className="flex flex-col h-full overflow-y-auto">
+          <div className="px-4 py-6 space-y-1">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setIsOpen(false)}
+                className="block px-4 py-3 text-base text-gray-700 hover:text-amber-600 hover:bg-amber-50 rounded-lg font-medium transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+          
+          <div className="px-4 py-4 border-t border-gray-200 mt-auto">
+            <button 
+              onClick={() => setIsOpen(false)}
+              className="w-full px-6 py-3 bg-amber-600 text-white font-medium rounded-lg hover:bg-amber-700 transition-colors text-base"
+            >
+              Faire un Don
+            </button>
+          </div>
+        </div>
+      </div>
     </nav>
   );
 }
