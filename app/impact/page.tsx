@@ -40,7 +40,7 @@ export default function ImpactPage() {
       heroTitle="Notre Impact"
       heroSubtitle="Chiffres & Résultats"
       heroDescription="Des données concrètes qui témoignent de la transformation de vies."
-      heroImage="https://images.unsplash.com/photo-1559028012-481c04fa702d?q=80&w=2000"
+      heroImage="https://res.cloudinary.com/dkuciagop/image/upload/v1770897316/scene-from-care-job-with-senior-patient-being-take-care_on9yip.jpg"
     >
       {/* Stats */}
       <div className="mb-20">

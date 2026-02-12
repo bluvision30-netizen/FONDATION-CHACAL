@@ -41,7 +41,7 @@ export default function AboutPage() {
       heroTitle="À Propos de Nous"
       heroSubtitle="Notre Histoire"
       heroDescription="Depuis 2010, nous nous engageons pour le bien-être et la dignité des seniors."
-      heroImage="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=2000"
+      heroImage="https://res.cloudinary.com/dkuciagop/image/upload/v1770897169/help-nurse-holding-hands-senior-black-woman-care-smile-house-together-caregiver-support-elderly-patient-with-medical-professional-kindness-happy-empathy-healthcare_xuwd7e.jpg"
     >
       {/* Introduction */}
       <div className="text-center mb-20">

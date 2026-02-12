@@ -45,7 +45,7 @@ export default function MissionsPage() {
       heroTitle="Nos Missions"
       heroSubtitle="Notre engagement"
       heroDescription="Découvrez comment nous transformons chaque jour la vie des seniors à travers des actions concrètes et durables."
-      heroImage="https://images.unsplash.com/photo-1573497620053-ea5300f94f21?q=80&w=2000"
+      heroImage="https://res.cloudinary.com/dkuciagop/image/upload/v1770897120/belle-femme-africaine-medecin-consultant-senior-patient-in-office-dda7wg_ssqidi.jpg"
     >
       {/* Introduction */}
       <div className="text-center mb-20">

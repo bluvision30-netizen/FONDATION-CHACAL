@@ -1,124 +1,156 @@
-'use client';
-
-import { useState, useEffect } from 'react';
+"use client";
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Menu, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Menu, X, ChevronDown } from 'lucide-react';
+
+const NAV_LINKS = [
+  { 
+    name: "La Fondation", 
+    submenu: [
+      { name: "Notre Histoire", href: "/notre-histoire" },
+      { name: "Le Mot du Président", href: "/president" },
+
+    ] 
+  },
+  { name: "Missions", href: "/missions" },
+  { name: "Projets", href: "/projets" },
+  { name: "Impact", href: "/impact" },
+
+];
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Fermer le menu mobile lors du scroll
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-      if (isOpen && window.innerWidth < 768) {
-        setIsOpen(false);
-      }
-    };
-
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [isOpen]);
-
-  // Empêcher le scroll quand le menu mobile est ouvert
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isOpen]);
-
-  const navLinks = [
-    { href: '/', label: 'Accueil' },
-    { href: '/a-propos', label: 'À Propos' },
-    { href: '/programmes', label: 'Programmes' },
-    { href: '/actions', label: 'Nos Actions' },
-    { href: '/galerie', label: 'Galerie' },
-    { href: '/contact', label: 'Contact' },
-  ];
+  }, []);
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-white shadow-lg' : 'bg-white/95 backdrop-blur-sm'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16 md:h-20">
-          {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2 flex-shrink-0">
-            <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-amber-500 to-amber-600 rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-xl md:text-2xl">FC</span>
-            </div>
-            <span className="font-bold text-lg md:text-xl text-gray-800 hidden sm:block">
-              Fondation Chacal
-            </span>
-          </Link>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1 lg:space-x-2">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="px-3 lg:px-4 py-2 text-sm lg:text-base text-gray-700 hover:text-amber-600 font-medium transition-colors rounded-lg hover:bg-amber-50"
-              >
-                {link.label}
-              </Link>
-            ))}
-            <button className="ml-2 lg:ml-4 px-4 lg:px-6 py-2 bg-amber-600 text-white font-medium rounded-lg hover:bg-amber-700 transition-colors text-sm lg:text-base">
-              Faire un Don
-            </button>
+    <nav className={`fixed w-full z-[100] transition-all duration-500 ${
+      isScrolled ? 'bg-white/90 backdrop-blur-xl py-4 shadow-sm' : 'bg-white/95 backdrop-blur-sm py-6'
+    }`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-2">
+          <div className="w-10 h-10 bg-blue-900 rounded-lg flex items-center justify-center flex-shrink-0">
+            <span className="text-white font-black text-xl italic">C</span>
           </div>
-
-          {/* Mobile menu button */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
-            aria-label="Toggle menu"
-          >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Navigation */}
-      <div
-        className={`md:hidden fixed inset-0 top-16 bg-white transition-all duration-300 ease-in-out ${
-          isOpen
-            ? 'opacity-100 translate-x-0'
-            : 'opacity-0 translate-x-full pointer-events-none'
-        }`}
-      >
-        <div className="flex flex-col h-full overflow-y-auto">
-          <div className="px-4 py-6 space-y-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setIsOpen(false)}
-                className="block px-4 py-3 text-base text-gray-700 hover:text-amber-600 hover:bg-amber-50 rounded-lg font-medium transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
-          
-          <div className="px-4 py-4 border-t border-gray-200 mt-auto">
-            <button 
-              onClick={() => setIsOpen(false)}
-              className="w-full px-6 py-3 bg-amber-600 text-white font-medium rounded-lg hover:bg-amber-700 transition-colors text-base"
+          <span className="text-base sm:text-xl font-bold tracking-tighter text-blue-900">
+            FONDATION <span className="text-amber-500 uppercase">Le Chacal</span>
+          </span>
+        </Link>
+        
+        {/* Desktop Navigation */}
+        <div className="hidden lg:flex items-center gap-6 xl:gap-10 font-medium text-sm uppercase tracking-widest text-slate-600">
+          {NAV_LINKS.map((link) => (
+            <div 
+              key={link.name} 
+              className="relative"
+              onMouseEnter={() => setActiveDropdown(link.name)}
+              onMouseLeave={() => setActiveDropdown(null)}
             >
+              <Link 
+                href={link.href || '#'} 
+                className="hover:text-amber-500 transition-colors flex items-center gap-1"
+              >
+                {link.name} {link.submenu && <ChevronDown size={14} />}
+              </Link>
+              <AnimatePresence>
+                {link.submenu && activeDropdown === link.name && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    className="absolute top-full left-0 mt-4 w-56 bg-white shadow-2xl rounded-2xl p-4 border border-slate-50"
+                  >
+                    {link.submenu.map((sub) => (
+                      <Link 
+                        key={sub.name}
+                        href={sub.href} 
+                        className="block p-3 text-sm text-slate-500 hover:bg-amber-50 hover:text-amber-700 rounded-xl transition-all"
+                      >
+                        {sub.name}
+                      </Link>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          ))}
+          <Link href="#dons">
+            <button className="bg-amber-500 hover:bg-amber-600 text-white px-6 xl:px-8 py-3 rounded-full transition-transform active:scale-95 shadow-lg shadow-amber-500/20 text-sm">
               Faire un Don
             </button>
-          </div>
+          </Link>
         </div>
+
+        {/* Mobile Menu Button */}
+        <button 
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="lg:hidden p-2 rounded-lg hover:bg-white/10 transition-colors z-[110]"
+          aria-label="Toggle menu"
+        >
+          {isMobileMenuOpen ? (
+            <X className="text-blue-900" size={24} />
+          ) : (
+            <Menu className="text-blue-900" size={24} />
+          )}
+        </button>
       </div>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="lg:hidden fixed top-[72px] left-0 right-0 bg-white shadow-2xl overflow-hidden z-[90]"
+          >
+            <div className="max-h-[calc(100vh-72px)] overflow-y-auto">
+              <div className="px-4 sm:px-6 py-6 space-y-1">
+                {NAV_LINKS.map((link) => (
+                  <div key={link.name}>
+                    <Link 
+                      href={link.href || '#'} 
+                      onClick={() => !link.submenu && setIsMobileMenuOpen(false)}
+                      className="block px-4 py-3 text-base font-medium text-slate-700 hover:text-amber-600 hover:bg-amber-50 rounded-xl transition-all"
+                    >
+                      {link.name}
+                    </Link>
+                    {link.submenu && (
+                      <div className="ml-4 mt-2 space-y-1">
+                        {link.submenu.map((sub) => (
+                          <Link
+                            key={sub.name}
+                            href={sub.href}
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            className="block px-4 py-2 text-sm text-slate-500 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition-all"
+                          >
+                            {sub.name}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+              <div className="p-4 border-t border-slate-100">
+                <Link href="#dons" onClick={() => setIsMobileMenuOpen(false)}>
+                  <button className="w-full bg-amber-500 text-white py-3 rounded-2xl font-bold hover:bg-amber-600 transition">
+                    Faire un Don
+                  </button>
+                </Link>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }

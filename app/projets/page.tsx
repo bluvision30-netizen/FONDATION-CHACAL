@@ -15,15 +15,9 @@ export default function ProjetsPage() {
         description: 'Construction d\'un centre médical gériatrique moderne',
         progress: 65,
         amount: '32,000€ / 50,000€',
-        image: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=1000'
+        image: 'https://res.cloudinary.com/dkuciagop/image/upload/v1770897204/senior-woman-nurse-holding-hands-portrait-support-healthcare-happiness-retirement-home-elderly-black-person-caregiver-together-trust-elderly-care-help-with-homecare_ejp0jo.jpg'
       },
-      {
-        title: 'Cantine Solidaire',
-        description: 'Distribution quotidienne de repas nutritifs',
-        progress: 40,
-        amount: '4,500€ / 12,000€',
-        image: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1000'
-      }
+
     ],
     realises: [
       {
@@ -31,14 +25,14 @@ export default function ProjetsPage() {
         description: 'Accès à l\'eau potable pour 500 personnes',
         year: '2023',
         impact: '500 bénéficiaires',
-        image: 'https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?q=80&w=1000'
+        image: 'https://res.cloudinary.com/dkuciagop/image/upload/v1770897163/health-support-nurse-black-woman-with-tablet-medical-information-advice-online-smile-conversation-african-nurse-helping-senior-patient-with-healthcare-app-house_vsfeg4.jpg'
       },
       {
         title: 'Ateliers d\'Artisanat Senior',
         description: 'Formation de 150 seniors aux métiers artisanaux',
         year: '2024',
         impact: '150 formés',
-        image: 'https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=1000'
+        image: 'https://res.cloudinary.com/dkuciagop/image/upload/v1770897163/health-support-nurse-black-woman-with-tablet-medical-information-advice-online-smile-conversation-african-nurse-helping-senior-patient-with-healthcare-app-house_vsfeg4.jpg'
       }
     ]
   };
@@ -48,7 +42,7 @@ export default function ProjetsPage() {
       heroTitle="Nos Projets"
       heroSubtitle="Actions concrètes"
       heroDescription="Découvrez nos initiatives qui transforment la vie des seniors chaque jour."
-      heroImage="https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=2000"
+      heroImage="https://res.cloudinary.com/dkuciagop/image/upload/v1770897316/scene-from-care-job-with-senior-patient-being-take-care_on9yip.jpg"
     >
       {/* En cours */}
       <div id="en-cours" className="scroll-mt-24 mb-20">

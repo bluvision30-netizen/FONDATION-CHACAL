@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform, useSpring, MotionValue } from 'framer-motion';
-
+import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'framer-motion';
 import { 
   Heart, Users, Star, ArrowUpRight, CheckCircle2, 
   Menu, X, Play, Quote, Globe, HandHeart,
@@ -37,16 +36,15 @@ const NAV_LINKS = [
   { 
     name: "La Fondation", 
     submenu: [
-      { name: "Notre Histoire", href: "/notre-histoire" },
+      { name: "Notre Histoire", href: "/a-propos" },
       { name: "Le Mot du Président", href: "/president" },
-      { name: "Gouvernance", href: "/gouvernance" },
-      { name: "Rapports Financiers", href: "/rapports" }
+
+
     ] 
   },
   { name: "Missions", href: "/missions" },
   { name: "Projets", href: "/projets" },
   { name: "Impact", href: "/impact" },
-  { name: "Actualités", href: "/actualites" },
 ];
 
 const PROJECTS = [
@@ -79,7 +77,10 @@ const NEWS = [
 export default function FondationChacalUnifie() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // ⬅️ AJOUTEZ CETTE LIGNE ICI
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showVideoModal, setShowVideoModal] = useState(false);
+  const [showFormModal, setShowFormModal] = useState(false);
+  const [formData, setFormData] = useState({ nom: '', email: '', phone: '', message: '' });
   
   const { scrollYProgress } = useScroll();
   const yRange = useTransform(scrollYProgress, [0, 1], [0, -100]);
@@ -90,6 +91,14 @@ export default function FondationChacalUnifie() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const message = `Nouvelle demande de bénévolat:%0A%0ANom: ${formData.nom}%0AEmail: ${formData.email}%0ATél: ${formData.phone}%0AMessage: ${formData.message}`;
+    window.open(`https://wa.me/237XXXXXXXXX?text=${message}`, '_blank');
+    setShowFormModal(false);
+    setFormData({ nom: '', email: '', phone: '', message: '' });
+  };
 
   return (
     <div className="bg-[#FCFAFA] text-[#1A1A1B] selection:bg-amber-200">
@@ -253,11 +262,17 @@ export default function FondationChacalUnifie() {
             transition={{ delay: 0.5 }}
             className="flex flex-wrap justify-center gap-6"
           >
-            <button className="group relative bg-white text-blue-900 px-10 py-5 rounded-full font-bold overflow-hidden transition-all">
+            <button 
+              onClick={() => setShowFormModal(true)}
+              className="group relative bg-white text-blue-900 px-10 py-5 rounded-full font-bold overflow-hidden transition-all"
+            >
               <span className="relative z-10 flex items-center gap-2">Rejoindre la Cause <ArrowUpRight size={20}/></span>
               <div className="absolute inset-0 bg-amber-400 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
             </button>
-            <button className="flex items-center gap-3 text-white border-b-2 border-white/30 pb-2 hover:border-amber-400 transition-all">
+            <button 
+              onClick={() => setShowVideoModal(true)}
+              className="flex items-center gap-3 text-white border-b-2 border-white/30 pb-2 hover:border-amber-400 transition-all"
+            >
               <div className="w-12 h-12 rounded-full border border-white/50 flex items-center justify-center"><Play size={18} fill="white"/></div>
               Voir notre action 2025
             </button>
@@ -743,17 +758,20 @@ export default function FondationChacalUnifie() {
             </div>
 
             {/* Vidéo */}
-            <div className="relative rounded-3xl overflow-hidden group bg-blue-900">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-900 to-amber-900/30" />
-              <div className="relative z-10 h-full flex flex-col items-center justify-center p-8 text-center">
-                <div className="w-20 h-20 rounded-full border-4 border-white/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                  <Play className="text-white ml-1" size={28} fill="white" />
-                </div>
-                <h3 className="text-2xl font-bold text-white mb-3">Action 2025</h3>
-                <p className="text-white/70 mb-6">Regardez notre film "Solidarité en Action"</p>
-                <span className="text-amber-300 text-sm font-medium uppercase tracking-widest">VIDÉO</span>
-              </div>
-            </div>
+             <div 
+        onClick={() => setShowVideoModal(true)}
+        className="relative rounded-3xl overflow-hidden group bg-blue-900 cursor-pointer"
+      >
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-900 to-amber-900/30" />
+        <div className="relative z-10 h-full flex flex-col items-center justify-center p-8 text-center">
+          <div className="w-20 h-20 rounded-full border-4 border-white/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <Play className="text-white ml-1" size={28} fill="white" />
+          </div>
+          <h3 className="text-2xl font-bold text-white mb-3">Action 2025</h3>
+          <p className="text-white/70 mb-6">Regardez notre film "Solidarité en Action"</p>
+          <span className="text-amber-300 text-sm font-medium uppercase tracking-widest">VIDÉO</span>
+        </div>
+      </div>
 
             {/* Photo 4 */}
             <div className="relative rounded-3xl overflow-hidden group">
@@ -792,12 +810,8 @@ export default function FondationChacalUnifie() {
             </div>
           </div>
 
-          <div className="text-center mt-16">
-            <button className="group bg-white border-2 border-slate-200 text-blue-900 px-10 py-4 rounded-full font-bold hover:border-amber-500 hover:text-amber-600 transition-all flex items-center gap-2 mx-auto">
-              Voir toute la galerie
-              <ArrowRight className="group-hover:translate-x-2 transition-transform" size={20} />
-            </button>
-          </div>
+
+         
         </div>
       </section>
 
@@ -836,44 +850,159 @@ export default function FondationChacalUnifie() {
       </section>
 
       {/* 10. SECTION S'ENGAGER */}
-      <section className="py-24 px-6">
-        <div className="max-w-7xl mx-auto bg-blue-900 rounded-[4rem] p-12 md:p-24 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl" />
-          
-          <div className="relative z-10 grid lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <h2 className="text-4xl md:text-6xl font-serif text-white leading-tight mb-8">
-                Rejoignez notre mission de <span className="text-amber-400 italic">solidarité.</span>
-              </h2>
-              <div className="grid sm:grid-cols-2 gap-6">
-                {[
-                  { icon: <Heart size={20}/>, t: "Devenir Bénévole", d: "Médecins, infirmiers, bénévoles." },
-                  { icon: <Target size={20}/>, t: "Partenariat", d: "Entreprises et organisations." }
-                ].map((box, i) => (
-                  <div key={i} className="bg-white/10 backdrop-blur-md p-6 rounded-3xl border border-white/10 hover:bg-white/20 transition cursor-pointer">
-                    <div className="text-amber-400 mb-4">{box.icon}</div>
-                    <h4 className="text-white font-bold mb-1">{box.t}</h4>
-                    <p className="text-white/60 text-xs">{box.d}</p>
-                  </div>
-                ))}
-              </div>
+{/* SECTION DONS MISE À JOUR */}
+<section className="py-24 px-6">
+  <div className="max-w-7xl mx-auto bg-blue-900 rounded-[4rem] p-12 md:p-24 relative overflow-hidden">
+    <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl" />
+    
+    <div className="relative z-10 grid lg:grid-cols-2 gap-16 items-center">
+      <div>
+        <h2 className="text-4xl md:text-6xl font-serif text-white leading-tight mb-8">
+          Rejoignez notre mission de <span className="text-amber-400 italic">solidarité.</span>
+        </h2>
+        <div className="grid sm:grid-cols-2 gap-6">
+          {[
+            { icon: <Heart size={20}/>, t: "Devenir Bénévole", d: "Médecins, infirmiers, bénévoles." },
+            { icon: <Target size={20}/>, t: "Partenariat", d: "Entreprises et organisations." }
+          ].map((box, i) => (
+            <div key={i} className="bg-white/10 backdrop-blur-md p-6 rounded-3xl border border-white/10 hover:bg-white/20 transition cursor-pointer">
+              <div className="text-amber-400 mb-4">{box.icon}</div>
+              <h4 className="text-white font-bold mb-1">{box.t}</h4>
+              <p className="text-white/60 text-xs">{box.d}</p>
             </div>
-            
-            <div className="bg-white rounded-[3rem] p-10 shadow-2xl">
-              <h3 className="text-2xl font-bold text-blue-950 mb-6">Don Rapide</h3>
-              <div className="grid grid-cols-3 gap-3 mb-6">
-                {['20€', '50€', '100€'].map(v => (
-                  <button key={v} className="border-2 border-slate-100 py-3 rounded-xl font-bold hover:border-blue-900 hover:text-blue-900 transition">{v}</button>
-                ))}
+          ))}
+        </div>
+      </div>
+      
+      <div className="bg-white rounded-[3rem] p-10 shadow-2xl">
+        <h3 className="text-2xl font-bold text-blue-950 mb-6">Faire un Don</h3>
+        
+        <div className="space-y-3">
+          {/* PayPal */}
+          <a 
+            href="https://www.paypal.com/donate/?hosted_button_id=XXXXXXXXX"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block bg-[#0070BA] text-white rounded-2xl p-5 hover:bg-[#005EA6] transition-all transform hover:scale-[1.02]"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.254-.93 4.778-4.005 7.201-9.138 7.201h-2.19a.563.563 0 0 0-.556.479l-1.187 7.527h-.506l-.24 1.516a.56.56 0 0 0 .554.647h3.882c.46 0 .85-.334.922-.788.06-.26.76-4.852.816-5.09a.932.932 0 0 1 .923-.788h.58c3.76 0 6.705-1.528 7.565-5.946.36-1.847.174-3.388-.777-4.471z"/>
+                </svg>
+                <span className="font-bold">PayPal</span>
               </div>
-              <input type="number" placeholder="Autre montant (€)" className="w-full bg-slate-50 border-none rounded-xl p-4 mb-6 focus:ring-2 ring-blue-900" />
-              <button className="w-full bg-amber-500 text-white py-5 rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-amber-500/20 hover:bg-amber-600 transition">
-                Confirmer le don
+              <ExternalLink size={18} />
+            </div>
+          </a>
+
+          {/* Virement bancaire */}
+          <div className="bg-slate-50 rounded-2xl p-5">
+            <h4 className="font-bold text-blue-950 mb-3 flex items-center gap-2 text-sm">
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"/>
+                <path fillRule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clipRule="evenodd"/>
+              </svg>
+              Virement Bancaire
+            </h4>
+            <div className="font-mono text-xs bg-white p-3 rounded-lg flex items-center justify-between">
+              <span>XXXX XXXX XXXX XXXX</span>
+              <button 
+                onClick={() => {
+                  navigator.clipboard.writeText('XXXX XXXX XXXX XXXX');
+                  alert('Copié!');
+                }}
+                className="text-blue-900 hover:text-amber-500"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
               </button>
             </div>
           </div>
+
+          {/* WhatsApp */}
+          <a 
+            href="https://wa.me/237XXXXXXXXX?text=Bonjour,%20je%20souhaite%20faire%20un%20don"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block bg-[#25D366] text-white rounded-2xl p-5 hover:bg-[#20BA5A] transition-all transform hover:scale-[1.02]"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                </svg>
+                <span className="font-bold">WhatsApp</span>
+              </div>
+              <ArrowRight size={18} />
+            </div>
+          </a>
+
+          {/* Email */}
+          <a 
+            href="mailto:donations@fondationlechacal.org?subject=Don"
+            className="block bg-slate-50 text-blue-950 rounded-2xl p-5 hover:bg-slate-100 transition-all transform hover:scale-[1.02]"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Mail size={20} />
+                <span className="font-bold">Email</span>
+              </div>
+              <ArrowRight size={18} />
+            </div>
+          </a>
         </div>
-      </section>
+
+        <p className="text-xs text-slate-500 text-center mt-5">
+          Chaque don compte pour notre mission
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{/* SECTION MEMBRES */}
+<section className="py-24 px-6 bg-white">
+  <div className="max-w-7xl mx-auto">
+    <motion.div initial="hidden" whileInView="visible" variants={containerVariants} className="text-center mb-16">
+      <h2 className="text-4xl md:text-6xl font-serif text-blue-900 mb-4">
+        Notre <span className="text-amber-500 italic">Équipe</span>
+      </h2>
+      <p className="text-slate-600 max-w-2xl mx-auto">
+        Des personnes dévouées à la cause des seniors
+      </p>
+    </motion.div>
+
+    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+      {[
+        { name: "Dr. Jean Kamdem", role: "Président Fondateur", img: "https://i.pravatar.cc/400?img=12" },
+        { name: "Marie Tchoumi", role: "Directrice Exécutive", img: "https://i.pravatar.cc/400?img=45" },
+        { name: "Paul Nguesso", role: "Coordinateur Médical", img: "https://i.pravatar.cc/400?img=33" },
+        { name: "Grace Foko", role: "Responsable Logistique", img: "https://i.pravatar.cc/400?img=47" }
+      ].map((member, i) => (
+        <motion.div 
+          key={i} 
+          initial="hidden" 
+          whileInView="visible" 
+          variants={itemVariants}
+          className="group"
+        >
+          <div className="relative rounded-3xl overflow-hidden mb-6 aspect-square">
+            <img 
+              src={member.img} 
+              alt={member.name}
+              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-blue-900/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+          </div>
+          <h3 className="text-xl font-bold text-blue-950 mb-1">{member.name}</h3>
+          <p className="text-amber-600 text-sm font-medium uppercase tracking-wider">{member.role}</p>
+        </motion.div>
+      ))}
+    </div>
+  </div>
+</section>
 
 {/* FOOTER PREMIUM - VERSION RESPONSIVE */}
       <footer className="w-full bg-slate-950 pt-16 md:pt-24 pb-8 md:pb-12 text-white/80 overflow-hidden">
@@ -997,7 +1126,104 @@ export default function FondationChacalUnifie() {
           </div>
         </div>
       </footer>
+ {/* MODAL VIDÉO */}
+      <AnimatePresence>
+        {showVideoModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowVideoModal(false)}
+            className="fixed inset-0 bg-black/90 z-[200] flex items-center justify-center p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.8 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-4xl aspect-video bg-black rounded-2xl overflow-hidden"
+            >
+              <button
+                onClick={() => setShowVideoModal(false)}
+                className="absolute top-4 right-4 z-10 w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition"
+              >
+                <X className="text-white" size={20} />
+              </button>
+              <video controls autoPlay className="w-full h-full">
+                <source src="https://res.cloudinary.com/dkuciagop/video/upload/v1770902335/FONDATION_LE_CHACAL_VF_pi78sc.mp4" type="video/mp4" />
+              </video>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
+      {/* MODAL FORMULAIRE */}
+      <AnimatePresence>
+        {showFormModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowFormModal(false)}
+            className="fixed inset-0 bg-black/60 z-[200] flex items-center justify-center p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white rounded-3xl p-8 md:p-12 w-full max-w-md shadow-2xl"
+            >
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="text-2xl font-bold text-blue-900">Rejoindre la Cause</h3>
+                <button onClick={() => setShowFormModal(false)} className="text-slate-400 hover:text-slate-600">
+                  <X size={24} />
+                </button>
+              </div>
+              
+              <form onSubmit={handleFormSubmit} className="space-y-4">
+                <input
+                  type="text"
+                  placeholder="Nom complet"
+                  required
+                  value={formData.nom}
+                  onChange={(e) => setFormData({...formData, nom: e.target.value})}
+                  className="w-full bg-slate-50 border-none rounded-xl p-4 focus:ring-2 ring-blue-900"
+                />
+                <input
+                  type="email"
+                  placeholder="Email"
+                  required
+                  value={formData.email}
+                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  className="w-full bg-slate-50 border-none rounded-xl p-4 focus:ring-2 ring-blue-900"
+                />
+                <input
+                  type="tel"
+                  placeholder="Téléphone"
+                  required
+                  value={formData.phone}
+                  onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                  className="w-full bg-slate-50 border-none rounded-xl p-4 focus:ring-2 ring-blue-900"
+                />
+                <textarea
+                  placeholder="Message (optionnel)"
+                  rows={3}
+                  value={formData.message}
+                  onChange={(e) => setFormData({...formData, message: e.target.value})}
+                  className="w-full bg-slate-50 border-none rounded-xl p-4 focus:ring-2 ring-blue-900 resize-none"
+                />
+                <button
+                  type="submit"
+                  className="w-full bg-amber-500 text-white py-4 rounded-2xl font-bold hover:bg-amber-600 transition shadow-lg"
+                >
+                  Envoyer via WhatsApp
+                </button>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
