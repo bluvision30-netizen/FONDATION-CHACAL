@@ -111,15 +111,17 @@ export default function FondationChacalUnifie() {
         isScrolled ? 'bg-white/90 backdrop-blur-xl py-4 shadow-sm' : 'bg-transparent py-6'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          {/* Logo */}
-          <div className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-blue-900 rounded-lg flex items-center justify-center flex-shrink-0">
-              <span className="text-white font-black text-xl italic">C</span>
-            </div>
-            <span className={`text-base sm:text-xl font-bold tracking-tighter ${!isScrolled ? 'text-white' : 'text-blue-900'}`}>
-              FONDATION <span className="text-amber-500 uppercase">Le Chacal</span>
-            </span>
-          </div>
+{/* Logo */}
+<div className="flex items-center gap-2">
+  <img
+    src="/logo.png"
+    alt="Logo Fondation Le Chacal"
+    className="h-10 w-auto object-contain"
+  />
+  <span className={`text-base sm:text-xl font-bold tracking-tighter ${!isScrolled ? 'text-white' : 'text-blue-900'}`}>
+    FONDATION <span className="text-amber-500 uppercase">Le Chacal</span>
+  </span>
+</div>
           
           {/* Desktop Navigation */}
           <div className={`hidden lg:flex items-center gap-6 xl:gap-10 font-medium text-sm uppercase tracking-widest ${!isScrolled ? 'text-white/90' : 'text-slate-600'}`}>

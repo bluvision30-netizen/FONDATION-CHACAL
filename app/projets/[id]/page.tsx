@@ -62,9 +62,11 @@ export default async function PageProjet({ params }: { params: Promise<{ id: str
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-xl shadow-sm py-4">
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-9 h-9 bg-blue-900 rounded-lg flex items-center justify-center">
-              <span className="text-white font-black text-lg italic">C</span>
-            </div>
+<img
+  src="/logo.png"
+  alt="Logo Fondation Le Chacal"
+  className="h-9 w-auto object-contain"
+/>
             <span className="text-lg font-bold tracking-tighter text-blue-900">
               FONDATION <span className="text-amber-500">Le Chacal</span>
             </span>
