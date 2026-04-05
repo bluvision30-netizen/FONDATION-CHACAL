@@ -9,6 +9,7 @@ import {
   MapPin, Share2, Facebook, Twitter, Instagram, 
   Mail, Phone, ExternalLink, ArrowRight
 } from 'lucide-react';
+
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: { 
@@ -92,6 +93,20 @@ export default function FondationChacalUnifie() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // ─── Scroll mobile vers ancre ─────────────────────────────────────────
+  const handleMobileNavClick = (href: string) => {
+    setIsMobileMenuOpen(false);
+    if (!href || href === '#') return;
+    // Délai pour laisser le menu se fermer avant de scroller
+    setTimeout(() => {
+      const id = href.replace('#', '');
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 300);
+  };
+
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const message = `Nouvelle demande de bénévolat:%0A%0ANom: ${formData.nom}%0AEmail: ${formData.email}%0ATél: ${formData.phone}%0AMessage: ${formData.message}`;
@@ -106,22 +121,22 @@ export default function FondationChacalUnifie() {
       {/* Barre de progression */}
       <motion.div className="fixed top-0 left-0 right-0 h-1 bg-amber-500 z-[110] origin-left" style={{ scaleX }} />
 
-      {/* 1. NAVBAR DYNAMIQUE - VERSION RESPONSIVE */}
+      {/* 1. NAVBAR DYNAMIQUE */}
       <nav className={`fixed w-full z-[100] transition-all duration-500 ${
         isScrolled ? 'bg-white/90 backdrop-blur-xl py-4 shadow-sm' : 'bg-transparent py-6'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-{/* Logo */}
-<div className="flex items-center gap-2">
-  <img
-    src="/logo.png"
-    alt="Logo Fondation Le Chacal"
-    className="h-10 w-auto object-contain"
-  />
-  <span className={`text-base sm:text-xl font-bold tracking-tighter ${!isScrolled ? 'text-white' : 'text-blue-900'}`}>
-    FONDATION <span className="text-amber-500 uppercase">Le Chacal</span>
-  </span>
-</div>
+          {/* Logo */}
+          <div className="flex items-center gap-2">
+            <img
+              src="/logo.png"
+              alt="Logo Fondation Le Chacal"
+              className="h-10 w-auto object-contain"
+            />
+            <span className={`text-base sm:text-xl font-bold tracking-tighter ${!isScrolled ? 'text-white' : 'text-blue-900'}`}>
+              FONDATION <span className="text-amber-500 uppercase">Le Chacal</span>
+            </span>
+          </div>
           
           {/* Desktop Navigation */}
           <div className={`hidden lg:flex items-center gap-6 xl:gap-10 font-medium text-sm uppercase tracking-widest ${!isScrolled ? 'text-white/90' : 'text-slate-600'}`}>
@@ -196,7 +211,10 @@ export default function FondationChacalUnifie() {
                     <div key={link.name}>
                       <a 
                         href={link.href || '#'} 
-                        onClick={() => setIsMobileMenuOpen(false)}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleMobileNavClick(link.href || '#');
+                        }}
                         className="block px-4 py-3 text-base font-medium text-slate-700 hover:text-amber-600 hover:bg-amber-50 rounded-xl transition-all"
                       >
                         {link.name}
@@ -207,7 +225,10 @@ export default function FondationChacalUnifie() {
                             <a
                               key={sub.name}
                               href={sub.href}
-                              onClick={() => setIsMobileMenuOpen(false)}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                handleMobileNavClick(sub.href);
+                              }}
                               className="block px-4 py-2 text-sm text-slate-500 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition-all"
                             >
                               {sub.name}
@@ -221,7 +242,7 @@ export default function FondationChacalUnifie() {
                 
                 <div className="px-4 sm:px-6 py-4 border-t border-slate-200">
                   <button 
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={() => handleMobileNavClick('#dons')}
                     className="w-full bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-full font-bold transition-colors shadow-lg"
                   >
                     Faire un Don
@@ -639,7 +660,6 @@ export default function FondationChacalUnifie() {
                     <h3 className="text-2xl font-bold text-blue-950 mb-4">{project.title}</h3>
                     <p className="text-slate-500 mb-8 text-sm leading-relaxed">{project.desc}</p>
                     
-                    {/* Progress Bar */}
                     <div className="mt-auto">
                       <div className="flex justify-between text-xs font-bold mb-2 uppercase tracking-tighter">
                         <span className="text-slate-400">Collecté: <span className="text-blue-900">{project.collected}€</span></span>
@@ -708,7 +728,6 @@ export default function FondationChacalUnifie() {
             </p>
           </div>
 
-          {/* Filtres */}
           <div className="flex flex-wrap justify-center gap-4 mb-12">
             {['Tous', 'Photos', 'Vidéos', 'Événements', 'Projets'].map((filter, i) => (
               <button 
@@ -724,9 +743,7 @@ export default function FondationChacalUnifie() {
             ))}
           </div>
 
-          {/* Grille Galerie */}
           <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {/* Photo 1 (Grande) */}
             <div className="lg:col-span-2 relative rounded-3xl overflow-hidden group">
               <img 
                 src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027105/WhatsApp_Image_2026-01-20_at_13.21.41_xop86n.jpg" 
@@ -744,7 +761,6 @@ export default function FondationChacalUnifie() {
               </div>
             </div>
 
-            {/* Photo 2 */}
             <div className="relative rounded-3xl overflow-hidden group">
               <img 
                 src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027106/WhatsApp_Image_2026-01-20_at_13.21.43_xktlqo.jpg" 
@@ -754,7 +770,6 @@ export default function FondationChacalUnifie() {
               <div className="absolute inset-0 bg-blue-900/20 group-hover:bg-transparent transition-colors" />
             </div>
 
-            {/* Photo 3 */}
             <div className="relative rounded-3xl overflow-hidden group">
               <img 
                 src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027104/WhatsApp_Image_2026-01-20_at_13.21.34_ngrlue.jpg" 
@@ -764,23 +779,21 @@ export default function FondationChacalUnifie() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent" />
             </div>
 
-            {/* Vidéo */}
-             <div 
-        onClick={() => setShowVideoModal(true)}
-        className="relative rounded-3xl overflow-hidden group bg-blue-900 cursor-pointer"
-      >
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900 to-amber-900/30" />
-        <div className="relative z-10 h-full flex flex-col items-center justify-center p-8 text-center">
-          <div className="w-20 h-20 rounded-full border-4 border-white/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-            <Play className="text-white ml-1" size={28} fill="white" />
-          </div>
-          <h3 className="text-2xl font-bold text-white mb-3">Action 2025</h3>
-          <p className="text-white/70 mb-6">Regardez notre film "Solidarité en Action"</p>
-          <span className="text-amber-300 text-sm font-medium uppercase tracking-widest">VIDÉO</span>
-        </div>
-      </div>
+            <div 
+              onClick={() => setShowVideoModal(true)}
+              className="relative rounded-3xl overflow-hidden group bg-blue-900 cursor-pointer"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-900 to-amber-900/30" />
+              <div className="relative z-10 h-full flex flex-col items-center justify-center p-8 text-center">
+                <div className="w-20 h-20 rounded-full border-4 border-white/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <Play className="text-white ml-1" size={28} fill="white" />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-3">Action 2025</h3>
+                <p className="text-white/70 mb-6">Regardez notre film "Solidarité en Action"</p>
+                <span className="text-amber-300 text-sm font-medium uppercase tracking-widest">VIDÉO</span>
+              </div>
+            </div>
 
-            {/* Photo 4 */}
             <div className="relative rounded-3xl overflow-hidden group">
               <img 
                 src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027105/WhatsApp_Image_2026-01-20_at_13.21.37_syduvr.jpg" 
@@ -789,7 +802,6 @@ export default function FondationChacalUnifie() {
               />
             </div>
 
-            {/* Photo 5 */}
             <div className="relative rounded-3xl overflow-hidden group">
               <img 
                 src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027102/WhatsApp_Image_2026-01-20_at_13.21.35_s6m8at.jpg" 
@@ -798,7 +810,6 @@ export default function FondationChacalUnifie() {
               />
             </div>
 
-            {/* Photo 6 */}
             <div className="relative rounded-3xl overflow-hidden group">
               <img 
                 src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027105/WhatsApp_Image_2026-01-20_at_13.21.36_dhnrxw.jpg" 
@@ -807,7 +818,6 @@ export default function FondationChacalUnifie() {
               />
             </div>
 
-            {/* Photo 7 */}
             <div className="relative rounded-3xl overflow-hidden group">
               <img 
                 src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027102/WhatsApp_Image_2026-01-20_at_13.21.31_okyfkl.jpg" 
@@ -816,9 +826,6 @@ export default function FondationChacalUnifie() {
               />
             </div>
           </div>
-
-
-         
         </div>
       </section>
 
@@ -856,162 +863,158 @@ export default function FondationChacalUnifie() {
         </div>
       </section>
 
-      {/* 10. SECTION S'ENGAGER */}
-{/* SECTION DONS MISE À JOUR */}
-<section id="dons" className="py-24 px-6">
-  <div className="max-w-7xl mx-auto bg-blue-900 rounded-[4rem] p-12 md:p-24 relative overflow-hidden">
-    <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl" />
-    
-    <div className="relative z-10 grid lg:grid-cols-2 gap-16 items-center">
-      <div>
-        <h2 className="text-4xl md:text-6xl font-serif text-white leading-tight mb-8">
-          Rejoignez notre mission de <span className="text-amber-400 italic">solidarité.</span>
-        </h2>
-        <div className="grid sm:grid-cols-2 gap-6">
-          {[
-            { icon: <Heart size={20}/>, t: "Devenir Bénévole", d: "Médecins, infirmiers, bénévoles." },
-            { icon: <Target size={20}/>, t: "Partenariat", d: "Entreprises et organisations." }
-          ].map((box, i) => (
-            <div key={i} className="bg-white/10 backdrop-blur-md p-6 rounded-3xl border border-white/10 hover:bg-white/20 transition cursor-pointer">
-              <div className="text-amber-400 mb-4">{box.icon}</div>
-              <h4 className="text-white font-bold mb-1">{box.t}</h4>
-              <p className="text-white/60 text-xs">{box.d}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-      
-      <div className="bg-white rounded-[3rem] p-10 shadow-2xl">
-        <h3 className="text-2xl font-bold text-blue-950 mb-6">Faire un Don</h3>
-        
-        <div className="space-y-3">
-          {/* PayPal */}
-          <a 
-            href="https://www.paypal.com/donate/?hosted_button_id=XXXXXXXXX"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block bg-[#0070BA] text-white rounded-2xl p-5 hover:bg-[#005EA6] transition-all transform hover:scale-[1.02]"
-          >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.254-.93 4.778-4.005 7.201-9.138 7.201h-2.19a.563.563 0 0 0-.556.479l-1.187 7.527h-.506l-.24 1.516a.56.56 0 0 0 .554.647h3.882c.46 0 .85-.334.922-.788.06-.26.76-4.852.816-5.09a.932.932 0 0 1 .923-.788h.58c3.76 0 6.705-1.528 7.565-5.946.36-1.847.174-3.388-.777-4.471z"/>
-                </svg>
-                <span className="font-bold">PayPal</span>
+      {/* 10. SECTION DONS */}
+      <section id="dons" className="py-24 px-6">
+        <div className="max-w-7xl mx-auto bg-blue-900 rounded-[4rem] p-12 md:p-24 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl" />
+          
+          <div className="relative z-10 grid lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <h2 className="text-4xl md:text-6xl font-serif text-white leading-tight mb-8">
+                Rejoignez notre mission de <span className="text-amber-400 italic">solidarité.</span>
+              </h2>
+              <div className="grid sm:grid-cols-2 gap-6">
+                {[
+                  { icon: <Heart size={20}/>, t: "Devenir Bénévole", d: "Médecins, infirmiers, bénévoles." },
+                  { icon: <Target size={20}/>, t: "Partenariat", d: "Entreprises et organisations." }
+                ].map((box, i) => (
+                  <div key={i} className="bg-white/10 backdrop-blur-md p-6 rounded-3xl border border-white/10 hover:bg-white/20 transition cursor-pointer">
+                    <div className="text-amber-400 mb-4">{box.icon}</div>
+                    <h4 className="text-white font-bold mb-1">{box.t}</h4>
+                    <p className="text-white/60 text-xs">{box.d}</p>
+                  </div>
+                ))}
               </div>
-              <ExternalLink size={18} />
             </div>
-          </a>
+            
+            <div className="bg-white rounded-[3rem] p-10 shadow-2xl">
+              <h3 className="text-2xl font-bold text-blue-950 mb-6">Faire un Don</h3>
+              
+              <div className="space-y-3">
+                <a 
+                  href="https://www.paypal.com/donate/?hosted_button_id=XXXXXXXXX"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block bg-[#0070BA] text-white rounded-2xl p-5 hover:bg-[#005EA6] transition-all transform hover:scale-[1.02]"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.254-.93 4.778-4.005 7.201-9.138 7.201h-2.19a.563.563 0 0 0-.556.479l-1.187 7.527h-.506l-.24 1.516a.56.56 0 0 0 .554.647h3.882c.46 0 .85-.334.922-.788.06-.26.76-4.852.816-5.09a.932.932 0 0 1 .923-.788h.58c3.76 0 6.705-1.528 7.565-5.946.36-1.847.174-3.388-.777-4.471z"/>
+                      </svg>
+                      <span className="font-bold">PayPal</span>
+                    </div>
+                    <ExternalLink size={18} />
+                  </div>
+                </a>
 
-          {/* Virement bancaire */}
-          <div className="bg-slate-50 rounded-2xl p-5">
-            <h4 className="font-bold text-blue-950 mb-3 flex items-center gap-2 text-sm">
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"/>
-                <path fillRule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clipRule="evenodd"/>
-              </svg>
-              Virement Bancaire
-            </h4>
-            <div className="font-mono text-xs bg-white p-3 rounded-lg flex items-center justify-between">
-              <span>XXXX XXXX XXXX XXXX</span>
-              <button 
-                onClick={() => {
-                  navigator.clipboard.writeText('XXXX XXXX XXXX XXXX');
-                  alert('Copié!');
-                }}
-                className="text-blue-900 hover:text-amber-500"
+                <div className="bg-slate-50 rounded-2xl p-5">
+                  <h4 className="font-bold text-blue-950 mb-3 flex items-center gap-2 text-sm">
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"/>
+                      <path fillRule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clipRule="evenodd"/>
+                    </svg>
+                    Virement Bancaire
+                  </h4>
+                  <div className="font-mono text-xs bg-white p-3 rounded-lg flex items-center justify-between">
+                    <span>XXXX XXXX XXXX XXXX</span>
+                    <button 
+                      onClick={() => {
+                        navigator.clipboard.writeText('XXXX XXXX XXXX XXXX');
+                        alert('Copié!');
+                      }}
+                      className="text-blue-900 hover:text-amber-500"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <a 
+                  href="https://wa.me/237XXXXXXXXX?text=Bonjour,%20je%20souhaite%20faire%20un%20don"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block bg-[#25D366] text-white rounded-2xl p-5 hover:bg-[#20BA5A] transition-all transform hover:scale-[1.02]"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                      </svg>
+                      <span className="font-bold">WhatsApp</span>
+                    </div>
+                    <ArrowRight size={18} />
+                  </div>
+                </a>
+
+                <a 
+                  href="mailto:donations@fondationlechacal.org?subject=Don"
+                  className="block bg-slate-50 text-blue-950 rounded-2xl p-5 hover:bg-slate-100 transition-all transform hover:scale-[1.02]"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <Mail size={20} />
+                      <span className="font-bold">Email</span>
+                    </div>
+                    <ArrowRight size={18} />
+                  </div>
+                </a>
+              </div>
+
+              <p className="text-xs text-slate-500 text-center mt-5">
+                Chaque don compte pour notre mission
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION MEMBRES */}
+      <section id="equipe" className="py-24 px-6 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <motion.div initial="hidden" whileInView="visible" variants={containerVariants} className="text-center mb-16">
+            <h2 className="text-4xl md:text-6xl font-serif text-blue-900 mb-4">
+              Notre <span className="text-amber-500 italic">Équipe</span>
+            </h2>
+            <p className="text-slate-600 max-w-2xl mx-auto">
+              Des personnes dévouées à la cause des seniors
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              { name: "Dr. Jean Kamdem", role: "Président Fondateur", img: "https://i.pravatar.cc/400?img=12" },
+              { name: "Marie Tchoumi", role: "Directrice Exécutive", img: "https://i.pravatar.cc/400?img=45" },
+              { name: "Paul Nguesso", role: "Coordinateur Médical", img: "https://i.pravatar.cc/400?img=33" },
+              { name: "Grace Foko", role: "Responsable Logistique", img: "https://i.pravatar.cc/400?img=47" }
+            ].map((member, i) => (
+              <motion.div 
+                key={i} 
+                initial="hidden" 
+                whileInView="visible" 
+                variants={itemVariants}
+                className="group"
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                </svg>
-              </button>
-            </div>
+                <div className="relative rounded-3xl overflow-hidden mb-6 aspect-square">
+                  <img 
+                    src={member.img} 
+                    alt={member.name}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-blue-900/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
+                <h3 className="text-xl font-bold text-blue-950 mb-1">{member.name}</h3>
+                <p className="text-amber-600 text-sm font-medium uppercase tracking-wider">{member.role}</p>
+              </motion.div>
+            ))}
           </div>
-
-          {/* WhatsApp */}
-          <a 
-            href="https://wa.me/237XXXXXXXXX?text=Bonjour,%20je%20souhaite%20faire%20un%20don"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block bg-[#25D366] text-white rounded-2xl p-5 hover:bg-[#20BA5A] transition-all transform hover:scale-[1.02]"
-          >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-                </svg>
-                <span className="font-bold">WhatsApp</span>
-              </div>
-              <ArrowRight size={18} />
-            </div>
-          </a>
-
-          {/* Email */}
-          <a 
-            href="mailto:donations@fondationlechacal.org?subject=Don"
-            className="block bg-slate-50 text-blue-950 rounded-2xl p-5 hover:bg-slate-100 transition-all transform hover:scale-[1.02]"
-          >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <Mail size={20} />
-                <span className="font-bold">Email</span>
-              </div>
-              <ArrowRight size={18} />
-            </div>
-          </a>
         </div>
+      </section>
 
-        <p className="text-xs text-slate-500 text-center mt-5">
-          Chaque don compte pour notre mission
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-{/* SECTION MEMBRES */}
-<section id="equipe" className="py-24 px-6 bg-white">
-  <div className="max-w-7xl mx-auto">
-    <motion.div initial="hidden" whileInView="visible" variants={containerVariants} className="text-center mb-16">
-      <h2 className="text-4xl md:text-6xl font-serif text-blue-900 mb-4">
-        Notre <span className="text-amber-500 italic">Équipe</span>
-      </h2>
-      <p className="text-slate-600 max-w-2xl mx-auto">
-        Des personnes dévouées à la cause des seniors
-      </p>
-    </motion.div>
-
-    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-      {[
-        { name: "Dr. Jean Kamdem", role: "Président Fondateur", img: "https://i.pravatar.cc/400?img=12" },
-        { name: "Marie Tchoumi", role: "Directrice Exécutive", img: "https://i.pravatar.cc/400?img=45" },
-        { name: "Paul Nguesso", role: "Coordinateur Médical", img: "https://i.pravatar.cc/400?img=33" },
-        { name: "Grace Foko", role: "Responsable Logistique", img: "https://i.pravatar.cc/400?img=47" }
-      ].map((member, i) => (
-        <motion.div 
-          key={i} 
-          initial="hidden" 
-          whileInView="visible" 
-          variants={itemVariants}
-          className="group"
-        >
-          <div className="relative rounded-3xl overflow-hidden mb-6 aspect-square">
-            <img 
-              src={member.img} 
-              alt={member.name}
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-blue-900/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-          </div>
-          <h3 className="text-xl font-bold text-blue-950 mb-1">{member.name}</h3>
-          <p className="text-amber-600 text-sm font-medium uppercase tracking-wider">{member.role}</p>
-        </motion.div>
-      ))}
-    </div>
-  </div>
-</section>
-
-<section id="contact" className="py-20 px-6 bg-slate-50">
+      {/* CONTACT */}
+      <section id="contact" className="py-20 px-6 bg-slate-50">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-serif text-blue-900 mb-4">Nous <span className="text-amber-500 italic">Contacter</span></h2>
           <p className="text-slate-600 mb-10">Une question, un partenariat, une initiative ? Écrivez-nous.</p>
@@ -1035,14 +1038,17 @@ export default function FondationChacalUnifie() {
         </div>
       </section>
 
+      {/* FOOTER */}
       <footer className="w-full bg-slate-950 pt-16 md:pt-24 pb-8 md:pb-12 text-white/80 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 lg:gap-16 mb-12 md:mb-16">
-            {/* Colonne 1 - Info principale */}
             <div className="sm:col-span-2 lg:col-span-1">
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 md:mb-6">
-                FONDATION <span className="text-amber-500">LE CHACAL</span>
-              </h2>
+              <div className="flex items-center gap-3 mb-4 md:mb-6">
+                <img src="/logo.png" alt="Logo Fondation Le Chacal" className="h-10 w-auto object-contain opacity-90" />
+                <h2 className="text-xl font-bold text-white">
+                  FONDATION <span className="text-amber-500">LE CHACAL</span>
+                </h2>
+              </div>
               <p className="max-w-sm text-base md:text-lg leading-relaxed text-slate-400 mb-6">
                 Soutenue par la marque LE CHACAL. Engagés pour la santé et la dignité des personnes du troisième âge au Cameroun.
               </p>
@@ -1059,40 +1065,18 @@ export default function FondationChacalUnifie() {
               </div>
             </div>
 
-            {/* Colonne 2 - Navigation */}
             <div>
-              <h4 className="text-white font-bold mb-4 md:mb-6 uppercase tracking-widest text-xs md:text-sm">
-                Navigation
-              </h4>
+              <h4 className="text-white font-bold mb-4 md:mb-6 uppercase tracking-widest text-xs md:text-sm">Navigation</h4>
               <ul className="space-y-3 md:space-y-4">
-                <li>
-                  <a href="#missions" className="text-sm md:text-base hover:text-amber-500 transition-colors">
-                    Nos Missions
-                  </a>
-                </li>
-                <li>
-                  <a href="#projets" className="text-sm md:text-base hover:text-amber-500 transition-colors">
-                    Nos Projets
-                  </a>
-                </li>
-                <li>
-                  <a href="#actualites" className="text-sm md:text-base hover:text-amber-500 transition-colors">
-                    Actualités
-                  </a>
-                </li>
-                <li>
-                  <a href="#impact" className="text-sm md:text-base hover:text-amber-500 transition-colors">
-                    Notre Impact
-                  </a>
-                </li>
+                <li><a href="#missions" className="text-sm md:text-base hover:text-amber-500 transition-colors">Nos Missions</a></li>
+                <li><a href="#projets" className="text-sm md:text-base hover:text-amber-500 transition-colors">Nos Projets</a></li>
+                <li><a href="#actualites" className="text-sm md:text-base hover:text-amber-500 transition-colors">Actualités</a></li>
+                <li><a href="#impact" className="text-sm md:text-base hover:text-amber-500 transition-colors">Notre Impact</a></li>
               </ul>
             </div>
 
-            {/* Colonne 3 - Contact */}
             <div>
-              <h4 className="text-white font-bold mb-4 md:mb-6 uppercase tracking-widest text-xs md:text-sm">
-                Contact
-              </h4>
+              <h4 className="text-white font-bold mb-4 md:mb-6 uppercase tracking-widest text-xs md:text-sm">Contact</h4>
               <div className="space-y-3 md:space-y-4 text-white/60 text-sm md:text-base">
                 <p className="flex items-start gap-3">
                   <MapPin size={16} className="text-amber-500 mt-1 flex-shrink-0" />
@@ -1100,30 +1084,20 @@ export default function FondationChacalUnifie() {
                 </p>
                 <p className="flex items-start gap-3">
                   <Phone size={16} className="text-amber-500 mt-1 flex-shrink-0" />
-                  <a href="tel:+237XXXXXXXXX" className="hover:text-amber-500 transition-colors">
-                    +237 6XX XXX XXX
-                  </a>
+                  <a href="tel:+237XXXXXXXXX" className="hover:text-amber-500 transition-colors">+237 6XX XXX XXX</a>
                 </p>
                 <p className="flex items-start gap-3">
                   <Mail size={16} className="text-amber-500 mt-1 flex-shrink-0" />
-                  <a 
-                    href="mailto:contact@fondationlechacal.org" 
-                    className="hover:text-amber-500 transition-colors break-all"
-                  >
+                  <a href="mailto:contact@fondationlechacal.org" className="hover:text-amber-500 transition-colors break-all">
                     contact@fondationlechacal.org
                   </a>
                 </p>
               </div>
             </div>
 
-            {/* Colonne 4 - Newsletter */}
             <div>
-              <h4 className="text-white font-bold mb-4 md:mb-6 uppercase tracking-widest text-xs md:text-sm">
-                Newsletter
-              </h4>
-              <p className="text-sm text-white/60 mb-4">
-                Restez informé de nos actions
-              </p>
+              <h4 className="text-white font-bold mb-4 md:mb-6 uppercase tracking-widest text-xs md:text-sm">Newsletter</h4>
+              <p className="text-sm text-white/60 mb-4">Restez informé de nos actions</p>
               <div className="flex flex-col sm:flex-row gap-2">
                 <input 
                   type="email" 
@@ -1137,26 +1111,22 @@ export default function FondationChacalUnifie() {
             </div>
           </div>
 
-          {/* Bottom Section */}
           <div className="pt-8 md:pt-12 border-t border-white/5">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs md:text-sm text-center md:text-left">
               <p className="text-white/60">
                 © 2026 Fondation LE CHACAL • Basée aux États-Unis • Soutenue par la marque LE CHACAL
               </p>
               <div className="flex flex-wrap justify-center md:justify-end gap-4">
-                <a href="#" className="text-white/60 hover:text-amber-500 transition-colors">
-                  Mentions légales
-                </a>
+                <a href="#" className="text-white/60 hover:text-amber-500 transition-colors">Mentions légales</a>
                 <span className="text-white/20">•</span>
-                <a href="#" className="text-white/60 hover:text-amber-500 transition-colors">
-                  Politique de confidentialité
-                </a>
+                <a href="#" className="text-white/60 hover:text-amber-500 transition-colors">Politique de confidentialité</a>
               </div>
             </div>
           </div>
         </div>
       </footer>
- {/* MODAL VIDÉO */}
+
+      {/* MODAL VIDÉO */}
       <AnimatePresence>
         {showVideoModal && (
           <motion.div
