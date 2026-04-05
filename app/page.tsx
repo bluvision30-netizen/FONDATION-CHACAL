@@ -1,9 +1,10 @@
 "use client";
+import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'framer-motion';
 import { 
   Heart, Users, Star, ArrowUpRight, CheckCircle2, 
-  Menu, X, Play, Quote, Globe, HandHeart,
+  Menu, X, Play, Quote, Globe,
   ChevronDown, Target, TrendingUp, Calendar, 
   MapPin, Share2, Facebook, Twitter, Instagram, 
   Mail, Phone, ExternalLink, ArrowRight
@@ -15,9 +16,9 @@ const containerVariants = {
     transition: { 
       staggerChildren: 0.2, 
       delayChildren: 0.3 
-    } 
+    } as const
   }
-};
+} as const;
 
 const itemVariants = {
   hidden: { y: 40, opacity: 0 },
@@ -25,7 +26,7 @@ const itemVariants = {
     y: 0, 
     opacity: 1,
     transition: { 
-      type: "spring",
+      type: "spring" as const,
       stiffness: 100,
       damping: 15
     }
@@ -36,20 +37,19 @@ const NAV_LINKS = [
   { 
     name: "La Fondation", 
     submenu: [
-      { name: "Notre Histoire", href: "/a-propos" },
-      { name: "Le Mot du Président", href: "/president" },
-
-
+      { name: "Notre Histoire", href: "#apropos" },
+      { name: "Le Mot du Président", href: "#president" },
     ] 
   },
-  { name: "Missions", href: "/missions" },
-  { name: "Projets", href: "/projets" },
-  { name: "Impact", href: "/impact" },
+  { name: "Missions", href: "#missions" },
+  { name: "Projets", href: "#projets" },
+  { name: "Impact", href: "#impact" },
+  { name: "Contact", href: "#contact" },
 ];
 
 const PROJECTS = [
   {
-    id: 1,
+    id: "1",
     title: "Consultations Médicales Gratuites",
     status: "À venir",
     image: "https://res.cloudinary.com/dkuciagop/image/upload/v1769027102/WhatsApp_Image_2026-01-20_at_13.21.35_s6m8at.jpg",
@@ -58,7 +58,7 @@ const PROJECTS = [
     desc: "Journée de consultations médicales gratuites le 23 mai 2026 à l'école publique Newbell Bamiléké, Douala."
   },
   {
-    id: 2,
+    id: "2",
     title: "Dons Matériels pour Seniors",
     status: "En cours",
     image: "https://res.cloudinary.com/dkuciagop/image/upload/v1769027104/WhatsApp_Image_2026-01-20_at_13.21.33_fmzfs6.jpg",
@@ -158,9 +158,11 @@ export default function FondationChacalUnifie() {
                 </AnimatePresence>
               </div>
             ))}
-            <button className="bg-amber-500 hover:bg-amber-600 text-white px-6 xl:px-8 py-3 rounded-full transition-transform active:scale-95 shadow-lg shadow-amber-500/20 text-sm">
-              Faire un Don
-            </button>
+            <a href="#dons">
+              <button className="bg-amber-500 hover:bg-amber-600 text-white px-6 xl:px-8 py-3 rounded-full transition-transform active:scale-95 shadow-lg shadow-amber-500/20 text-sm">
+                Faire un Don
+              </button>
+            </a>
           </div>
 
           {/* Mobile Menu Button */}
@@ -282,6 +284,7 @@ export default function FondationChacalUnifie() {
 
       {/* SECTION À PROPOS */}
       <section id="apropos" className="py-32 px-6 max-w-7xl mx-auto">
+        <span id="president" className="block -mt-24 pt-24 pointer-events-none" />
         <div className="grid lg:grid-cols-2 gap-20 items-center">
           <div className="relative">
             <div className="absolute -top-10 -left-10 w-64 h-64 bg-amber-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob" />
@@ -650,9 +653,11 @@ export default function FondationChacalUnifie() {
                       </div>
                       
                       <div className="mt-8 flex items-center justify-between gap-4">
-                        <button className="flex-1 bg-blue-900 text-white py-4 rounded-2xl font-bold text-sm hover:bg-blue-800 transition shadow-lg shadow-blue-900/10">
-                          Soutenir ce projet
-                        </button>
+                        <Link href={`/projets/${project.id}`} className="flex-1">
+                          <button className="w-full bg-blue-900 text-white py-4 rounded-2xl font-bold text-sm hover:bg-amber-500 transition shadow-lg shadow-blue-900/10">
+                            Soutenir ce projet →
+                          </button>
+                        </Link>
                         <button className="p-4 bg-slate-50 text-slate-400 rounded-2xl hover:bg-amber-50 hover:text-amber-600 transition">
                           <Share2 size={20} />
                         </button>
@@ -851,7 +856,7 @@ export default function FondationChacalUnifie() {
 
       {/* 10. SECTION S'ENGAGER */}
 {/* SECTION DONS MISE À JOUR */}
-<section className="py-24 px-6">
+<section id="dons" className="py-24 px-6">
   <div className="max-w-7xl mx-auto bg-blue-900 rounded-[4rem] p-12 md:p-24 relative overflow-hidden">
     <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl" />
     
@@ -963,7 +968,7 @@ export default function FondationChacalUnifie() {
 </section>
 
 {/* SECTION MEMBRES */}
-<section className="py-24 px-6 bg-white">
+<section id="equipe" className="py-24 px-6 bg-white">
   <div className="max-w-7xl mx-auto">
     <motion.div initial="hidden" whileInView="visible" variants={containerVariants} className="text-center mb-16">
       <h2 className="text-4xl md:text-6xl font-serif text-blue-900 mb-4">
@@ -1004,7 +1009,30 @@ export default function FondationChacalUnifie() {
   </div>
 </section>
 
-{/* FOOTER PREMIUM - VERSION RESPONSIVE */}
+<section id="contact" className="py-20 px-6 bg-slate-50">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-4xl md:text-5xl font-serif text-blue-900 mb-4">Nous <span className="text-amber-500 italic">Contacter</span></h2>
+          <p className="text-slate-600 mb-10">Une question, un partenariat, une initiative ? Écrivez-nous.</p>
+          <div className="grid sm:grid-cols-3 gap-6">
+            <a href="tel:+237XXXXXXXXX" className="flex flex-col items-center gap-3 p-6 bg-white rounded-3xl shadow-sm hover:shadow-md transition">
+              <div className="w-12 h-12 bg-blue-900 rounded-2xl flex items-center justify-center"><Phone size={20} className="text-white"/></div>
+              <span className="font-bold text-blue-900">Téléphone</span>
+              <span className="text-sm text-slate-500">+237 6XX XXX XXX</span>
+            </a>
+            <a href="mailto:contact@fondationlechacal.org" className="flex flex-col items-center gap-3 p-6 bg-white rounded-3xl shadow-sm hover:shadow-md transition">
+              <div className="w-12 h-12 bg-amber-500 rounded-2xl flex items-center justify-center"><Mail size={20} className="text-white"/></div>
+              <span className="font-bold text-blue-900">Email</span>
+              <span className="text-sm text-slate-500">contact@fondationlechacal.org</span>
+            </a>
+            <a href="https://wa.me/237XXXXXXXXX" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-3 p-6 bg-white rounded-3xl shadow-sm hover:shadow-md transition">
+              <div className="w-12 h-12 bg-[#25D366] rounded-2xl flex items-center justify-center"><Phone size={20} className="text-white"/></div>
+              <span className="font-bold text-blue-900">WhatsApp</span>
+              <span className="text-sm text-slate-500">Message direct</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
       <footer className="w-full bg-slate-950 pt-16 md:pt-24 pb-8 md:pb-12 text-white/80 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 lg:gap-16 mb-12 md:mb-16">
