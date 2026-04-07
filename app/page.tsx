@@ -35,15 +35,11 @@ const itemVariants = {
 };
 
 const NAV_LINKS = [
-  { 
-    name: "La Fondation", 
-    submenu: [
-      { name: "Notre Histoire", href: "#apropos" },
-      { name: "Le Mot du Président", href: "#president" },
-    ] 
-  },
-  { name: "Missions", href: "#missions" },
-  { name: "Projets", href: "#projets" },
+  { name: "Foundation", href: "#preface" },
+  { name: "Mission", href: "#mission" },
+  { name: "Values", href: "#values" },
+  { name: "Founders", href: "#equipe" },
+  { name: "Gallery", href: "#galerie" },
   { name: "Impact", href: "#impact" },
   { name: "Contact", href: "#contact" },
 ];
@@ -51,28 +47,28 @@ const NAV_LINKS = [
 const PROJECTS = [
   {
     id: "1",
-    title: "Consultations Médicales Gratuites",
-    status: "À venir",
+    title: "Free Medical Consultations",
+    status: "Upcoming",
     image: "https://res.cloudinary.com/dkuciagop/image/upload/v1769027102/WhatsApp_Image_2026-01-20_at_13.21.35_s6m8at.jpg",
     collected: 8500,
     goal: 15000,
-    desc: "Journée de consultations médicales gratuites le 23 mai 2026 à l'école publique Newbell Bamiléké, Douala."
+    desc: "Day of free medical consultations on May 23, 2026 at École Publique Newbell Bamiléké, Douala."
   },
   {
     id: "2",
-    title: "Dons Matériels pour Seniors",
-    status: "En cours",
+    title: "Material Donations for Seniors",
+    status: "Ongoing",
     image: "https://res.cloudinary.com/dkuciagop/image/upload/v1769027104/WhatsApp_Image_2026-01-20_at_13.21.33_fmzfs6.jpg",
     collected: 4500,
     goal: 10000,
-    desc: "Distribution de kits de soins et d'aide matérielle aux personnes âgées vulnérables de Douala."
+    desc: "Distribution of care kits and material assistance to vulnerable elderly people in Douala."
   }
 ];
 
 const NEWS = [
-  { date: "24 Dec 2025", title: "Annonce de la 2ème édition des consultations gratuites", cat: "Santé" },
-  { date: "15 Dec 2025", title: "Partenariat avec des médecins bénévoles", cat: "Partenariat" },
-  { date: "10 Dec 2025", title: "Préparation de l'événement du 23 mai 2026", cat: "Événement" }
+  { date: "24 Dec 2025", title: "Announcement of the 2nd edition of free consultations", cat: "Health" },
+  { date: "15 Dec 2025", title: "Partnership with volunteer physicians", cat: "Partnership" },
+  { date: "10 Dec 2025", title: "Preparation for the May 23, 2026 event", cat: "Event" }
 ];
 
 export default function FondationChacalUnifie() {
@@ -93,11 +89,9 @@ export default function FondationChacalUnifie() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // ─── Scroll mobile vers ancre ─────────────────────────────────────────
   const handleMobileNavClick = (href: string) => {
     setIsMobileMenuOpen(false);
     if (!href || href === '#') return;
-    // Délai pour laisser le menu se fermer avant de scroller
     setTimeout(() => {
       const id = href.replace('#', '');
       const el = document.getElementById(id);
@@ -109,8 +103,8 @@ export default function FondationChacalUnifie() {
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const message = `Nouvelle demande de bénévolat:%0A%0ANom: ${formData.nom}%0AEmail: ${formData.email}%0ATél: ${formData.phone}%0AMessage: ${formData.message}`;
-    window.open(`https://wa.me/237XXXXXXXXX?text=${message}`, '_blank');
+    const message = `New volunteer request:%0A%0AName: ${formData.nom}%0AEmail: ${formData.email}%0APhone: ${formData.phone}%0AMessage: ${formData.message}`;
+    window.open(`https://wa.me/23797069267?text=${message}`, '_blank');
     setShowFormModal(false);
     setFormData({ nom: '', email: '', phone: '', message: '' });
   };
@@ -118,66 +112,40 @@ export default function FondationChacalUnifie() {
   return (
     <div className="bg-[#FCFAFA] text-[#1A1A1B] selection:bg-amber-200">
       
-      {/* Barre de progression */}
+      {/* Progress Bar */}
       <motion.div className="fixed top-0 left-0 right-0 h-1 bg-amber-500 z-[110] origin-left" style={{ scaleX }} />
 
-      {/* 1. NAVBAR DYNAMIQUE */}
+      {/* 1. NAVBAR */}
       <nav className={`fixed w-full z-[100] transition-all duration-500 ${
-        isScrolled ? 'bg-white/90 backdrop-blur-xl py-4 shadow-sm' : 'bg-transparent py-6'
+        isScrolled ? 'bg-white/95 backdrop-blur-xl py-3 shadow-md' : 'bg-white/10 backdrop-blur-md py-5'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-2">
             <img
               src="/logo.png"
-              alt="Logo Fondation Le Chacal"
+              alt="Chacal Foundation Logo"
               className="h-10 w-auto object-contain"
             />
             <span className={`text-base sm:text-xl font-bold tracking-tighter ${!isScrolled ? 'text-white' : 'text-blue-900'}`}>
-              FONDATION <span className="text-amber-500 uppercase">Le Chacal</span>
+              <span className="text-amber-500 uppercase">CHACAL</span> FOUNDATION
             </span>
           </div>
           
           {/* Desktop Navigation */}
-          <div className={`hidden lg:flex items-center gap-6 xl:gap-10 font-medium text-sm uppercase tracking-widest ${!isScrolled ? 'text-white/90' : 'text-slate-600'}`}>
+          <div className={`hidden lg:flex items-center gap-5 xl:gap-8 font-medium text-sm uppercase tracking-widest ${!isScrolled ? 'text-white/90' : 'text-slate-600'}`}>
             {NAV_LINKS.map((link) => (
-              <div 
-                key={link.name} 
-                className="relative"
-                onMouseEnter={() => setActiveDropdown(link.name)}
-                onMouseLeave={() => setActiveDropdown(null)}
+              <a 
+                key={link.name}
+                href={link.href} 
+                className="hover:text-amber-500 transition-colors"
               >
-                <a 
-                  href={link.href || '#'} 
-                  className="hover:text-amber-500 transition-colors flex items-center gap-1"
-                >
-                  {link.name} {link.submenu && <ChevronDown size={14} />}
-                </a>
-                <AnimatePresence>
-                  {link.submenu && activeDropdown === link.name && (
-                    <motion.div 
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 10 }}
-                      className="absolute top-full left-0 mt-4 w-56 bg-white shadow-2xl rounded-2xl p-4 border border-slate-50"
-                    >
-                      {link.submenu.map((sub) => (
-                        <a 
-                          key={sub.name}
-                          href={sub.href} 
-                          className="block p-3 text-sm text-slate-500 hover:bg-amber-50 hover:text-amber-700 rounded-xl transition-all"
-                        >
-                          {sub.name}
-                        </a>
-                      ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+                {link.name}
+              </a>
             ))}
             <a href="#dons">
               <button className="bg-amber-500 hover:bg-amber-600 text-white px-6 xl:px-8 py-3 rounded-full transition-transform active:scale-95 shadow-lg shadow-amber-500/20 text-sm">
-                Faire un Don
+                Donate
               </button>
             </a>
           </div>
@@ -203,40 +171,22 @@ export default function FondationChacalUnifie() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="lg:hidden fixed top-[72px] left-0 right-0 bg-white shadow-2xl overflow-hidden z-[90]"
+              className="lg:hidden fixed top-[68px] left-0 right-0 bg-white shadow-2xl overflow-hidden z-[90]"
             >
-              <div className="max-h-[calc(100vh-72px)] overflow-y-auto">
-                <div className="px-4 sm:px-6 py-6 space-y-1">
+              <div className="max-h-[calc(100vh-68px)] overflow-y-auto">
+                <div className="px-4 sm:px-6 py-6 space-y-2">
                   {NAV_LINKS.map((link) => (
-                    <div key={link.name}>
-                      <a 
-                        href={link.href || '#'} 
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handleMobileNavClick(link.href || '#');
-                        }}
-                        className="block px-4 py-3 text-base font-medium text-slate-700 hover:text-amber-600 hover:bg-amber-50 rounded-xl transition-all"
-                      >
-                        {link.name}
-                      </a>
-                      {link.submenu && (
-                        <div className="ml-4 mt-2 space-y-1">
-                          {link.submenu.map((sub) => (
-                            <a
-                              key={sub.name}
-                              href={sub.href}
-                              onClick={(e) => {
-                                e.preventDefault();
-                                handleMobileNavClick(sub.href);
-                              }}
-                              className="block px-4 py-2 text-sm text-slate-500 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition-all"
-                            >
-                              {sub.name}
-                            </a>
-                          ))}
-                        </div>
-                      )}
-                    </div>
+                    <a 
+                      key={link.name}
+                      href={link.href} 
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleMobileNavClick(link.href);
+                      }}
+                      className="block px-4 py-3 text-base font-medium text-slate-700 hover:text-amber-600 hover:bg-amber-50 rounded-xl transition-all"
+                    >
+                      {link.name}
+                    </a>
                   ))}
                 </div>
                 
@@ -245,7 +195,7 @@ export default function FondationChacalUnifie() {
                     onClick={() => handleMobileNavClick('#dons')}
                     className="w-full bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-full font-bold transition-colors shadow-lg"
                   >
-                    Faire un Don
+                    Donate
                   </button>
                 </div>
               </div>
@@ -255,32 +205,41 @@ export default function FondationChacalUnifie() {
       </nav>
 
       {/* 2. HERO SECTION */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-black">
-        <motion.div style={{ y: yRange }} className="absolute inset-0 opacity-60">
+      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-blue-950">
+        <motion.div style={{ y: yRange }} className="absolute inset-0 opacity-50">
           <img 
             src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027105/WhatsApp_Image_2026-01-20_at_13.21.36_dhnrxw.jpg" 
             className="w-full h-full object-cover scale-110"
             alt="Humanitarian Hero"
           />
         </motion.div>
-        <div className="absolute inset-0 bg-gradient-to-t from-blue-900/80 via-transparent to-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-blue-950 via-blue-950/60 to-transparent" />
         
-        <div className="relative z-10 max-w-5xl text-center px-6">
+        <div className="relative z-10 max-w-5xl text-center px-6 mt-20">
           <motion.span 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="inline-block text-amber-400 font-bold tracking-[0.3em] uppercase mb-4 text-sm"
           >
-            Solidarité • Santé • Dignité
+            Solidarity • Health • Dignity
           </motion.span>
           <motion.h1 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-6xl md:text-8xl font-serif text-white leading-[1.1] mb-8"
+            className="text-5xl md:text-7xl lg:text-8xl font-serif text-white leading-[1.1] mb-6"
           >
-            Santé et Dignité <br /> <span className="italic text-amber-100">pour nos Aînés.</span>
+            Health & Dignity <br /> <span className="italic text-amber-200">for our Elders.</span>
           </motion.h1>
+          {/* SLOGAN */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35 }}
+            className="text-xl md:text-2xl text-amber-200 italic font-serif mb-10 tracking-wide"
+          >
+            "Just one gesture of love is enough for them."
+          </motion.p>
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -289,9 +248,9 @@ export default function FondationChacalUnifie() {
           >
             <button 
               onClick={() => setShowFormModal(true)}
-              className="group relative bg-white text-blue-900 px-10 py-5 rounded-full font-bold overflow-hidden transition-all"
+              className="group relative bg-white text-blue-900 px-8 md:px-10 py-4 md:py-5 rounded-full font-bold overflow-hidden transition-all"
             >
-              <span className="relative z-10 flex items-center gap-2">Rejoindre la Cause <ArrowUpRight size={20}/></span>
+              <span className="relative z-10 flex items-center gap-2">Join the Cause <ArrowUpRight size={20}/></span>
               <div className="absolute inset-0 bg-amber-400 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
             </button>
             <button 
@@ -299,102 +258,545 @@ export default function FondationChacalUnifie() {
               className="flex items-center gap-3 text-white border-b-2 border-white/30 pb-2 hover:border-amber-400 transition-all"
             >
               <div className="w-12 h-12 rounded-full border border-white/50 flex items-center justify-center"><Play size={18} fill="white"/></div>
-              Voir notre action 2025
+              Watch our 2025 action
             </button>
           </motion.div>
         </div>
       </section>
 
-      {/* SECTION À PROPOS */}
-      <section id="apropos" className="py-32 px-6 max-w-7xl mx-auto">
-        <span id="president" className="block -mt-24 pt-24 pointer-events-none" />
-        <div className="grid lg:grid-cols-2 gap-20 items-center">
-          <div className="relative">
-            <div className="absolute -top-10 -left-10 w-64 h-64 bg-amber-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob" />
-            <img 
-              src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027105/WhatsApp_Image_2026-01-20_at_13.21.39_ri3mn4.jpg" 
-              className="relative rounded-[3rem] shadow-2xl z-10 w-full h-[500px] object-cover"
-              alt="Équipe Fondation Le Chacal" 
-            />
-            <div className="absolute -bottom-10 -right-10 bg-blue-900 text-white p-10 rounded-[2rem] shadow-2xl z-20 max-w-xs">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-amber-500 rounded-full flex items-center justify-center">
-                  <Users className="text-white" size={24} />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold">2ème</p>
-                  <p className="text-sm text-white/70">Édition annuelle</p>
+      {/* ─── PREFACE SECTION - LIGHT MINIMAL DESIGN ─────────────────────────────────────────────── */}
+      <section id="preface" className="py-32 bg-white text-slate-800 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6">
+          {/* Section Header */}
+          <div className="text-center mb-20">
+            <motion.span 
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              className="text-slate-400 font-bold tracking-[0.4em] uppercase text-xs"
+            >
+              Who We Are
+            </motion.span>
+            <motion.h2 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              className="text-5xl md:text-7xl font-serif mt-4 mb-4 leading-tight text-slate-800"
+            >
+              Our <span className="text-slate-400 italic">Preface</span>
+            </motion.h2>
+            <div className="w-24 h-px bg-slate-300 mx-auto mt-4" />
+          </div>
+
+          {/* Minimal Layout with Image */}
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7 }}
+              className="relative order-2 lg:order-1"
+            >
+              <div className="space-y-6">
+                <p className="text-xl leading-relaxed text-slate-600">
+                  In a world where inequalities in access to healthcare, essential resources, and human dignity continue to persist, <strong className="text-slate-800">Chacal Foundation</strong> stands as a committed force dedicated to serving the most vulnerable populations.
+                </p>
+                <p className="text-lg leading-relaxed text-slate-500">
+                  As a non-profit organization, Chacal Foundation operates primarily in underprivileged regions of Africa, with a particular focus on the elderly — individuals who are often overlooked, isolated, and faced with significant challenges related to health, mobility, and living conditions.
+                </p>
+                <div className="pt-6">
+                  <div className="w-16 h-px bg-slate-300 mb-6" />
+                  <p className="text-slate-400 italic text-lg">
+                    "Serving with dignity, acting with compassion."
+                  </p>
                 </div>
               </div>
-              <p className="text-lg font-serif italic">"Santé et solidarité au service de nos aînés."</p>
-            </div>
-          </div>
-          
-          <div>
-            <span className="text-amber-600 font-bold tracking-[0.3em] uppercase text-xs mb-6 block">Notre Histoire</span>
-            <h2 className="text-5xl font-serif text-blue-900 mb-8 leading-tight">
-              Une mission portée par le <span className="text-amber-700 italic">cœur.</span>
-            </h2>
-            <p className="text-slate-600 text-lg leading-relaxed mb-8">
-              Basée aux États-Unis et soutenue par la prestigieuse marque LE CHACAL spécialisée dans les vêtements sportifs et le bien-être corporel, 
-              la Fondation LE CHACAL œuvre pour améliorer l'accès aux soins de santé des personnes du troisième âge au Cameroun, particulièrement à Douala.
-            </p>
-            <div className="space-y-6 mb-10">
-              {[
-                { 
-                  title: "Notre Vision", 
-                  desc: "Allier responsabilité sociale, solidarité et dignité humaine pour les seniors." 
-                },
-                { 
-                  title: "Notre Mission", 
-                  desc: "Améliorer l'accès aux soins de santé pour les personnes du troisième âge vulnérables." 
-                },
-                { 
-                  title: "Nos Valeurs", 
-                  desc: "Solidarité, Santé, Bien-être et Reconnaissance envers nos aînés." 
-                }
-              ].map((item, index) => (
-                <div key={index} className="flex gap-4 p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:border-amber-200 transition-colors">
-                  <div className="w-12 h-12 bg-amber-500/10 rounded-xl flex items-center justify-center shrink-0">
-                    <CheckCircle2 className="text-amber-600" size={20} />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-blue-900 text-lg mb-1">{item.title}</h4>
-                    <p className="text-slate-500">{item.desc}</p>
-                  </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7 }}
+              className="order-1 lg:order-2"
+            >
+              <div className="relative">
+                <div className="rounded-2xl overflow-hidden shadow-lg">
+                  <img 
+                    src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=800&h=600&fit=crop"
+                    alt="Helping elderly people"
+                    className="w-full h-[450px] object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                  />
                 </div>
-              ))}
-            </div>
-            <button className="group flex items-center gap-3 text-blue-900 font-bold hover:text-amber-600 transition-colors">
-              <span>Lire notre histoire complète</span>
-              <ArrowRight className="group-hover:translate-x-2 transition-transform" size={20} />
-            </button>
+                <div className="absolute -bottom-5 -right-5 w-32 h-32 bg-slate-100 rounded-2xl -z-10" />
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* 3. CHAMPS D'ACTION */}
+      {/* ─── MISSION SECTION - SPLIT WITH IMAGE ──────────────────────────────────────── */}
+      <section id="mission" className="py-32 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7 }}
+              className="relative"
+            >
+              <div className="rounded-2xl overflow-hidden shadow-xl">
+                <img 
+                  src="https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=800&h=600&fit=crop"
+                  alt="Medical consultation"
+                  className="w-full h-[450px] object-cover"
+                />
+              </div>
+              <div className="absolute -bottom-6 -left-6 w-40 h-40 bg-slate-200 rounded-full -z-10" />
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7 }}
+              className="space-y-6"
+            >
+              <span className="text-slate-400 font-bold tracking-[0.3em] uppercase text-xs">Our Purpose</span>
+              <h2 className="text-4xl md:text-5xl font-serif text-slate-800 leading-tight">
+                Our <span className="text-slate-400 italic">Mission</span>
+              </h2>
+              <p className="text-slate-600 text-lg leading-relaxed">
+                Our mission is to provide practical and immediate support to communities in need, with special attention to the well-being of older adults.
+              </p>
+              
+              <div className="space-y-3 mt-6">
+                {[
+                  "Free medical consultation campaigns",
+                  "Distribution of essential medications",
+                  "Provision of medical equipment (wheelchairs, walking canes, knee supports…)",
+                  "Food assistance for the most disadvantaged populations"
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center gap-3">
+                    <div className="w-5 h-5 rounded-full bg-slate-300 flex items-center justify-center shrink-0">
+                      <div className="w-2 h-2 rounded-full bg-white" />
+                    </div>
+                    <span className="text-slate-600">{item}</span>
+                  </div>
+                ))}
+              </div>
+              
+              <p className="text-slate-500 italic border-l-2 border-slate-300 pl-4 mt-6">
+                We act with compassion to restore dignity, independence, and comfort to those who need it most.
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── VISION SECTION ────────────────────────────────────────── */}
+      <section className="py-32 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7 }}
+              className="order-2 lg:order-1"
+            >
+              <span className="text-slate-400 font-bold tracking-[0.3em] uppercase text-xs">Our Aspiration</span>
+              <h2 className="text-4xl md:text-5xl font-serif text-slate-800 leading-tight mt-2 mb-6">
+                Our <span className="text-slate-400 italic">Vision</span>
+              </h2>
+              <div className="space-y-6">
+                <p className="text-slate-600 text-lg leading-relaxed">
+                  We envision a world where every elderly person can age with dignity, surrounded by care, respect, and support.
+                </p>
+                <div className="bg-slate-50 p-8 rounded-2xl">
+                  <p className="text-slate-600 text-lg leading-relaxed italic">
+                    "A world where the value and wisdom of older generations are recognized and protected — a more compassionate and united society."
+                  </p>
+                </div>
+                <div className="flex items-center gap-4 pt-4">
+                  <Globe className="text-slate-400" size={40} />
+                  <div>
+                    <p className="font-medium text-slate-800">Global Impact</p>
+                    <p className="text-slate-400 text-sm">Creating change across communities worldwide</p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7 }}
+              className="order-1 lg:order-2"
+            >
+              <div className="rounded-2xl overflow-hidden shadow-xl">
+                <img 
+                  src="https://images.unsplash.com/photo-1559027615-3e89b2c69f8d?w=800&h=600&fit=crop"
+                  alt="Elderly person smiling"
+                  className="w-full h-[400px] object-cover"
+                />
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── VALUES SECTION - VERTICAL TIMELINE STYLE (NO CARDS) ────────────────────────────────── */}
+      <section id="values" className="py-32 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <span className="text-slate-400 font-bold tracking-[0.3em] uppercase text-xs">Our Principles</span>
+            <h2 className="text-4xl md:text-5xl font-serif text-slate-800 mt-4">
+              What We Stand <span className="text-slate-400 italic">For</span>
+            </h2>
+            <p className="text-slate-500 max-w-2xl mx-auto mt-4">Core values that guide every action we take</p>
+          </div>
+
+          <div className="relative">
+            {/* Vertical Line */}
+            <div className="absolute left-1/2 transform -translate-x-1/2 w-px h-full bg-slate-300 hidden lg:block" />
+            
+            <div className="space-y-24">
+              {[
+                { 
+                  title: "Humanity", 
+                  desc: "Placing people — especially the elderly — at the heart of everything we do.",
+                  image: "https://images.unsplash.com/photo-1582213782179-e0d53f98f3ca?w=600&h=400&fit=crop",
+                  align: "left"
+                },
+                { 
+                  title: "Solidarity", 
+                  desc: "Working together to uplift the most vulnerable in our communities.",
+                  image: "https://images.unsplash.com/photo-1593113630400-ea4288922497?w=600&h=400&fit=crop",
+                  align: "right"
+                },
+                { 
+                  title: "Integrity", 
+                  desc: "Acting with transparency and strong ethical principles at all times.",
+                  image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&h=400&fit=crop",
+                  align: "left"
+                },
+                { 
+                  title: "Respect", 
+                  desc: "Honoring the dignity and life experience of every individual we serve.",
+                  image: "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?w=600&h=400&fit=crop",
+                  align: "right"
+                },
+                { 
+                  title: "Commitment", 
+                  desc: "Serving with dedication and consistency to create lasting change.",
+                  image: "https://images.unsplash.com/photo-1518623489648-a173ef7824f3?w=600&h=400&fit=crop",
+                  align: "left"
+                }
+              ].map((value, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: idx * 0.1 }}
+                  className={`flex flex-col lg:flex-row items-center gap-12 ${
+                    value.align === "right" ? "lg:flex-row-reverse" : ""
+                  }`}
+                >
+                  <div className="flex-1">
+                    <div className="rounded-2xl overflow-hidden shadow-lg">
+                      <img 
+                        src={value.image} 
+                        alt={value.title}
+                        className="w-full h-[300px] object-cover"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex-1 text-center lg:text-left">
+                    <div className="inline-block w-12 h-px bg-slate-300 mb-4 hidden lg:block" />
+                    <h3 className="text-3xl font-serif text-slate-800 mb-3">{value.title}</h3>
+                    <p className="text-slate-500 text-lg leading-relaxed max-w-md mx-auto lg:mx-0">
+                      {value.desc}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── OBJECTIVES SECTION ──────────────────────────────────────────── */}
+      <section className="py-32 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7 }}
+            >
+              <img 
+                src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=800&h=600&fit=crop"
+                alt="Objectives"
+                className="rounded-2xl shadow-xl w-full h-[400px] object-cover"
+              />
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7 }}
+            >
+              <span className="text-slate-400 font-bold tracking-[0.3em] uppercase text-xs">Our Goals</span>
+              <h2 className="text-4xl md:text-5xl font-serif text-slate-800 mt-2 mb-8">
+                Our <span className="text-slate-400 italic">Objectives</span>
+              </h2>
+              <div className="space-y-4">
+                {[
+                  "Improve access to healthcare for elderly individuals in underserved areas",
+                  "Reduce isolation and vulnerability among older adults",
+                  "Promote independence through access to appropriate medical equipment",
+                  "Combat food insecurity in vulnerable communities",
+                  "Develop sustainable initiatives with local and international partners"
+                ].map((item, i) => (
+                  <div key={i} className="flex items-start gap-4 py-3 border-b border-slate-100">
+                    <span className="text-slate-400 font-serif text-xl">{String(i + 1).padStart(2, '0')}.</span>
+                    <p className="text-slate-600">{item}</p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── COMMITMENT BANNER ──────────────────────────────────── */}
+      <section className="py-24 bg-slate-800 text-white">
+        <div className="max-w-5xl mx-auto px-6 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="space-y-6"
+          >
+            <h3 className="text-4xl md:text-5xl font-serif font-light">Our Commitment</h3>
+            <div className="w-16 h-px bg-slate-500 mx-auto" />
+            <p className="text-slate-300 text-xl leading-relaxed max-w-3xl mx-auto">
+              Through every action we take, we are committed to compassion, responsibility, and meaningful impact. We firmly believe that caring for our elders is a reflection of our shared humanity.
+            </p>
+            <p className="text-slate-400 text-lg italic max-w-2xl mx-auto">
+              Chacal Foundation is more than an organization — it is a movement of compassion, a commitment to dignity, and a promise of hope.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ─── STORY BEHIND THE CREATION - SMOOTH DESIGN ───────────────────────────────────── */}
+      <section className="py-32 bg-white">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <span className="text-slate-400 font-bold tracking-[0.4em] uppercase text-xs">The Origin</span>
+            <h2 className="text-4xl md:text-5xl font-serif text-slate-800 mt-4 leading-tight">
+              The Story Behind<br /><span className="text-slate-400 italic">Chacal Foundation</span>
+            </h2>
+            <div className="w-16 h-px bg-slate-300 mx-auto mt-6" />
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-16 items-start">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7 }}
+            >
+              <div className="rounded-2xl overflow-hidden shadow-lg">
+                <img
+                  src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027106/WhatsApp_Image_2026-01-20_at_13.21.42_hru7cx.jpg"
+                  className="w-full h-[450px] object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                  alt="Foundation founders"
+                />
+              </div>
+              <div className="mt-6 text-center lg:text-left">
+                <p className="text-slate-500 text-sm tracking-wide">New York → Maryland, United States</p>
+                <p className="text-slate-400 text-xs mt-1">A Dream Born in Exile</p>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7 }}
+              className="space-y-6"
+            >
+              <p className="text-slate-600 leading-relaxed text-lg">
+                While living in exile in the United States, <strong className="text-slate-800">Rodrigue Wako</strong> never forgot his deep dream of creating a foundation dedicated to helping the elderly. Despite the distance from his homeland, this vision remained alive within him — shaped by his values, life experiences, and strong connection to his roots.
+              </p>
+              <p className="text-slate-600 leading-relaxed text-lg">
+                It was during a return trip from New York to Maryland that Rodrigue shared this vision with <strong className="text-slate-800">Rosine Kwedi</strong>. He opened up about a dream he had carried for years: to support elderly individuals who are often forgotten later in life, despite the sacrifices they made for younger generations.
+              </p>
+              <blockquote className="border-l-2 border-slate-300 pl-6 italic text-slate-500 text-lg">
+                "Although they did not have all the necessary resources at the beginning, they chose to move forward, firmly believing that every action, no matter how small, has value."
+              </blockquote>
+              <p className="text-slate-600 leading-relaxed text-lg">
+                Moved by the sincerity and humanity of this vision, Rosine immediately embraced the idea. Very quickly, they found themselves united by a shared conviction — to take action without waiting for perfect conditions.
+              </p>
+              <div className="pt-4">
+                <div className="inline-block px-4 py-2 bg-slate-100 rounded-full">
+                  <p className="text-slate-600 text-sm">
+                    <strong className="text-slate-800">Founded in 2023</strong> — Serving elderly individuals locally and internationally
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── CO-FOUNDER BIOGRAPHIES WITH SOCIAL LINKS ───────────────────────────────── */}
+      <section id="equipe" className="py-32 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <span className="text-slate-400 font-bold tracking-[0.4em] uppercase text-xs">Leadership</span>
+            <h2 className="text-5xl md:text-6xl font-serif text-slate-800 mt-4 mb-2">
+              Our <span className="text-slate-400 italic">Founders</span>
+            </h2>
+            <p className="text-slate-500 max-w-xl mx-auto">Driven by compassion, united by a shared vision of dignity for the elderly.</p>
+            <div className="w-16 h-px bg-slate-300 mx-auto mt-6" />
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-12">
+            {/* Rodrigue Wako */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+            >
+              <div className="relative h-[400px] overflow-hidden">
+                <img 
+                  src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027105/WhatsApp_Image_2026-01-20_at_13.21.39_ri3mn4.jpg"
+                  className="w-full h-full object-cover"
+                  alt="Rodrigue Wako"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
+                  <div className="inline-block px-3 py-1 bg-slate-700/80 backdrop-blur-sm rounded-full text-xs font-medium uppercase tracking-wider mb-3">
+                    Co-Founder
+                  </div>
+                  <h3 className="text-3xl font-serif font-light">Rodrigue Wako</h3>
+                  <p className="text-white/80 text-sm mt-1">Born February 18, 1980 — Douala, Cameroon</p>
+                </div>
+              </div>
+              <div className="p-8 space-y-4">
+                <p className="text-slate-600 leading-relaxed">
+                  Rodrigue Wako is the visionary behind the creation of Chacal Foundation. Originally from the Western region of Cameroon, he grew up with strong cultural values rooted in respect, resilience, and community.
+                </p>
+                <p className="text-slate-600 leading-relaxed">
+                  His career as a football player led him to travel extensively across Cameroon, witnessing firsthand the struggles faced by the most vulnerable. At 30, driven by the pursuit of a better future, he made the difficult decision to leave his home country.
+                </p>
+                <p className="text-slate-600 leading-relaxed">
+                  In <strong className="text-slate-800">2023</strong>, he officially founded Chacal Foundation, seeking to restore dignity and provide essential care to aging populations.
+                </p>
+                
+                {/* Social Links */}
+                <div className="flex gap-4 pt-4 border-t border-slate-100">
+                  <a href="#" className="text-slate-400 hover:text-slate-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                      <rect x="2" y="9" width="4" height="12" />
+                      <circle cx="4" cy="4" r="2" />
+                    </svg>
+                  </a>
+                  <a href="#" className="text-slate-400 hover:text-slate-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
+                    </svg>
+                  </a>
+                  <a href="#" className="text-slate-400 hover:text-slate-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="2" y="4" width="20" height="16" rx="2" />
+                      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Rosine Kwedi */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.15 }}
+              className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+            >
+              <div className="relative h-[400px] overflow-hidden">
+                <img 
+                  src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027106/WhatsApp_Image_2026-01-20_at_13.21.43_xktlqo.jpg"
+                  className="w-full h-full object-cover"
+                  alt="Rosine Kwedi"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
+                  <div className="inline-block px-3 py-1 bg-slate-700/80 backdrop-blur-sm rounded-full text-xs font-medium uppercase tracking-wider mb-3">
+                    Co-Founder
+                  </div>
+                  <h3 className="text-3xl font-serif font-light">Rosine Kwedi</h3>
+                  <p className="text-white/80 text-sm mt-1">Born August 9, 1987 — Douala, Cameroon</p>
+                </div>
+              </div>
+              <div className="p-8 space-y-4">
+                <p className="text-slate-600 leading-relaxed">
+                  Rosine Kwedi is a co-founder of Chacal Foundation. Her background from the Sanaga-Maritime region and Nkam department has deeply shaped her values, identity, and strong sense of community.
+                </p>
+                <p className="text-slate-600 leading-relaxed">
+                  She earned her degree in physiotherapy and worked for several years at the military garrison in Douala, Bonanjo. She eventually relocated to the United States to further her education and expand her expertise in the medical field.
+                </p>
+                <p className="text-slate-600 leading-relaxed">
+                  She is currently pursuing advanced studies with the goal of obtaining a <strong className="text-slate-800">doctorate in Occupational Therapy</strong> — improving the quality of life of vulnerable populations, especially the elderly.
+                </p>
+                
+                {/* Social Links */}
+                <div className="flex gap-4 pt-4 border-t border-slate-100">
+                  <a href="#" className="text-slate-400 hover:text-slate-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                      <rect x="2" y="9" width="4" height="12" />
+                      <circle cx="4" cy="4" r="2" />
+                    </svg>
+                  </a>
+                  <a href="#" className="text-slate-400 hover:text-slate-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
+                    </svg>
+                  </a>
+                  <a href="#" className="text-slate-400 hover:text-slate-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="2" y="4" width="20" height="16" rx="2" />
+                      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. FIELDS OF ACTION */}
       <section id="missions" className="py-32 px-6 max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-20 items-end mb-24">
           <div>
             <h2 className="text-amber-600 font-bold mb-4 flex items-center gap-2 uppercase tracking-tighter">
-              <div className="w-10 h-[2px] bg-amber-600" /> Nos Champs d'action
+              <div className="w-10 h-[2px] bg-amber-600" /> Our Fields of Action
             </h2>
             <p className="text-4xl md:text-5xl font-serif text-blue-900 leading-tight">
-              Une approche globale pour le <span className="text-amber-700">bien-être des seniors.</span>
+              A holistic approach to <span className="text-amber-700">senior well-being.</span>
             </p>
           </div>
           <p className="text-slate-500 text-lg leading-relaxed max-w-md">
-            Portée par un fils du pays, notre fondation mène des actions concrètes de santé et de solidarité 
-            en faveur des personnes du troisième âge les plus vulnérables au Cameroun.
+            Driven by a son of the land, our foundation carries out concrete health and solidarity actions 
+            for the most vulnerable elderly people in Cameroon.
           </p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
           {[
-            { title: "Consultations Médicales", img: "https://res.cloudinary.com/dkuciagop/image/upload/v1769027104/WhatsApp_Image_2026-01-20_at_13.21.38_b6wev3.jpg", color: "bg-blue-50" },
-            { title: "Prévention & Conseils", img: "https://res.cloudinary.com/dkuciagop/image/upload/v1769027105/WhatsApp_Image_2026-01-20_at_13.21.41_xop86n.jpg", color: "bg-amber-50" },
-            { title: "Soutien Matériel", img: "https://res.cloudinary.com/dkuciagop/image/upload/v1769027102/WhatsApp_Image_2026-01-20_at_13.21.35_s6m8at.jpg", color: "bg-emerald-50" }
+            { title: "Medical Consultations", img: "https://res.cloudinary.com/dkuciagop/image/upload/v1769027104/WhatsApp_Image_2026-01-20_at_13.21.38_b6wev3.jpg" },
+            { title: "Prevention & Advice", img: "https://res.cloudinary.com/dkuciagop/image/upload/v1769027105/WhatsApp_Image_2026-01-20_at_13.21.41_xop86n.jpg" },
+            { title: "Material Support", img: "https://res.cloudinary.com/dkuciagop/image/upload/v1769027102/WhatsApp_Image_2026-01-20_at_13.21.35_s6m8at.jpg" }
           ].map((action, i) => (
             <motion.div 
               key={i}
@@ -406,9 +808,9 @@ export default function FondationChacalUnifie() {
               <div className="absolute bottom-10 left-10 right-10">
                 <h3 className="text-2xl font-bold text-white mb-2">{action.title}</h3>
                 <p className="text-white/70 text-sm mb-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                  {i === 0 && "Consultations générales et spécialisées par des médecins bénévoles."}
-                  {i === 1 && "Conseils pratiques en matière de prévention et de soins adaptés."}
-                  {i === 2 && "Distribution de kits et accompagnement personnalisé."}
+                  {i === 0 && "General and specialized consultations by volunteer physicians."}
+                  {i === 1 && "Practical advice on prevention and care adapted to seniors."}
+                  {i === 2 && "Distribution of kits and personalized accompaniment."}
                 </p>
                 <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center group-hover:bg-amber-500 transition-colors">
                   <ArrowUpRight className="text-blue-900 group-hover:text-white" />
@@ -419,17 +821,17 @@ export default function FondationChacalUnifie() {
         </div>
       </section>
 
-      {/* 4. SECTION RÉALISATIONS */}
+      {/* 4. VISUAL IMPACT SECTION */}
       <section className="py-24 px-6 max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
           <div className="max-w-2xl">
-            <span className="text-amber-600 font-black tracking-[0.2em] uppercase text-xs">Notre Impact Visuel</span>
+            <span className="text-amber-600 font-black tracking-[0.2em] uppercase text-xs">Our Visual Impact</span>
             <h2 className="text-5xl md:text-6xl font-serif text-blue-950 mt-4 leading-[1.1]">
-              Nos actions qui <span className="italic text-slate-400 font-light">changent des vies.</span>
+              Our actions that <span className="italic text-slate-400 font-light">change lives.</span>
             </h2>
           </div>
           <button className="flex items-center gap-2 font-bold text-blue-900 group">
-            Voir tout l'album <ArrowRight className="group-hover:translate-x-2 transition-transform" />
+            View full album <ArrowRight className="group-hover:translate-x-2 transition-transform" />
           </button>
         </div>
 
@@ -438,8 +840,8 @@ export default function FondationChacalUnifie() {
             <img src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027105/WhatsApp_Image_2026-01-20_at_13.21.37_syduvr.jpg" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
             <div className="absolute bottom-10 left-10 text-white">
-              <span className="bg-white/20 backdrop-blur-md px-4 py-1 rounded-full text-xs uppercase mb-4 inline-block">Mai 2025</span>
-              <h3 className="text-3xl font-bold">Consultations médicales gratuites à Douala</h3>
+              <span className="bg-white/20 backdrop-blur-md px-4 py-1 rounded-full text-xs uppercase mb-4 inline-block">May 2025</span>
+              <h3 className="text-3xl font-bold">Free medical consultations in Douala</h3>
             </div>
           </div>
           <div className="md:col-span-4 grid grid-rows-2 gap-6">
@@ -448,68 +850,26 @@ export default function FondationChacalUnifie() {
               <div className="absolute inset-0 bg-blue-900/20 group-hover:bg-transparent transition-colors" />
             </div>
             <div className="relative rounded-[2.5rem] overflow-hidden group bg-amber-500 flex items-center justify-center p-10 text-center">
-              <p className="text-2xl font-serif text-white italic">"Améliorer l'accès aux soins pour tous."</p>
+              <p className="text-2xl font-serif text-white italic">"Just one gesture of love is enough for them."</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 5. ÉVÉNEMENT PHARE - 23 MAI 2026 */}
-      <section id="projets" className="bg-blue-950 py-32 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
-          <motion.div 
-            initial={{ x: -100, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            className="relative"
-          >
-            <div className="absolute -top-10 -left-10 w-40 h-40 bg-amber-500/20 rounded-full blur-3xl" />
-            <img 
-              src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027106/WhatsApp_Image_2026-01-20_at_13.21.42_hru7cx.jpg" 
-              className="rounded-[3rem] shadow-2xl border-4 border-white/10"
-              alt="Événement médical"
-            />
-            <div className="absolute -bottom-8 -right-8 bg-white p-8 rounded-3xl shadow-xl max-w-[280px]">
-              <p className="text-blue-900 font-bold text-lg leading-tight">23 Mai 2026</p>
-              <p className="text-slate-500 text-sm mt-2 font-medium">École Publique Newbell Bamiléké, Douala • 8h - 17h</p>
-            </div>
-          </motion.div>
-
-          <div className="text-white">
-            <h3 className="text-amber-500 font-bold tracking-widest mb-6">ÉVÉNEMENT PHARE</h3>
-            <h2 className="text-5xl font-serif mb-8 leading-tight">Journée de <span className="italic text-amber-200">Consultations Médicales</span> Gratuites.</h2>
-            <div className="space-y-6">
-              {[
-                { t: "Consultations Générales", d: "Examens médicaux complets par des médecins bénévoles qualifiés." },
-                { t: "Consultations Spécialisées", d: "Soins adaptés aux besoins spécifiques des personnes âgées." },
-                { t: "Remise de Dons", d: "Distribution de kits de soins et soutien matériel aux bénéficiaires." }
-              ].map((item, i) => (
-                <div key={i} className="flex gap-4 p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition">
-                  <CheckCircle2 className="text-amber-500 shrink-0" />
-                  <div>
-                    <h4 className="font-bold text-xl">{item.t}</h4>
-                    <p className="text-white/60">{item.d}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION PROJETS RÉALISÉS */}
+      {/* SECTION COMPLETED PROJECTS */}
       <section className="py-32 px-6 max-w-7xl mx-auto">
         <div className="text-center mb-20">
-          <span className="text-amber-600 font-black tracking-[0.3em] uppercase text-xs">Notre Héritage</span>
+          <span className="text-amber-600 font-black tracking-[0.3em] uppercase text-xs">Our Legacy</span>
           <h2 className="text-5xl font-serif text-blue-950 mt-6 mb-4">
-            Actions <span className="text-amber-700">Réalisées</span>
+            Completed <span className="text-amber-700">Actions</span>
           </h2>
           <p className="text-slate-500 max-w-2xl mx-auto text-lg">
-            Découvrez nos réalisations concrètes qui ont transformé la vie de centaines de bénéficiaires.
+            Discover our concrete achievements that have transformed the lives of hundreds of beneficiaries.
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* Projet 1 */}
+          {/* Project 1 */}
           <div className="group bg-white rounded-[2rem] overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border border-slate-100">
             <div className="relative h-64 overflow-hidden">
               <img 
@@ -518,22 +878,22 @@ export default function FondationChacalUnifie() {
                 alt="Consultations 2025"
               />
               <div className="absolute top-4 right-4 bg-emerald-500 text-white px-4 py-1 rounded-full text-xs font-bold uppercase">
-                Terminé
+                Completed
               </div>
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6">
-                <span className="text-white text-sm font-medium">Mai 2025</span>
+                <span className="text-white text-sm font-medium">May 2025</span>
               </div>
             </div>
             <div className="p-8">
               <h3 className="text-2xl font-bold text-blue-900 mb-3 group-hover:text-amber-600 transition-colors">
-                1ère Édition Consultations Gratuites
+                1st Edition Free Consultations
               </h3>
               <p className="text-slate-500 mb-6">
-                Première campagne de consultations médicales gratuites pour 200+ seniors à Douala.
+                First free medical consultation campaign for 200+ seniors in Douala.
               </p>
               <div className="flex justify-between items-center">
                 <div>
-                  <p className="text-sm text-slate-400">Bénéficiaires</p>
+                  <p className="text-sm text-slate-400">Beneficiaries</p>
                   <p className="text-lg font-bold text-blue-900">200+</p>
                 </div>
                 <div>
@@ -541,71 +901,71 @@ export default function FondationChacalUnifie() {
                   <p className="text-lg font-bold text-amber-600">250+</p>
                 </div>
                 <button className="text-blue-900 hover:text-amber-600 font-medium flex items-center gap-2">
-                  Détails <ArrowRight size={16} />
+                  Details <ArrowRight size={16} />
                 </button>
               </div>
             </div>
           </div>
 
-          {/* Projet 2 */}
+          {/* Project 2 */}
           <div className="group bg-white rounded-[2rem] overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border border-slate-100">
             <div className="relative h-64 overflow-hidden">
               <img 
                 src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027105/WhatsApp_Image_2026-01-20_at_13.21.39_ri3mn4.jpg" 
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                alt="Dons matériels"
+                alt="Material donations"
               />
               <div className="absolute top-4 right-4 bg-emerald-500 text-white px-4 py-1 rounded-full text-xs font-bold uppercase">
-                Terminé
+                Completed
               </div>
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6">
-                <span className="text-white text-sm font-medium">Juin 2025</span>
+                <span className="text-white text-sm font-medium">June 2025</span>
               </div>
             </div>
             <div className="p-8">
               <h3 className="text-2xl font-bold text-blue-900 mb-3 group-hover:text-amber-600 transition-colors">
-                Distribution de Kits de Soins
+                Care Kit Distribution
               </h3>
               <p className="text-slate-500 mb-6">
-                Remise de kits de premiers soins et médicaments essentiels aux seniors vulnérables.
+                Distribution of first aid kits and essential medications to vulnerable seniors.
               </p>
               <div className="flex justify-between items-center">
                 <div>
-                  <p className="text-sm text-slate-400">Kits distribués</p>
+                  <p className="text-sm text-slate-400">Kits distributed</p>
                   <p className="text-lg font-bold text-blue-900">150</p>
                 </div>
                 <div>
-                  <p className="text-sm text-slate-400">Investissement</p>
+                  <p className="text-sm text-slate-400">Investment</p>
                   <p className="text-lg font-bold text-amber-600">5,500€</p>
                 </div>
                 <button className="text-blue-900 hover:text-amber-600 font-medium flex items-center gap-2">
-                  Détails <ArrowRight size={16} />
+                  Details <ArrowRight size={16} />
                 </button>
               </div>
             </div>
           </div>
 
-          {/* Projet 3 */}
+          {/* Project 3 */}
           <div className="group bg-white rounded-[2rem] overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border border-slate-100">
             <div className="relative h-64 overflow-hidden">
               <img 
                 src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027102/WhatsApp_Image_2026-01-20_at_13.21.35_s6m8at.jpg" 
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                alt="Sensibilisation santé"
+                alt="Health awareness"
               />
               <div className="absolute top-4 right-4 bg-emerald-500 text-white px-4 py-1 rounded-full text-xs font-bold uppercase">
-                Terminé
+                Completed
               </div>
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6">
-                <span className="text-white text-sm font-medium">Juillet 2025</span>
+                <span className="text-white text-sm font-medium">July 2025</span>
               </div>
             </div>
             <div className="p-8">
               <h3 className="text-2xl font-bold text-blue-900 mb-3 group-hover:text-amber-600 transition-colors">
-                Ateliers de Prévention Santé
+                Health Prevention Workshops
               </h3>
               <p className="text-slate-500 mb-6">
-                Sessions de sensibilisation sur l'hygiène, la nutrition et les soins adaptés aux seniors.
+                Awareness sessions on hygiene, nutrition, and appropriate care for seniors.
               </p>
               <div className="flex justify-between items-center">
                 <div>
@@ -617,7 +977,7 @@ export default function FondationChacalUnifie() {
                   <p className="text-lg font-bold text-amber-600">8</p>
                 </div>
                 <button className="text-blue-900 hover:text-amber-600 font-medium flex items-center gap-2">
-                  Détails <ArrowRight size={16} />
+                  Details <ArrowRight size={16} />
                 </button>
               </div>
             </div>
@@ -626,17 +986,17 @@ export default function FondationChacalUnifie() {
 
         <div className="text-center mt-16">
           <button className="group bg-blue-900 text-white px-10 py-4 rounded-full font-bold hover:bg-amber-600 transition-all flex items-center gap-2 mx-auto">
-            Voir toutes nos actions réalisées
+            View all our completed actions
             <ArrowRight className="group-hover:translate-x-2 transition-transform" size={20} />
           </button>
         </div>
       </section>
 
-      {/* 6. PROJETS EN COURS */}
+      {/* 6. ONGOING PROJECTS */}
       <section className="py-24 bg-slate-50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-serif text-blue-950">Projets en cours & à venir</h2>
+            <h2 className="text-4xl md:text-5xl font-serif text-blue-950">Ongoing & Upcoming Projects</h2>
             <div className="w-24 h-1 bg-amber-500 mx-auto mt-6" />
           </div>
 
@@ -651,7 +1011,7 @@ export default function FondationChacalUnifie() {
                 >
                   <div className="md:w-2/5 relative h-64 md:h-auto">
                     <img src={project.image} className="absolute inset-0 w-full h-full object-cover" />
-                    <div className={`absolute top-6 left-6 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-white ${project.status === 'En cours' ? 'bg-emerald-500' : 'bg-blue-600'}`}>
+                    <div className={`absolute top-6 left-6 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-white ${project.status === 'Ongoing' ? 'bg-emerald-500' : 'bg-blue-600'}`}>
                       {project.status}
                     </div>
                   </div>
@@ -662,8 +1022,8 @@ export default function FondationChacalUnifie() {
                     
                     <div className="mt-auto">
                       <div className="flex justify-between text-xs font-bold mb-2 uppercase tracking-tighter">
-                        <span className="text-slate-400">Collecté: <span className="text-blue-900">{project.collected}€</span></span>
-                        <span className="text-slate-400">Objectif: <span className="text-amber-600">{project.goal}€</span></span>
+                        <span className="text-slate-400">Raised: <span className="text-blue-900">{project.collected}€</span></span>
+                        <span className="text-slate-400">Goal: <span className="text-amber-600">{project.goal}€</span></span>
                       </div>
                       <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
                         <motion.div 
@@ -677,7 +1037,7 @@ export default function FondationChacalUnifie() {
                       <div className="mt-8 flex items-center justify-between gap-4">
                         <Link href={`/projets/${project.id}`} className="flex-1">
                           <button className="w-full bg-blue-900 text-white py-4 rounded-2xl font-bold text-sm hover:bg-amber-500 transition shadow-lg shadow-blue-900/10">
-                            Soutenir ce projet →
+                            Support this project →
                           </button>
                         </Link>
                         <button className="p-4 bg-slate-50 text-slate-400 rounded-2xl hover:bg-amber-50 hover:text-amber-600 transition">
@@ -693,14 +1053,14 @@ export default function FondationChacalUnifie() {
         </div>
       </section>
 
-      {/* 7. SECTION ACTUALITÉS */}
+      {/* 7. NEWS */}
       <section id="actualites" className="py-32 px-6 max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16">
           <div className="mb-8">
-            <span className="text-amber-600 font-black tracking-[0.3em] uppercase text-xs">Presse</span>
-            <h2 className="text-4xl md:text-5xl font-serif text-blue-950 mt-4">Dernières Actualités</h2>
+            <span className="text-amber-600 font-black tracking-[0.3em] uppercase text-xs">Press</span>
+            <h2 className="text-4xl md:text-5xl font-serif text-blue-950 mt-4">Latest News</h2>
           </div>
-          <button className="font-bold text-blue-900 flex items-center gap-2">Voir tout le blog <ArrowRight size={18}/></button>
+          <button className="font-bold text-blue-900 flex items-center gap-2">View all <ArrowRight size={18}/></button>
         </div>
         <div className="grid md:grid-cols-3 gap-8">
           {NEWS.map((item, i) => (
@@ -715,21 +1075,21 @@ export default function FondationChacalUnifie() {
         </div>
       </section>
 
-      {/* SECTION GALERIE MULTIMÉDIA */}
-      <section className="py-32 bg-slate-50">
+      {/* GALLERY */}
+      <section id="galerie" className="py-32 bg-slate-50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-20">
-            <span className="text-amber-600 font-black tracking-[0.3em] uppercase text-xs">Mémoire Visuelle</span>
+            <span className="text-amber-600 font-black tracking-[0.3em] uppercase text-xs">Visual Memory</span>
             <h2 className="text-5xl font-serif text-blue-950 mt-6 mb-4">
-              Galerie <span className="text-amber-700">Photo & Vidéo</span>
+              Photo & Video <span className="text-amber-700">Gallery</span>
             </h2>
             <p className="text-slate-500 max-w-2xl mx-auto text-lg">
-              Captures d'instants de joie, de solidarité et de transformation.
+              Captured moments of joy, solidarity, and transformation.
             </p>
           </div>
 
           <div className="flex flex-wrap justify-center gap-4 mb-12">
-            {['Tous', 'Photos', 'Vidéos', 'Événements', 'Projets'].map((filter, i) => (
+            {['All', 'Photos', 'Videos', 'Events', 'Projects'].map((filter, i) => (
               <button 
                 key={i}
                 className={`px-6 py-3 rounded-full font-medium transition-all ${
@@ -748,7 +1108,7 @@ export default function FondationChacalUnifie() {
               <img 
                 src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027105/WhatsApp_Image_2026-01-20_at_13.21.41_xop86n.jpg" 
                 className="w-full h-[400px] object-cover group-hover:scale-110 transition-transform duration-700"
-                alt="Consultation médicale"
+                alt="Medical consultation"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
               <div className="absolute bottom-6 left-6 text-white">
@@ -756,8 +1116,8 @@ export default function FondationChacalUnifie() {
                   <div className="w-2 h-2 bg-amber-500 rounded-full" />
                   <span className="text-sm font-medium">PHOTO</span>
                 </div>
-                <h3 className="text-xl font-bold">Consultations Médicales Gratuites</h3>
-                <p className="text-white/80 text-sm">Mai 2025</p>
+                <h3 className="text-xl font-bold">Free Medical Consultations</h3>
+                <p className="text-white/80 text-sm">May 2025</p>
               </div>
             </div>
 
@@ -765,7 +1125,7 @@ export default function FondationChacalUnifie() {
               <img 
                 src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027106/WhatsApp_Image_2026-01-20_at_13.21.43_xktlqo.jpg" 
                 className="w-full h-[400px] object-cover group-hover:scale-110 transition-transform duration-700"
-                alt="Distribution de médicaments"
+                alt="Medication distribution"
               />
               <div className="absolute inset-0 bg-blue-900/20 group-hover:bg-transparent transition-colors" />
             </div>
@@ -774,154 +1134,96 @@ export default function FondationChacalUnifie() {
               <img 
                 src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027104/WhatsApp_Image_2026-01-20_at_13.21.34_ngrlue.jpg" 
                 className="w-full h-[400px] object-cover group-hover:scale-110 transition-transform duration-700"
-                alt="Remise de dons"
+                alt="Donation distribution"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent" />
+              <div className="absolute inset-0 bg-amber-900/20 group-hover:bg-transparent transition-colors" />
             </div>
 
-            <div 
-              onClick={() => setShowVideoModal(true)}
-              className="relative rounded-3xl overflow-hidden group bg-blue-900 cursor-pointer"
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-900 to-amber-900/30" />
-              <div className="relative z-10 h-full flex flex-col items-center justify-center p-8 text-center">
-                <div className="w-20 h-20 rounded-full border-4 border-white/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                  <Play className="text-white ml-1" size={28} fill="white" />
-                </div>
-                <h3 className="text-2xl font-bold text-white mb-3">Action 2025</h3>
-                <p className="text-white/70 mb-6">Regardez notre film "Solidarité en Action"</p>
-                <span className="text-amber-300 text-sm font-medium uppercase tracking-widest">VIDÉO</span>
+            {[
+              "https://res.cloudinary.com/dkuciagop/image/upload/v1769027104/WhatsApp_Image_2026-01-20_at_13.21.33_fmzfs6.jpg",
+              "https://res.cloudinary.com/dkuciagop/image/upload/v1769027104/WhatsApp_Image_2026-01-20_at_13.21.38_b6wev3.jpg",
+              "https://res.cloudinary.com/dkuciagop/image/upload/v1769027102/WhatsApp_Image_2026-01-20_at_13.21.35_s6m8at.jpg",
+              "https://res.cloudinary.com/dkuciagop/image/upload/v1769027106/WhatsApp_Image_2026-01-20_at_13.21.42_hru7cx.jpg",
+            ].map((src, i) => (
+              <div key={i} className="relative rounded-3xl overflow-hidden group">
+                <img 
+                  src={src} 
+                  className="w-full h-[200px] object-cover group-hover:scale-110 transition-transform duration-700"
+                  alt={`Gallery ${i + 1}`}
+                />
+                <div className="absolute inset-0 bg-blue-900/10 group-hover:bg-transparent transition-colors" />
               </div>
-            </div>
+            ))}
+          </div>
 
-            <div className="relative rounded-3xl overflow-hidden group">
-              <img 
-                src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027105/WhatsApp_Image_2026-01-20_at_13.21.37_syduvr.jpg" 
-                className="w-full h-[300px] object-cover group-hover:scale-110 transition-transform duration-700"
-                alt="Équipe médicale"
-              />
-            </div>
-
-            <div className="relative rounded-3xl overflow-hidden group">
-              <img 
-                src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027102/WhatsApp_Image_2026-01-20_at_13.21.35_s6m8at.jpg" 
-                className="w-full h-[300px] object-cover group-hover:scale-110 transition-transform duration-700"
-                alt="Bénéficiaires"
-              />
-            </div>
-
-            <div className="relative rounded-3xl overflow-hidden group">
-              <img 
-                src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027105/WhatsApp_Image_2026-01-20_at_13.21.36_dhnrxw.jpg" 
-                className="w-full h-[300px] object-cover group-hover:scale-110 transition-transform duration-700"
-                alt="Action terrain"
-              />
-            </div>
-
-            <div className="relative rounded-3xl overflow-hidden group">
-              <img 
-                src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027102/WhatsApp_Image_2026-01-20_at_13.21.31_okyfkl.jpg" 
-                className="w-full h-[300px] object-cover group-hover:scale-110 transition-transform duration-700"
-                alt="Seniors heureux"
-              />
-            </div>
+          <div className="text-center mt-12">
+            <button className="group bg-blue-900 text-white px-10 py-4 rounded-full font-bold hover:bg-amber-600 transition-all flex items-center gap-2 mx-auto">
+              View full gallery
+              <ArrowRight className="group-hover:translate-x-2 transition-transform" size={20} />
+            </button>
           </div>
         </div>
       </section>
 
-      {/* 8. TÉMOIGNAGES */}
-      <section className="py-32 bg-white">
-        <div className="max-w-5xl mx-auto px-6 text-center">
-          <Quote className="mx-auto text-amber-500 mb-8" size={60} />
-          <h2 className="text-3xl md:text-5xl font-serif italic text-blue-900 leading-snug">
-            "La Fondation LE CHACAL a changé ma vie. Grâce à leur aide, j'ai pu recevoir des soins que je n'aurais jamais pu me payer. Que Dieu les bénisse."
-          </h2>
-          <div className="mt-12 flex items-center justify-center gap-4">
-            <img src="https://i.pravatar.cc/100?u=1" className="w-16 h-16 rounded-full border-4 border-amber-50" />
-            <div className="text-left">
-              <p className="font-bold text-blue-950 text-xl">Maman Thérèse</p>
-              <p className="text-slate-400">Bénéficiaire, 68 ans, Douala</p>
-            </div>
+      {/* IMPACT SECTION */}
+      <section id="impact" className="py-24 px-6 bg-blue-950 text-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <span className="text-amber-400 font-bold tracking-[0.4em] uppercase text-xs">Our Impact</span>
+            <h2 className="text-5xl font-serif mt-4">Numbers that <span className="text-amber-400 italic">speak.</span></h2>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {[
+              { n: "500+", label: "Beneficiaries" },
+              { n: "2", label: "Annual Editions" },
+              { n: "200+", label: "Consultations" },
+              { n: "2023", label: "Founded" },
+            ].map((stat, i) => (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
+                className="text-center p-8 rounded-[2rem] bg-white/5 border border-white/10"
+              >
+                <p className="text-5xl font-serif font-bold text-amber-400 mb-2">{stat.n}</p>
+                <p className="text-white/60 uppercase tracking-widest text-xs">{stat.label}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* 9. IMPACT & CHIFFRES */}
-      <section id="impact" className="py-20 border-y border-slate-100">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
-          {[
-            { n: "500+", label: "Seniors Aidés" },
-            { n: "2", label: "Éditions Annuelles" },
-            { n: "250+", label: "Consultations" },
-            { n: "10+", label: "Médecins Bénévoles" }
-          ].map((stat, i) => (
-            <motion.div key={i} initial="hidden" whileInView="visible" variants={itemVariants}>
-              <div className="text-5xl font-black text-blue-900 mb-2">{stat.n}</div>
-              <div className="text-amber-600 font-bold uppercase tracking-widest text-xs">{stat.label}</div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* 10. SECTION DONS */}
-      <section id="dons" className="py-24 px-6">
-        <div className="max-w-7xl mx-auto bg-blue-900 rounded-[4rem] p-12 md:p-24 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl" />
-          
-          <div className="relative z-10 grid lg:grid-cols-2 gap-16 items-center">
+      {/* DONATIONS */}
+      <section id="dons" className="py-32 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-20 items-center">
             <div>
-              <h2 className="text-4xl md:text-6xl font-serif text-white leading-tight mb-8">
-                Rejoignez notre mission de <span className="text-amber-400 italic">solidarité.</span>
+              <span className="text-amber-600 font-black tracking-[0.3em] uppercase text-xs">Support Us</span>
+              <h2 className="text-5xl font-serif text-blue-950 mt-4 mb-6 leading-tight">
+                Support our <span className="text-amber-600 italic">mission</span>
               </h2>
-              <div className="grid sm:grid-cols-2 gap-6">
-                {[
-                  { icon: <Heart size={20}/>, t: "Devenir Bénévole", d: "Médecins, infirmiers, bénévoles." },
-                  { icon: <Target size={20}/>, t: "Partenariat", d: "Entreprises et organisations." }
-                ].map((box, i) => (
-                  <div key={i} className="bg-white/10 backdrop-blur-md p-6 rounded-3xl border border-white/10 hover:bg-white/20 transition cursor-pointer">
-                    <div className="text-amber-400 mb-4">{box.icon}</div>
-                    <h4 className="text-white font-bold mb-1">{box.t}</h4>
-                    <p className="text-white/60 text-xs">{box.d}</p>
-                  </div>
-                ))}
-              </div>
+              <p className="text-slate-500 text-lg leading-relaxed mb-8">
+                Every donation, however small, allows us to reach more seniors in need. Your generosity directly funds free medical consultations, medications, and essential equipment.
+              </p>
+              <blockquote className="border-l-4 border-amber-500 pl-6 italic text-blue-900 text-xl">
+                "Just one gesture of love is enough for them."
+              </blockquote>
             </div>
-            
-            <div className="bg-white rounded-[3rem] p-10 shadow-2xl">
-              <h3 className="text-2xl font-bold text-blue-950 mb-6">Faire un Don</h3>
-              
-              <div className="space-y-3">
-                <a 
-                  href="https://www.paypal.com/donate/?hosted_button_id=XXXXXXXXX"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block bg-[#0070BA] text-white rounded-2xl p-5 hover:bg-[#005EA6] transition-all transform hover:scale-[1.02]"
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.254-.93 4.778-4.005 7.201-9.138 7.201h-2.19a.563.563 0 0 0-.556.479l-1.187 7.527h-.506l-.24 1.516a.56.56 0 0 0 .554.647h3.882c.46 0 .85-.334.922-.788.06-.26.76-4.852.816-5.09a.932.932 0 0 1 .923-.788h.58c3.76 0 6.705-1.528 7.565-5.946.36-1.847.174-3.388-.777-4.471z"/>
-                      </svg>
-                      <span className="font-bold">PayPal</span>
-                    </div>
-                    <ExternalLink size={18} />
-                  </div>
-                </a>
 
-                <div className="bg-slate-50 rounded-2xl p-5">
-                  <h4 className="font-bold text-blue-950 mb-3 flex items-center gap-2 text-sm">
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"/>
-                      <path fillRule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clipRule="evenodd"/>
-                    </svg>
-                    Virement Bancaire
-                  </h4>
-                  <div className="font-mono text-xs bg-white p-3 rounded-lg flex items-center justify-between">
-                    <span>XXXX XXXX XXXX XXXX</span>
+            <div className="bg-white rounded-[3rem] p-10 shadow-2xl border border-slate-100">
+              <h3 className="text-2xl font-bold text-blue-950 mb-8">Make a Donation</h3>
+              
+              <div className="space-y-4">
+                <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200">
+                  <p className="text-sm text-slate-500 mb-2 font-medium">Bank Transfer</p>
+                  <p className="font-bold text-blue-900">Chacal Foundation</p>
+                  <div className="flex items-center gap-2 mt-2">
+                    <p className="text-slate-600 font-mono text-sm">XXXX XXXX XXXX XXXX</p>
                     <button 
                       onClick={() => {
                         navigator.clipboard.writeText('XXXX XXXX XXXX XXXX');
-                        alert('Copié!');
+                        alert('Copied!');
                       }}
                       className="text-blue-900 hover:text-amber-500"
                     >
@@ -933,7 +1235,7 @@ export default function FondationChacalUnifie() {
                 </div>
 
                 <a 
-                  href="https://wa.me/237XXXXXXXXX?text=Bonjour,%20je%20souhaite%20faire%20un%20don"
+                  href="https://wa.me/23797069267?text=Hello,%20I%20would%20like%20to%20make%20a%20donation"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block bg-[#25D366] text-white rounded-2xl p-5 hover:bg-[#20BA5A] transition-all transform hover:scale-[1.02]"
@@ -950,7 +1252,7 @@ export default function FondationChacalUnifie() {
                 </a>
 
                 <a 
-                  href="mailto:donations@fondationlechacal.org?subject=Don"
+                  href="mailto:chacalfoundation@gmail.com?subject=Donation"
                   className="block bg-slate-50 text-blue-950 rounded-2xl p-5 hover:bg-slate-100 transition-all transform hover:scale-[1.02]"
                 >
                   <div className="flex items-center justify-between">
@@ -964,51 +1266,9 @@ export default function FondationChacalUnifie() {
               </div>
 
               <p className="text-xs text-slate-500 text-center mt-5">
-                Chaque don compte pour notre mission
+                Every donation counts for our mission
               </p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION MEMBRES */}
-      <section id="equipe" className="py-24 px-6 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <motion.div initial="hidden" whileInView="visible" variants={containerVariants} className="text-center mb-16">
-            <h2 className="text-4xl md:text-6xl font-serif text-blue-900 mb-4">
-              Notre <span className="text-amber-500 italic">Équipe</span>
-            </h2>
-            <p className="text-slate-600 max-w-2xl mx-auto">
-              Des personnes dévouées à la cause des seniors
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              { name: "Dr. Jean Kamdem", role: "Président Fondateur", img: "https://i.pravatar.cc/400?img=12" },
-              { name: "Marie Tchoumi", role: "Directrice Exécutive", img: "https://i.pravatar.cc/400?img=45" },
-              { name: "Paul Nguesso", role: "Coordinateur Médical", img: "https://i.pravatar.cc/400?img=33" },
-              { name: "Grace Foko", role: "Responsable Logistique", img: "https://i.pravatar.cc/400?img=47" }
-            ].map((member, i) => (
-              <motion.div 
-                key={i} 
-                initial="hidden" 
-                whileInView="visible" 
-                variants={itemVariants}
-                className="group"
-              >
-                <div className="relative rounded-3xl overflow-hidden mb-6 aspect-square">
-                  <img 
-                    src={member.img} 
-                    alt={member.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-blue-900/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                </div>
-                <h3 className="text-xl font-bold text-blue-950 mb-1">{member.name}</h3>
-                <p className="text-amber-600 text-sm font-medium uppercase tracking-wider">{member.role}</p>
-              </motion.div>
-            ))}
           </div>
         </div>
       </section>
@@ -1016,23 +1276,23 @@ export default function FondationChacalUnifie() {
       {/* CONTACT */}
       <section id="contact" className="py-20 px-6 bg-slate-50">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-serif text-blue-900 mb-4">Nous <span className="text-amber-500 italic">Contacter</span></h2>
-          <p className="text-slate-600 mb-10">Une question, un partenariat, une initiative ? Écrivez-nous.</p>
+          <h2 className="text-4xl md:text-5xl font-serif text-blue-900 mb-4">Contact <span className="text-amber-500 italic">Us</span></h2>
+          <p className="text-slate-600 mb-10">A question, a partnership, an initiative? Write to us.</p>
           <div className="grid sm:grid-cols-3 gap-6">
-            <a href="tel:+237XXXXXXXXX" className="flex flex-col items-center gap-3 p-6 bg-white rounded-3xl shadow-sm hover:shadow-md transition">
+            <a href="tel:+13019929492" className="flex flex-col items-center gap-3 p-6 bg-white rounded-3xl shadow-sm hover:shadow-md transition">
               <div className="w-12 h-12 bg-blue-900 rounded-2xl flex items-center justify-center"><Phone size={20} className="text-white"/></div>
-              <span className="font-bold text-blue-900">Téléphone</span>
-              <span className="text-sm text-slate-500">+237 6XX XXX XXX</span>
+              <span className="font-bold text-blue-900">Phone US</span>
+              <span className="text-sm text-slate-500">+1 301-992-9492</span>
             </a>
-            <a href="mailto:contact@fondationlechacal.org" className="flex flex-col items-center gap-3 p-6 bg-white rounded-3xl shadow-sm hover:shadow-md transition">
-              <div className="w-12 h-12 bg-amber-500 rounded-2xl flex items-center justify-center"><Mail size={20} className="text-white"/></div>
+            <a href="tel:+23797069267" className="flex flex-col items-center gap-3 p-6 bg-white rounded-3xl shadow-sm hover:shadow-md transition">
+              <div className="w-12 h-12 bg-amber-500 rounded-2xl flex items-center justify-center"><Phone size={20} className="text-white"/></div>
+              <span className="font-bold text-blue-900">Phone Cameroon</span>
+              <span className="text-sm text-slate-500">+237 97069267</span>
+            </a>
+            <a href="mailto:chacalfoundation@gmail.com" className="flex flex-col items-center gap-3 p-6 bg-white rounded-3xl shadow-sm hover:shadow-md transition">
+              <div className="w-12 h-12 bg-green-600 rounded-2xl flex items-center justify-center"><Mail size={20} className="text-white"/></div>
               <span className="font-bold text-blue-900">Email</span>
-              <span className="text-sm text-slate-500">contact@fondationlechacal.org</span>
-            </a>
-            <a href="https://wa.me/237XXXXXXXXX" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-3 p-6 bg-white rounded-3xl shadow-sm hover:shadow-md transition">
-              <div className="w-12 h-12 bg-[#25D366] rounded-2xl flex items-center justify-center"><Phone size={20} className="text-white"/></div>
-              <span className="font-bold text-blue-900">WhatsApp</span>
-              <span className="text-sm text-slate-500">Message direct</span>
+              <span className="text-sm text-slate-500">chacalfoundation@gmail.com</span>
             </a>
           </div>
         </div>
@@ -1044,14 +1304,15 @@ export default function FondationChacalUnifie() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 lg:gap-16 mb-12 md:mb-16">
             <div className="sm:col-span-2 lg:col-span-1">
               <div className="flex items-center gap-3 mb-4 md:mb-6">
-                <img src="/logo.png" alt="Logo Fondation Le Chacal" className="h-10 w-auto object-contain opacity-90" />
+                <img src="/logo.png" alt="Chacal Foundation Logo" className="h-10 w-auto object-contain opacity-90" />
                 <h2 className="text-xl font-bold text-white">
-                  FONDATION <span className="text-amber-500">LE CHACAL</span>
+                  <span className="text-amber-500">CHACAL</span> FOUNDATION
                 </h2>
               </div>
-              <p className="max-w-sm text-base md:text-lg leading-relaxed text-slate-400 mb-6">
-                Soutenue par la marque LE CHACAL. Engagés pour la santé et la dignité des personnes du troisième âge au Cameroun.
+              <p className="max-w-sm text-base md:text-lg leading-relaxed text-slate-400 mb-4">
+                Committed to health and dignity for the elderly in Cameroon and beyond.
               </p>
+              <p className="text-amber-400 italic text-sm mb-6">"Just one gesture of love is enough for them."</p>
               <div className="flex gap-3 md:gap-4">
                 {[Facebook, Twitter, Instagram].map((Icon, i) => (
                   <a 
@@ -1068,10 +1329,12 @@ export default function FondationChacalUnifie() {
             <div>
               <h4 className="text-white font-bold mb-4 md:mb-6 uppercase tracking-widest text-xs md:text-sm">Navigation</h4>
               <ul className="space-y-3 md:space-y-4">
-                <li><a href="#missions" className="text-sm md:text-base hover:text-amber-500 transition-colors">Nos Missions</a></li>
-                <li><a href="#projets" className="text-sm md:text-base hover:text-amber-500 transition-colors">Nos Projets</a></li>
-                <li><a href="#actualites" className="text-sm md:text-base hover:text-amber-500 transition-colors">Actualités</a></li>
-                <li><a href="#impact" className="text-sm md:text-base hover:text-amber-500 transition-colors">Notre Impact</a></li>
+                <li><a href="#preface" className="text-sm md:text-base hover:text-amber-500 transition-colors">Preface</a></li>
+                <li><a href="#mission" className="text-sm md:text-base hover:text-amber-500 transition-colors">Our Mission</a></li>
+                <li><a href="#values" className="text-sm md:text-base hover:text-amber-500 transition-colors">Our Values</a></li>
+                <li><a href="#equipe" className="text-sm md:text-base hover:text-amber-500 transition-colors">Our Team</a></li>
+                <li><a href="#galerie" className="text-sm md:text-base hover:text-amber-500 transition-colors">Gallery</a></li>
+                <li><a href="#impact" className="text-sm md:text-base hover:text-amber-500 transition-colors">Our Impact</a></li>
               </ul>
             </div>
 
@@ -1080,16 +1343,24 @@ export default function FondationChacalUnifie() {
               <div className="space-y-3 md:space-y-4 text-white/60 text-sm md:text-base">
                 <p className="flex items-start gap-3">
                   <MapPin size={16} className="text-amber-500 mt-1 flex-shrink-0" />
-                  <span>Douala, Cameroun</span>
+                  <span>Douala, Cameroon</span>
                 </p>
                 <p className="flex items-start gap-3">
                   <Phone size={16} className="text-amber-500 mt-1 flex-shrink-0" />
-                  <a href="tel:+237XXXXXXXXX" className="hover:text-amber-500 transition-colors">+237 6XX XXX XXX</a>
+                  <a href="tel:+13019929492" className="hover:text-amber-500 transition-colors">+1 301-992-9492</a>
+                </p>
+                <p className="flex items-start gap-3">
+                  <Phone size={16} className="text-amber-500 mt-1 flex-shrink-0" />
+                  <a href="tel:+12024769754" className="hover:text-amber-500 transition-colors">+1 202 476 9754</a>
+                </p>
+                <p className="flex items-start gap-3">
+                  <Phone size={16} className="text-amber-500 mt-1 flex-shrink-0" />
+                  <a href="tel:+23797069267" className="hover:text-amber-500 transition-colors">+237 97069267</a>
                 </p>
                 <p className="flex items-start gap-3">
                   <Mail size={16} className="text-amber-500 mt-1 flex-shrink-0" />
-                  <a href="mailto:contact@fondationlechacal.org" className="hover:text-amber-500 transition-colors break-all">
-                    contact@fondationlechacal.org
+                  <a href="mailto:chacalfoundation@gmail.com" className="hover:text-amber-500 transition-colors break-all">
+                    chacalfoundation@gmail.com
                   </a>
                 </p>
               </div>
@@ -1097,11 +1368,11 @@ export default function FondationChacalUnifie() {
 
             <div>
               <h4 className="text-white font-bold mb-4 md:mb-6 uppercase tracking-widest text-xs md:text-sm">Newsletter</h4>
-              <p className="text-sm text-white/60 mb-4">Restez informé de nos actions</p>
+              <p className="text-sm text-white/60 mb-4">Stay informed about our actions</p>
               <div className="flex flex-col sm:flex-row gap-2">
                 <input 
                   type="email" 
-                  placeholder="Votre email" 
+                  placeholder="Your email" 
                   className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-amber-500 transition-colors"
                 />
                 <button className="bg-amber-500 p-2.5 rounded-lg hover:bg-amber-600 transition-colors flex items-center justify-center">
@@ -1114,19 +1385,19 @@ export default function FondationChacalUnifie() {
           <div className="pt-8 md:pt-12 border-t border-white/5">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs md:text-sm text-center md:text-left">
               <p className="text-white/60">
-                © 2026 Fondation LE CHACAL • Basée aux États-Unis • Soutenue par la marque LE CHACAL
+                © 2026 CHACAL FOUNDATION • Based in the United States • Serving Cameroon & Africa
               </p>
               <div className="flex flex-wrap justify-center md:justify-end gap-4">
-                <a href="#" className="text-white/60 hover:text-amber-500 transition-colors">Mentions légales</a>
+                <a href="#" className="text-white/60 hover:text-amber-500 transition-colors">Legal Notice</a>
                 <span className="text-white/20">•</span>
-                <a href="#" className="text-white/60 hover:text-amber-500 transition-colors">Politique de confidentialité</a>
+                <a href="#" className="text-white/60 hover:text-amber-500 transition-colors">Privacy Policy</a>
               </div>
             </div>
           </div>
         </div>
       </footer>
 
-      {/* MODAL VIDÉO */}
+      {/* VIDEO MODAL */}
       <AnimatePresence>
         {showVideoModal && (
           <motion.div
@@ -1157,7 +1428,7 @@ export default function FondationChacalUnifie() {
         )}
       </AnimatePresence>
 
-      {/* MODAL FORMULAIRE */}
+      {/* FORM MODAL */}
       <AnimatePresence>
         {showFormModal && (
           <motion.div
@@ -1175,7 +1446,7 @@ export default function FondationChacalUnifie() {
               className="bg-white rounded-3xl p-8 md:p-12 w-full max-w-md shadow-2xl"
             >
               <div className="flex justify-between items-center mb-6">
-                <h3 className="text-2xl font-bold text-blue-900">Rejoindre la Cause</h3>
+                <h3 className="text-2xl font-bold text-blue-900">Join the Cause</h3>
                 <button onClick={() => setShowFormModal(false)} className="text-slate-400 hover:text-slate-600">
                   <X size={24} />
                 </button>
@@ -1184,7 +1455,7 @@ export default function FondationChacalUnifie() {
               <form onSubmit={handleFormSubmit} className="space-y-4">
                 <input
                   type="text"
-                  placeholder="Nom complet"
+                  placeholder="Full name"
                   required
                   value={formData.nom}
                   onChange={(e) => setFormData({...formData, nom: e.target.value})}
@@ -1200,14 +1471,14 @@ export default function FondationChacalUnifie() {
                 />
                 <input
                   type="tel"
-                  placeholder="Téléphone"
+                  placeholder="Phone"
                   required
                   value={formData.phone}
                   onChange={(e) => setFormData({...formData, phone: e.target.value})}
                   className="w-full bg-slate-50 border-none rounded-xl p-4 focus:ring-2 ring-blue-900"
                 />
                 <textarea
-                  placeholder="Message (optionnel)"
+                  placeholder="Message (optional)"
                   rows={3}
                   value={formData.message}
                   onChange={(e) => setFormData({...formData, message: e.target.value})}
@@ -1217,7 +1488,7 @@ export default function FondationChacalUnifie() {
                   type="submit"
                   className="w-full bg-amber-500 text-white py-4 rounded-2xl font-bold hover:bg-amber-600 transition shadow-lg"
                 >
-                  Envoyer via WhatsApp
+                  Send via WhatsApp
                 </button>
               </form>
             </motion.div>
