@@ -319,7 +319,7 @@ export default function FondationChacalUnifie() {
               <div className="relative">
                 <div className="rounded-2xl overflow-hidden shadow-lg">
                   <img 
-                    src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=800&h=600&fit=crop"
+                    src="https://res.cloudinary.com/dkuciagop/image/upload/v1775667520/1_13_yxzht4.jpg"
                     alt="Helping elderly people"
                     className="w-full h-[450px] object-cover grayscale hover:grayscale-0 transition-all duration-500"
                   />
@@ -343,7 +343,7 @@ export default function FondationChacalUnifie() {
             >
               <div className="rounded-2xl overflow-hidden shadow-xl">
                 <img 
-                  src="https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=800&h=600&fit=crop"
+                  src="https://res.cloudinary.com/dkuciagop/image/upload/v1775667782/1_11_o8jwtb.jpg"
                   alt="Medical consultation"
                   className="w-full h-[450px] object-cover"
                 />
@@ -430,7 +430,7 @@ export default function FondationChacalUnifie() {
             >
               <div className="rounded-2xl overflow-hidden shadow-xl">
                 <img 
-                  src="https://images.unsplash.com/photo-1559027615-3e89b2c69f8d?w=800&h=600&fit=crop"
+                  src="https://res.cloudinary.com/dkuciagop/image/upload/v1775667848/1_3_jjh06k.jpg"
                   alt="Elderly person smiling"
                   className="w-full h-[400px] object-cover"
                 />
@@ -460,31 +460,31 @@ export default function FondationChacalUnifie() {
                 { 
                   title: "Humanity", 
                   desc: "Placing people — especially the elderly — at the heart of everything we do.",
-                  image: "https://images.unsplash.com/photo-1582213782179-e0d53f98f3ca?w=600&h=400&fit=crop",
+                  image: "https://res.cloudinary.com/dkuciagop/image/upload/v1775667848/1_3_jjh06k.jpg",
                   align: "left"
                 },
                 { 
                   title: "Solidarity", 
                   desc: "Working together to uplift the most vulnerable in our communities.",
-                  image: "https://images.unsplash.com/photo-1593113630400-ea4288922497?w=600&h=400&fit=crop",
+                  image: "https://res.cloudinary.com/dkuciagop/image/upload/v1775668010/1_8_t3eeus.jpg",
                   align: "right"
                 },
                 { 
                   title: "Integrity", 
                   desc: "Acting with transparency and strong ethical principles at all times.",
-                  image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&h=400&fit=crop",
+                  image: "https://res.cloudinary.com/dkuciagop/image/upload/v1775668037/1_10_tttlfr.jpg",
                   align: "left"
                 },
                 { 
                   title: "Respect", 
                   desc: "Honoring the dignity and life experience of every individual we serve.",
-                  image: "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?w=600&h=400&fit=crop",
+                  image: "https://res.cloudinary.com/dkuciagop/image/upload/v1775667782/1_11_o8jwtb.jpg",
                   align: "right"
                 },
                 { 
                   title: "Commitment", 
                   desc: "Serving with dedication and consistency to create lasting change.",
-                  image: "https://images.unsplash.com/photo-1518623489648-a173ef7824f3?w=600&h=400&fit=crop",
+                  image: "https://res.cloudinary.com/dkuciagop/image/upload/v1775668157/1_12_w5onyo.jpg",
                   align: "left"
                 }
               ].map((value, idx) => (
@@ -530,7 +530,7 @@ export default function FondationChacalUnifie() {
               transition={{ duration: 0.7 }}
             >
               <img 
-                src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=800&h=600&fit=crop"
+                src="https://res.cloudinary.com/dkuciagop/image/upload/v1775668183/1_14_ayvp9g.jpg"
                 alt="Objectives"
                 className="rounded-2xl shadow-xl w-full h-[400px] object-cover"
               />
@@ -667,7 +667,7 @@ export default function FondationChacalUnifie() {
             >
               <div className="relative h-[400px] overflow-hidden">
                 <img 
-                  src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027105/WhatsApp_Image_2026-01-20_at_13.21.39_ri3mn4.jpg"
+                  src="https://res.cloudinary.com/dkuciagop/image/upload/v1775127589/148982837_2819608858258248_7016194942654782949_n_galsoj.jpg"
                   className="w-full h-full object-cover"
                   alt="Rodrigue Wako"
                 />
@@ -724,7 +724,7 @@ export default function FondationChacalUnifie() {
             >
               <div className="relative h-[400px] overflow-hidden">
                 <img 
-                  src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027106/WhatsApp_Image_2026-01-20_at_13.21.43_xktlqo.jpg"
+                  src="https://res.cloudinary.com/dkuciagop/image/upload/v1775667520/1_13_yxzht4.jpg"
                   className="w-full h-full object-cover"
                   alt="Rosine Kwedi"
                 />
