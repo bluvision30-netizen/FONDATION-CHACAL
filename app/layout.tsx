@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import { LanguageProvider } from '@/context/LanguageContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -185,7 +186,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="language" content="fr" />
       </head>
       <body className={`${inter.className} bg-[#FCFAFA] text-[#1A1A1B]`}>
-        {children}
+        <LanguageProvider>
+          {children}
+        </LanguageProvider>
       </body>
     </html>
   );

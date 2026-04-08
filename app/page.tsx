@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'framer-motion';
+import { useLanguage } from '@/context/LanguageContext';
 import { 
   Heart, Users, Star, ArrowUpRight, CheckCircle2, 
   Menu, X, Play, Quote, Globe,
@@ -34,44 +35,74 @@ const itemVariants = {
   }
 };
 
-const NAV_LINKS = [
-  { name: "Foundation", href: "#preface" },
-  { name: "Mission", href: "#mission" },
-  { name: "Values", href: "#values" },
-  { name: "Founders", href: "#equipe" },
-  { name: "Gallery", href: "#galerie" },
-  { name: "Impact", href: "#impact" },
-  { name: "Contact", href: "#contact" },
-];
+// NAV_LINKS is now defined inside the component (dynamic, translated)
 
-const PROJECTS = [
-  {
-    id: "1",
-    title: "Free Medical Consultations",
-    status: "Upcoming",
-    image: "https://res.cloudinary.com/dkuciagop/image/upload/v1769027102/WhatsApp_Image_2026-01-20_at_13.21.35_s6m8at.jpg",
-    collected: 8500,
-    goal: 15000,
-    desc: "Day of free medical consultations on May 23, 2026 at École Publique Newbell Bamiléké, Douala."
-  },
-  {
-    id: "2",
-    title: "Material Donations for Seniors",
-    status: "Ongoing",
-    image: "https://res.cloudinary.com/dkuciagop/image/upload/v1769027104/WhatsApp_Image_2026-01-20_at_13.21.33_fmzfs6.jpg",
-    collected: 4500,
-    goal: 10000,
-    desc: "Distribution of care kits and material assistance to vulnerable elderly people in Douala."
-  }
-];
+// PROJECTS is now defined inside the component (dynamic, translated)
 
-const NEWS = [
-  { date: "24 Dec 2025", title: "Announcement of the 2nd edition of free consultations", cat: "Health" },
-  { date: "15 Dec 2025", title: "Partnership with volunteer physicians", cat: "Partnership" },
-  { date: "10 Dec 2025", title: "Preparation for the May 23, 2026 event", cat: "Event" }
-];
+// NEWS is now defined inside the component (dynamic, translated)
 
 export default function FondationChacalUnifie() {
+  const { language, toggleLanguage } = useLanguage();
+
+  // ── Dynamic translated NAV_LINKS ──────────────────────────────────────
+  const NAV_LINKS = [
+    { name: language === 'en' ? 'Foundation' : 'Fondation', href: '#preface' },
+    { name: language === 'en' ? 'Mission' : 'Mission', href: '#mission' },
+    { name: language === 'en' ? 'Values' : 'Valeurs', href: '#values' },
+    { name: language === 'en' ? 'Founders' : 'Fondateurs', href: '#equipe' },
+    { name: language === 'en' ? 'Gallery' : 'Galerie', href: '#galerie' },
+    { name: language === 'en' ? 'Impact' : 'Impact', href: '#impact' },
+    { name: language === 'en' ? 'Contact' : 'Contact', href: '#contact' },
+  ];
+
+  // ── Dynamic translated PROJECTS ────────────────────────────────────────
+  const PROJECTS = language === 'en' ? [
+    {
+      id: "1",
+      title: "Free Medical Consultations",
+      status: "Upcoming",
+      image: "https://res.cloudinary.com/dkuciagop/image/upload/v1769027102/WhatsApp_Image_2026-01-20_at_13.21.35_s6m8at.jpg",
+      collected: 8500, goal: 15000,
+      desc: "Day of free medical consultations on May 23, 2026 at École Publique Newbell Bamiléké, Douala."
+    },
+    {
+      id: "2",
+      title: "Material Donations for Seniors",
+      status: "Ongoing",
+      image: "https://res.cloudinary.com/dkuciagop/image/upload/v1769027104/WhatsApp_Image_2026-01-20_at_13.21.33_fmzfs6.jpg",
+      collected: 4500, goal: 10000,
+      desc: "Distribution of care kits and material assistance to vulnerable elderly people in Douala."
+    }
+  ] : [
+    {
+      id: "1",
+      title: "Consultations Médicales Gratuites",
+      status: "À venir",
+      image: "https://res.cloudinary.com/dkuciagop/image/upload/v1769027102/WhatsApp_Image_2026-01-20_at_13.21.35_s6m8at.jpg",
+      collected: 8500, goal: 15000,
+      desc: "Journée de consultations médicales gratuites le 23 mai 2026 à l'École Publique Newbell Bamiléké, Douala."
+    },
+    {
+      id: "2",
+      title: "Dons Matériels pour Seniors",
+      status: "En cours",
+      image: "https://res.cloudinary.com/dkuciagop/image/upload/v1769027104/WhatsApp_Image_2026-01-20_at_13.21.33_fmzfs6.jpg",
+      collected: 4500, goal: 10000,
+      desc: "Distribution de kits de soins et d'aide matérielle aux personnes âgées vulnérables de Douala."
+    }
+  ];
+
+  // ── Dynamic translated NEWS ─────────────────────────────────────────────
+  const NEWS = language === 'en' ? [
+    { date: "24 Dec 2025", title: "Announcement of the 2nd edition of free consultations", cat: "Health" },
+    { date: "15 Dec 2025", title: "Partnership with volunteer physicians", cat: "Partnership" },
+    { date: "10 Dec 2025", title: "Preparation for the May 23, 2026 event", cat: "Event" }
+  ] : [
+    { date: "24 Déc 2025", title: "Annonce de la 2ème édition des consultations gratuites", cat: "Santé" },
+    { date: "15 Déc 2025", title: "Partenariat avec des médecins bénévoles", cat: "Partenariat" },
+    { date: "10 Déc 2025", title: "Préparation de l'événement du 23 mai 2026", cat: "Événement" }
+  ];
+
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -143,17 +174,34 @@ export default function FondationChacalUnifie() {
                 {link.name}
               </a>
             ))}
+            {/* Language Toggle */}
+            <button
+              onClick={toggleLanguage}
+              className={`flex items-center gap-1.5 border rounded-full px-3 py-1.5 text-xs font-bold transition-colors ${!isScrolled ? 'text-white/90 border-white/30 hover:border-amber-400 hover:text-amber-400' : 'text-slate-500 border-slate-200 hover:border-amber-400 hover:text-amber-600'}`}
+              title={language === 'en' ? 'Passer en français' : 'Switch to English'}
+            >
+              <Globe size={13} />
+              {language === 'en' ? 'FR' : 'EN'}
+            </button>
             <a href="#dons">
               <button className="bg-amber-500 hover:bg-amber-600 text-white px-6 xl:px-8 py-3 rounded-full transition-transform active:scale-95 shadow-lg shadow-amber-500/20 text-sm">
-                Donate
+                {language === 'en' ? 'Donate' : 'Faire un Don'}
               </button>
             </a>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile: Lang + Menu */}
+          <div className="lg:hidden flex items-center gap-2">
+            <button
+              onClick={toggleLanguage}
+              className={`flex items-center gap-1 border rounded-full px-2.5 py-1.5 text-xs font-bold transition-colors ${!isScrolled ? 'text-white border-white/30' : 'text-blue-900 border-slate-200'}`}
+            >
+              <Globe size={12} />
+              {language === 'en' ? 'FR' : 'EN'}
+            </button>
           <button 
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden p-2 rounded-lg hover:bg-white/10 transition-colors z-[110]"
+            className="p-2 rounded-lg hover:bg-white/10 transition-colors z-[110]"
             aria-label="Toggle menu"
           >
             {isMobileMenuOpen ? (
@@ -162,6 +210,7 @@ export default function FondationChacalUnifie() {
               <Menu className={!isScrolled ? 'text-white' : 'text-blue-900'} size={24} />
             )}
           </button>
+          </div>
         </div>
 
         {/* Mobile Menu */}
@@ -195,7 +244,7 @@ export default function FondationChacalUnifie() {
                     onClick={() => handleMobileNavClick('#dons')}
                     className="w-full bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-full font-bold transition-colors shadow-lg"
                   >
-                    Donate
+                    {language === 'en' ? 'Donate' : 'Faire un Don'}
                   </button>
                 </div>
               </div>
@@ -221,7 +270,7 @@ export default function FondationChacalUnifie() {
             animate={{ opacity: 1, y: 0 }}
             className="inline-block text-amber-400 font-bold tracking-[0.3em] uppercase mb-4 text-sm"
           >
-            Solidarity • Health • Dignity
+            {language === 'en' ? 'Solidarity • Health • Dignity' : 'Solidarité • Santé • Dignité'}
           </motion.span>
           <motion.h1 
             initial={{ opacity: 0, y: 30 }}
@@ -229,7 +278,7 @@ export default function FondationChacalUnifie() {
             transition={{ delay: 0.2 }}
             className="text-5xl md:text-7xl lg:text-8xl font-serif text-white leading-[1.1] mb-6"
           >
-            Health & Dignity <br /> <span className="italic text-amber-200">for our Elders.</span>
+            {language === 'en' ? 'Health & Dignity' : 'Santé & Dignité'} <br /> <span className="italic text-amber-200">{language === 'en' ? 'for our Elders.' : 'pour nos Aînés.'}</span>
           </motion.h1>
           {/* SLOGAN */}
           <motion.p
@@ -238,7 +287,7 @@ export default function FondationChacalUnifie() {
             transition={{ delay: 0.35 }}
             className="text-xl md:text-2xl text-amber-200 italic font-serif mb-10 tracking-wide"
           >
-            "Just one gesture of love is enough for them."
+            {language === 'en' ? '"Just one gesture of love is enough for them."' : '"Juste un geste d\'amour leur suffit."'}
           </motion.p>
           <motion.div 
             initial={{ opacity: 0 }}
@@ -250,7 +299,7 @@ export default function FondationChacalUnifie() {
               onClick={() => setShowFormModal(true)}
               className="group relative bg-white text-blue-900 px-8 md:px-10 py-4 md:py-5 rounded-full font-bold overflow-hidden transition-all"
             >
-              <span className="relative z-10 flex items-center gap-2">Join the Cause <ArrowUpRight size={20}/></span>
+              <span className="relative z-10 flex items-center gap-2">{language === 'en' ? 'Join the Cause' : 'Rejoindre la Cause'} <ArrowUpRight size={20}/></span>
               <div className="absolute inset-0 bg-amber-400 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
             </button>
             <button 
@@ -258,7 +307,7 @@ export default function FondationChacalUnifie() {
               className="flex items-center gap-3 text-white border-b-2 border-white/30 pb-2 hover:border-amber-400 transition-all"
             >
               <div className="w-12 h-12 rounded-full border border-white/50 flex items-center justify-center"><Play size={18} fill="white"/></div>
-              Watch our 2025 action
+              {language === 'en' ? 'Watch our 2025 action' : 'Voir notre action 2025'}
             </button>
           </motion.div>
         </div>
@@ -274,14 +323,14 @@ export default function FondationChacalUnifie() {
               whileInView={{ opacity: 1 }}
               className="text-slate-400 font-bold tracking-[0.4em] uppercase text-xs"
             >
-              Who We Are
+              {language === 'en' ? 'Who We Are' : 'Qui Nous Sommes'}
             </motion.span>
             <motion.h2 
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               className="text-5xl md:text-7xl font-serif mt-4 mb-4 leading-tight text-slate-800"
             >
-              Our <span className="text-slate-400 italic">Preface</span>
+              {language === 'en' ? 'Our' : 'Notre'} <span className="text-slate-400 italic">{language === 'en' ? 'Preface' : 'Préface'}</span>
             </motion.h2>
             <div className="w-24 h-px bg-slate-300 mx-auto mt-4" />
           </div>
@@ -296,15 +345,15 @@ export default function FondationChacalUnifie() {
             >
               <div className="space-y-6">
                 <p className="text-xl leading-relaxed text-slate-600">
-                  In a world where inequalities in access to healthcare, essential resources, and human dignity continue to persist, <strong className="text-slate-800">Chacal Foundation</strong> stands as a committed force dedicated to serving the most vulnerable populations.
+                  {language === 'en' ? <>In a world where inequalities in access to healthcare, essential resources, and human dignity continue to persist, <strong className="text-slate-800">Chacal Foundation</strong> stands as a committed force dedicated to serving the most vulnerable populations.</> : <>Dans un monde où les inégalités d'accès aux soins, aux ressources essentielles et à la dignité humaine persistent, <strong className="text-slate-800">Fondation Chacal</strong> se dresse comme une force engagée au service des populations les plus vulnérables.</>}
                 </p>
                 <p className="text-lg leading-relaxed text-slate-500">
-                  As a non-profit organization, Chacal Foundation operates primarily in underprivileged regions of Africa, with a particular focus on the elderly — individuals who are often overlooked, isolated, and faced with significant challenges related to health, mobility, and living conditions.
+                  {language === 'en' ? 'As a non-profit organization, Chacal Foundation operates primarily in underprivileged regions of Africa, with a particular focus on the elderly — individuals who are often overlooked, isolated, and faced with significant challenges related to health, mobility, and living conditions.' : 'En tant qu\'organisation à but non lucratif, la Fondation Chacal opère principalement dans les régions défavorisées d\'Afrique, avec une attention particulière portée aux personnes âgées — souvent oubliées, isolées et confrontées à d\'importants défis liés à la santé, la mobilité et les conditions de vie.'}
                 </p>
                 <div className="pt-6">
                   <div className="w-16 h-px bg-slate-300 mb-6" />
                   <p className="text-slate-400 italic text-lg">
-                    "Serving with dignity, acting with compassion."
+                    {language === 'en' ? '"Serving with dignity, acting with compassion."' : '"Servir avec dignité, agir avec compassion."'}
                   </p>
                 </div>
               </div>
@@ -357,21 +406,26 @@ export default function FondationChacalUnifie() {
               transition={{ duration: 0.7 }}
               className="space-y-6"
             >
-              <span className="text-slate-400 font-bold tracking-[0.3em] uppercase text-xs">Our Purpose</span>
+              <span className="text-slate-400 font-bold tracking-[0.3em] uppercase text-xs">{language === 'en' ? 'Our Purpose' : 'Notre Vocation'}</span>
               <h2 className="text-4xl md:text-5xl font-serif text-slate-800 leading-tight">
-                Our <span className="text-slate-400 italic">Mission</span>
+                {language === 'en' ? 'Our' : 'Notre'} <span className="text-slate-400 italic">{language === 'en' ? 'Mission' : 'Mission'}</span>
               </h2>
               <p className="text-slate-600 text-lg leading-relaxed">
-                Our mission is to provide practical and immediate support to communities in need, with special attention to the well-being of older adults.
+                {language === 'en' ? 'Our mission is to provide practical and immediate support to communities in need, with special attention to the well-being of older adults.' : 'Notre mission est d\'apporter un soutien pratique et immédiat aux communautés dans le besoin, avec une attention particulière au bien-être des personnes âgées.'}
               </p>
               
               <div className="space-y-3 mt-6">
-                {[
+                {(language === 'en' ? [
                   "Free medical consultation campaigns",
                   "Distribution of essential medications",
                   "Provision of medical equipment (wheelchairs, walking canes, knee supports…)",
                   "Food assistance for the most disadvantaged populations"
-                ].map((item, i) => (
+                ] : [
+                  "Campagnes de consultations médicales gratuites",
+                  "Distribution de médicaments essentiels",
+                  "Fourniture d'équipements médicaux (fauteuils roulants, cannes, genouillères…)",
+                  "Aide alimentaire pour les populations les plus défavorisées"
+                ]).map((item, i) => (
                   <div key={i} className="flex items-center gap-3">
                     <div className="w-5 h-5 rounded-full bg-slate-300 flex items-center justify-center shrink-0">
                       <div className="w-2 h-2 rounded-full bg-white" />
@@ -382,7 +436,7 @@ export default function FondationChacalUnifie() {
               </div>
               
               <p className="text-slate-500 italic border-l-2 border-slate-300 pl-4 mt-6">
-                We act with compassion to restore dignity, independence, and comfort to those who need it most.
+                {language === 'en' ? 'We act with compassion to restore dignity, independence, and comfort to those who need it most.' : 'Nous agissons avec compassion pour restaurer la dignité, l\'indépendance et le confort de ceux qui en ont le plus besoin.'}
               </p>
             </motion.div>
           </div>
@@ -399,24 +453,24 @@ export default function FondationChacalUnifie() {
               transition={{ duration: 0.7 }}
               className="order-2 lg:order-1"
             >
-              <span className="text-slate-400 font-bold tracking-[0.3em] uppercase text-xs">Our Aspiration</span>
+              <span className="text-slate-400 font-bold tracking-[0.3em] uppercase text-xs">{language === 'en' ? 'Our Aspiration' : 'Notre Aspiration'}</span>
               <h2 className="text-4xl md:text-5xl font-serif text-slate-800 leading-tight mt-2 mb-6">
-                Our <span className="text-slate-400 italic">Vision</span>
+                {language === 'en' ? 'Our' : 'Notre'} <span className="text-slate-400 italic">{language === 'en' ? 'Vision' : 'Vision'}</span>
               </h2>
               <div className="space-y-6">
                 <p className="text-slate-600 text-lg leading-relaxed">
-                  We envision a world where every elderly person can age with dignity, surrounded by care, respect, and support.
+                  {language === 'en' ? 'We envision a world where every elderly person can age with dignity, surrounded by care, respect, and support.' : 'Nous envisageons un monde où chaque personne âgée peut vieillir dans la dignité, entourée de soins, de respect et de soutien.'}
                 </p>
                 <div className="bg-slate-50 p-8 rounded-2xl">
                   <p className="text-slate-600 text-lg leading-relaxed italic">
-                    "A world where the value and wisdom of older generations are recognized and protected — a more compassionate and united society."
+                    {language === 'en' ? '"A world where the value and wisdom of older generations are recognized and protected — a more compassionate and united society."' : '"Un monde où la valeur et la sagesse des générations aînées sont reconnues et protégées — une société plus compatissante et unie."'}
                   </p>
                 </div>
                 <div className="flex items-center gap-4 pt-4">
                   <Globe className="text-slate-400" size={40} />
                   <div>
-                    <p className="font-medium text-slate-800">Global Impact</p>
-                    <p className="text-slate-400 text-sm">Creating change across communities worldwide</p>
+                    <p className="font-medium text-slate-800">{language === 'en' ? 'Global Impact' : 'Impact Mondial'}</p>
+                    <p className="text-slate-400 text-sm">{language === 'en' ? 'Creating change across communities worldwide' : 'Créer un changement dans les communautés du monde entier'}</p>
                   </div>
                 </div>
               </div>
@@ -444,11 +498,11 @@ export default function FondationChacalUnifie() {
       <section id="values" className="py-32 bg-slate-50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <span className="text-slate-400 font-bold tracking-[0.3em] uppercase text-xs">Our Principles</span>
+            <span className="text-slate-400 font-bold tracking-[0.3em] uppercase text-xs">{language === 'en' ? 'Our Principles' : 'Nos Principes'}</span>
             <h2 className="text-4xl md:text-5xl font-serif text-slate-800 mt-4">
-              What We Stand <span className="text-slate-400 italic">For</span>
+              {language === 'en' ? 'What We Stand' : 'Ce en Quoi'} <span className="text-slate-400 italic">{language === 'en' ? 'For' : 'Nous Croyons'}</span>
             </h2>
-            <p className="text-slate-500 max-w-2xl mx-auto mt-4">Core values that guide every action we take</p>
+            <p className="text-slate-500 max-w-2xl mx-auto mt-4">{language === 'en' ? 'Core values that guide every action we take' : 'Les valeurs fondamentales qui guident chacune de nos actions'}</p>
           </div>
 
           <div className="relative">
@@ -457,36 +511,11 @@ export default function FondationChacalUnifie() {
             
             <div className="space-y-24">
               {[
-                { 
-                  title: "Humanity", 
-                  desc: "Placing people — especially the elderly — at the heart of everything we do.",
-                  image: "https://res.cloudinary.com/dkuciagop/image/upload/v1775667848/1_3_jjh06k.jpg",
-                  align: "left"
-                },
-                { 
-                  title: "Solidarity", 
-                  desc: "Working together to uplift the most vulnerable in our communities.",
-                  image: "https://res.cloudinary.com/dkuciagop/image/upload/v1775668010/1_8_t3eeus.jpg",
-                  align: "right"
-                },
-                { 
-                  title: "Integrity", 
-                  desc: "Acting with transparency and strong ethical principles at all times.",
-                  image: "https://res.cloudinary.com/dkuciagop/image/upload/v1775668037/1_10_tttlfr.jpg",
-                  align: "left"
-                },
-                { 
-                  title: "Respect", 
-                  desc: "Honoring the dignity and life experience of every individual we serve.",
-                  image: "https://res.cloudinary.com/dkuciagop/image/upload/v1775667782/1_11_o8jwtb.jpg",
-                  align: "right"
-                },
-                { 
-                  title: "Commitment", 
-                  desc: "Serving with dedication and consistency to create lasting change.",
-                  image: "https://res.cloudinary.com/dkuciagop/image/upload/v1775668157/1_12_w5onyo.jpg",
-                  align: "left"
-                }
+                { title: "Humanity", desc: "Placing people — especially the elderly — at the heart of everything we do.", image: "https://res.cloudinary.com/dkuciagop/image/upload/v1775667848/1_3_jjh06k.jpg", align: "left" },
+                { title: "Solidarity", desc: "Working together to uplift the most vulnerable in our communities.", image: "https://res.cloudinary.com/dkuciagop/image/upload/v1775668010/1_8_t3eeus.jpg", align: "right" },
+                { title: "Integrity", desc: "Acting with transparency and strong ethical principles at all times.", image: "https://res.cloudinary.com/dkuciagop/image/upload/v1775668037/1_10_tttlfr.jpg", align: "left" },
+                { title: "Respect", desc: "Honoring the dignity and life experience of every individual we serve.", image: "https://res.cloudinary.com/dkuciagop/image/upload/v1775667782/1_11_o8jwtb.jpg", align: "right" },
+                { title: "Commitment", desc: "Serving with dedication and consistency to create lasting change.", image: "https://res.cloudinary.com/dkuciagop/image/upload/v1775668157/1_12_w5onyo.jpg", align: "left" }
               ].map((value, idx) => (
                 <motion.div
                   key={idx}
@@ -541,18 +570,24 @@ export default function FondationChacalUnifie() {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.7 }}
             >
-              <span className="text-slate-400 font-bold tracking-[0.3em] uppercase text-xs">Our Goals</span>
+              <span className="text-slate-400 font-bold tracking-[0.3em] uppercase text-xs">{language === 'en' ? 'Our Goals' : 'Nos Buts'}</span>
               <h2 className="text-4xl md:text-5xl font-serif text-slate-800 mt-2 mb-8">
-                Our <span className="text-slate-400 italic">Objectives</span>
+                {language === 'en' ? 'Our' : 'Nos'} <span className="text-slate-400 italic">{language === 'en' ? 'Objectives' : 'Objectifs'}</span>
               </h2>
               <div className="space-y-4">
-                {[
+                {(language === 'en' ? [
                   "Improve access to healthcare for elderly individuals in underserved areas",
                   "Reduce isolation and vulnerability among older adults",
                   "Promote independence through access to appropriate medical equipment",
                   "Combat food insecurity in vulnerable communities",
                   "Develop sustainable initiatives with local and international partners"
-                ].map((item, i) => (
+                ] : [
+                  "Améliorer l'accès aux soins pour les personnes âgées dans les zones défavorisées",
+                  "Réduire l'isolement et la vulnérabilité des personnes âgées",
+                  "Promouvoir l'indépendance grâce à l'accès à des équipements médicaux adaptés",
+                  "Lutter contre l'insécurité alimentaire dans les communautés vulnérables",
+                  "Développer des initiatives durables avec des partenaires locaux et internationaux"
+                ]).map((item, i) => (
                   <div key={i} className="flex items-start gap-4 py-3 border-b border-slate-100">
                     <span className="text-slate-400 font-serif text-xl">{String(i + 1).padStart(2, '0')}.</span>
                     <p className="text-slate-600">{item}</p>
@@ -573,13 +608,13 @@ export default function FondationChacalUnifie() {
             transition={{ duration: 0.8 }}
             className="space-y-6"
           >
-            <h3 className="text-4xl md:text-5xl font-serif font-light">Our Commitment</h3>
+            <h3 className="text-4xl md:text-5xl font-serif font-light">{language === 'en' ? 'Our Commitment' : 'Notre Engagement'}</h3>
             <div className="w-16 h-px bg-slate-500 mx-auto" />
             <p className="text-slate-300 text-xl leading-relaxed max-w-3xl mx-auto">
-              Through every action we take, we are committed to compassion, responsibility, and meaningful impact. We firmly believe that caring for our elders is a reflection of our shared humanity.
+              {language === 'en' ? 'Through every action we take, we are committed to compassion, responsibility, and meaningful impact. We firmly believe that caring for our elders is a reflection of our shared humanity.' : 'À travers chaque action que nous menons, nous nous engageons envers la compassion, la responsabilité et un impact significatif. Nous croyons fermement que prendre soin de nos aînés est le reflet de notre humanité partagée.'}
             </p>
             <p className="text-slate-400 text-lg italic max-w-2xl mx-auto">
-              Chacal Foundation is more than an organization — it is a movement of compassion, a commitment to dignity, and a promise of hope.
+              {language === 'en' ? 'Chacal Foundation is more than an organization — it is a movement of compassion, a commitment to dignity, and a promise of hope.' : 'La Fondation Chacal est plus qu\'une organisation — c\'est un mouvement de compassion, un engagement envers la dignité, et une promesse d\'espoir.'}
             </p>
           </motion.div>
         </div>
@@ -589,9 +624,9 @@ export default function FondationChacalUnifie() {
       <section className="py-32 bg-white">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-16">
-            <span className="text-slate-400 font-bold tracking-[0.4em] uppercase text-xs">The Origin</span>
+            <span className="text-slate-400 font-bold tracking-[0.4em] uppercase text-xs">{language === 'en' ? 'The Origin' : 'L\'Origine'}</span>
             <h2 className="text-4xl md:text-5xl font-serif text-slate-800 mt-4 leading-tight">
-              The Story Behind<br /><span className="text-slate-400 italic">Chacal Foundation</span>
+              {language === 'en' ? 'The Story Behind' : 'L\'Histoire de la Création de'}<br /><span className="text-slate-400 italic">Chacal Foundation</span>
             </h2>
             <div className="w-16 h-px bg-slate-300 mx-auto mt-6" />
           </div>
@@ -611,7 +646,7 @@ export default function FondationChacalUnifie() {
               </div>
               <div className="mt-6 text-center lg:text-left">
                 <p className="text-slate-500 text-sm tracking-wide">New York → Maryland, United States</p>
-                <p className="text-slate-400 text-xs mt-1">A Dream Born in Exile</p>
+                <p className="text-slate-400 text-xs mt-1">{language === 'en' ? 'A Dream Born in Exile' : 'Un Rêve Né en Exil'}</p>
               </div>
             </motion.div>
 
@@ -622,21 +657,21 @@ export default function FondationChacalUnifie() {
               className="space-y-6"
             >
               <p className="text-slate-600 leading-relaxed text-lg">
-                While living in exile in the United States, <strong className="text-slate-800">Rodrigue Wako</strong> never forgot his deep dream of creating a foundation dedicated to helping the elderly. Despite the distance from his homeland, this vision remained alive within him — shaped by his values, life experiences, and strong connection to his roots.
+                {language === 'en' ? <>While living in exile in the United States, <strong className="text-slate-800">Rodrigue Wako</strong> never forgot his deep dream of creating a foundation dedicated to helping the elderly. Despite the distance from his homeland, this vision remained alive within him.</> : <>En vivant en exil aux États-Unis, <strong className="text-slate-800">Rodrigue Wako</strong> n'a jamais oublié son profond rêve de créer une fondation dédiée à aider les personnes âgées. Malgré la distance, cette vision est restée vivante en lui.</> }
               </p>
               <p className="text-slate-600 leading-relaxed text-lg">
-                It was during a return trip from New York to Maryland that Rodrigue shared this vision with <strong className="text-slate-800">Rosine Kwedi</strong>. He opened up about a dream he had carried for years: to support elderly individuals who are often forgotten later in life, despite the sacrifices they made for younger generations.
+                {language === 'en' ? <>It was during a return trip from New York to Maryland that Rodrigue shared this vision with <strong className="text-slate-800">Rosine Kwedi</strong>. He opened up about a dream he had carried for years: to support elderly individuals who are often forgotten.</> : <>C'est lors d'un trajet de New York vers le Maryland que Rodrigue a partagé cette vision avec <strong className="text-slate-800">Rosine Kwedi</strong>. Il lui a confié un rêve porté depuis des années : soutenir les personnes âgées souvent oubliées.</> }
               </p>
               <blockquote className="border-l-2 border-slate-300 pl-6 italic text-slate-500 text-lg">
-                "Although they did not have all the necessary resources at the beginning, they chose to move forward, firmly believing that every action, no matter how small, has value."
+                {language === 'en' ? '"Although they did not have all the necessary resources at the beginning, they chose to move forward, firmly believing that every action, no matter how small, has value."' : '"Bien qu\'ils n\'aient pas eu toutes les ressources nécessaires au début, ils ont choisi d\'avancer, convaincus que chaque action, aussi petite soit-elle, a de la valeur."'}
               </blockquote>
               <p className="text-slate-600 leading-relaxed text-lg">
-                Moved by the sincerity and humanity of this vision, Rosine immediately embraced the idea. Very quickly, they found themselves united by a shared conviction — to take action without waiting for perfect conditions.
+                {language === 'en' ? 'Moved by the sincerity and humanity of this vision, Rosine immediately embraced the idea. Very quickly, they found themselves united by a shared conviction — to take action without waiting for perfect conditions.' : 'Touchée par la sincérité et l\'humanité de cette vision, Rosine a immédiatement adhéré à l\'idée. Très vite, ils se sont retrouvés unis par une conviction commune — agir sans attendre des conditions parfaites.'}
               </p>
               <div className="pt-4">
                 <div className="inline-block px-4 py-2 bg-slate-100 rounded-full">
                   <p className="text-slate-600 text-sm">
-                    <strong className="text-slate-800">Founded in 2023</strong> — Serving elderly individuals locally and internationally
+                    <strong className="text-slate-800">{language === 'en' ? 'Founded in 2023' : 'Fondée en 2023'}</strong> — {language === 'en' ? 'Serving elderly individuals locally and internationally' : 'Au service des personnes âgées, localement et internationalement'}
                   </p>
                 </div>
               </div>
@@ -649,11 +684,11 @@ export default function FondationChacalUnifie() {
       <section id="equipe" className="py-32 bg-slate-50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <span className="text-slate-400 font-bold tracking-[0.4em] uppercase text-xs">Leadership</span>
+            <span className="text-slate-400 font-bold tracking-[0.4em] uppercase text-xs">{language === 'en' ? 'Leadership' : 'Direction'}</span>
             <h2 className="text-5xl md:text-6xl font-serif text-slate-800 mt-4 mb-2">
-              Our <span className="text-slate-400 italic">Founders</span>
+              {language === 'en' ? 'Our' : 'Nos'} <span className="text-slate-400 italic">{language === 'en' ? 'Founders' : 'Fondateurs'}</span>
             </h2>
-            <p className="text-slate-500 max-w-xl mx-auto">Driven by compassion, united by a shared vision of dignity for the elderly.</p>
+            <p className="text-slate-500 max-w-xl mx-auto">{language === 'en' ? 'Driven by compassion, united by a shared vision of dignity for the elderly.' : 'Portés par la compassion, unis par une vision commune de dignité pour les aînés.'}</p>
             <div className="w-16 h-px bg-slate-300 mx-auto mt-6" />
           </div>
 
@@ -780,24 +815,27 @@ export default function FondationChacalUnifie() {
         <div className="grid lg:grid-cols-2 gap-20 items-end mb-24">
           <div>
             <h2 className="text-amber-600 font-bold mb-4 flex items-center gap-2 uppercase tracking-tighter">
-              <div className="w-10 h-[2px] bg-amber-600" /> Our Fields of Action
+              <div className="w-10 h-[2px] bg-amber-600" /> {language === 'en' ? 'Our Fields of Action' : 'Nos Champs d\'Action'}
             </h2>
             <p className="text-4xl md:text-5xl font-serif text-blue-900 leading-tight">
-              A holistic approach to <span className="text-amber-700">senior well-being.</span>
+              {language === 'en' ? 'A holistic approach to' : 'Une approche globale pour le'} <span className="text-amber-700">{language === 'en' ? 'senior well-being.' : 'bien-être des seniors.'}</span>
             </p>
           </div>
           <p className="text-slate-500 text-lg leading-relaxed max-w-md">
-            Driven by a son of the land, our foundation carries out concrete health and solidarity actions 
-            for the most vulnerable elderly people in Cameroon.
+            {language === 'en' ? 'Driven by dedicated individuals, our foundation carries out concrete health and solidarity actions for the most vulnerable elderly people in Cameroon.' : 'Portée par des personnes engagées, notre fondation mène des actions concrètes de santé et de solidarité en faveur des personnes âgées les plus vulnérables au Cameroun.'}
           </p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
-          {[
+          {(language === 'en' ? [
             { title: "Medical Consultations", img: "https://res.cloudinary.com/dkuciagop/image/upload/v1769027104/WhatsApp_Image_2026-01-20_at_13.21.38_b6wev3.jpg" },
             { title: "Prevention & Advice", img: "https://res.cloudinary.com/dkuciagop/image/upload/v1769027105/WhatsApp_Image_2026-01-20_at_13.21.41_xop86n.jpg" },
             { title: "Material Support", img: "https://res.cloudinary.com/dkuciagop/image/upload/v1769027102/WhatsApp_Image_2026-01-20_at_13.21.35_s6m8at.jpg" }
-          ].map((action, i) => (
+          ] : [
+            { title: "Consultations Médicales", img: "https://res.cloudinary.com/dkuciagop/image/upload/v1769027104/WhatsApp_Image_2026-01-20_at_13.21.38_b6wev3.jpg" },
+            { title: "Prévention & Conseils", img: "https://res.cloudinary.com/dkuciagop/image/upload/v1769027105/WhatsApp_Image_2026-01-20_at_13.21.41_xop86n.jpg" },
+            { title: "Soutien Matériel", img: "https://res.cloudinary.com/dkuciagop/image/upload/v1769027102/WhatsApp_Image_2026-01-20_at_13.21.35_s6m8at.jpg" }
+          ]).map((action, i) => (
             <motion.div 
               key={i}
               whileHover={{ y: -15 }}
@@ -808,9 +846,7 @@ export default function FondationChacalUnifie() {
               <div className="absolute bottom-10 left-10 right-10">
                 <h3 className="text-2xl font-bold text-white mb-2">{action.title}</h3>
                 <p className="text-white/70 text-sm mb-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                  {i === 0 && "General and specialized consultations by volunteer physicians."}
-                  {i === 1 && "Practical advice on prevention and care adapted to seniors."}
-                  {i === 2 && "Distribution of kits and personalized accompaniment."}
+                  {language === 'en' ? (i === 0 ? 'General and specialized consultations by volunteer physicians.' : i === 1 ? 'Practical advice on prevention and care adapted to seniors.' : 'Distribution of kits and personalized accompaniment.') : (i === 0 ? 'Consultations générales et spécialisées par des médecins bénévoles.' : i === 1 ? 'Conseils pratiques en matière de prévention et de soins adaptés.' : 'Distribution de kits de soins et accompagnement personnalisé.')}
                 </p>
                 <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center group-hover:bg-amber-500 transition-colors">
                   <ArrowUpRight className="text-blue-900 group-hover:text-white" />
@@ -825,13 +861,13 @@ export default function FondationChacalUnifie() {
       <section className="py-24 px-6 max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
           <div className="max-w-2xl">
-            <span className="text-amber-600 font-black tracking-[0.2em] uppercase text-xs">Our Visual Impact</span>
+            <span className="text-amber-600 font-black tracking-[0.2em] uppercase text-xs">{language === 'en' ? 'Our Visual Impact' : 'Notre Impact Visuel'}</span>
             <h2 className="text-5xl md:text-6xl font-serif text-blue-950 mt-4 leading-[1.1]">
-              Our actions that <span className="italic text-slate-400 font-light">change lives.</span>
+              {language === 'en' ? 'Our actions that' : 'Nos actions qui'} <span className="italic text-slate-400 font-light">{language === 'en' ? 'change lives.' : 'changent des vies.'}</span>
             </h2>
           </div>
           <button className="flex items-center gap-2 font-bold text-blue-900 group">
-            View full album <ArrowRight className="group-hover:translate-x-2 transition-transform" />
+            {language === 'en' ? 'View full album' : 'Voir tout l\'album'} <ArrowRight className="group-hover:translate-x-2 transition-transform" />
           </button>
         </div>
 
@@ -841,7 +877,7 @@ export default function FondationChacalUnifie() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
             <div className="absolute bottom-10 left-10 text-white">
               <span className="bg-white/20 backdrop-blur-md px-4 py-1 rounded-full text-xs uppercase mb-4 inline-block">May 2025</span>
-              <h3 className="text-3xl font-bold">Free medical consultations in Douala</h3>
+              <h3 className="text-3xl font-bold">{language === 'en' ? 'Free medical consultations in Douala' : 'Consultations médicales gratuites à Douala'}</h3>
             </div>
           </div>
           <div className="md:col-span-4 grid grid-rows-2 gap-6">
@@ -850,7 +886,7 @@ export default function FondationChacalUnifie() {
               <div className="absolute inset-0 bg-blue-900/20 group-hover:bg-transparent transition-colors" />
             </div>
             <div className="relative rounded-[2.5rem] overflow-hidden group bg-amber-500 flex items-center justify-center p-10 text-center">
-              <p className="text-2xl font-serif text-white italic">"Just one gesture of love is enough for them."</p>
+              <p className="text-2xl font-serif text-white italic">{language === 'en' ? '"Just one gesture of love is enough for them."' : '"Juste un geste d\'amour leur suffit."'}</p>
             </div>
           </div>
         </div>
@@ -859,12 +895,12 @@ export default function FondationChacalUnifie() {
       {/* SECTION COMPLETED PROJECTS */}
       <section className="py-32 px-6 max-w-7xl mx-auto">
         <div className="text-center mb-20">
-          <span className="text-amber-600 font-black tracking-[0.3em] uppercase text-xs">Our Legacy</span>
+          <span className="text-amber-600 font-black tracking-[0.3em] uppercase text-xs">{language === 'en' ? 'Our Legacy' : 'Notre Héritage'}</span>
           <h2 className="text-5xl font-serif text-blue-950 mt-6 mb-4">
-            Completed <span className="text-amber-700">Actions</span>
+            {language === 'en' ? 'Completed' : 'Actions'} <span className="text-amber-700">{language === 'en' ? 'Actions' : 'Réalisées'}</span>
           </h2>
           <p className="text-slate-500 max-w-2xl mx-auto text-lg">
-            Discover our concrete achievements that have transformed the lives of hundreds of beneficiaries.
+            {language === 'en' ? 'Discover our concrete achievements that have transformed the lives of hundreds of beneficiaries.' : 'Découvrez nos réalisations concrètes qui ont transformé la vie de centaines de bénéficiaires.'}
           </p>
         </div>
 
@@ -878,7 +914,7 @@ export default function FondationChacalUnifie() {
                 alt="Consultations 2025"
               />
               <div className="absolute top-4 right-4 bg-emerald-500 text-white px-4 py-1 rounded-full text-xs font-bold uppercase">
-                Completed
+                {language === 'en' ? 'Completed' : 'Réalisé'}
               </div>
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6">
                 <span className="text-white text-sm font-medium">May 2025</span>
@@ -886,22 +922,22 @@ export default function FondationChacalUnifie() {
             </div>
             <div className="p-8">
               <h3 className="text-2xl font-bold text-blue-900 mb-3 group-hover:text-amber-600 transition-colors">
-                1st Edition Free Consultations
+                {language === 'en' ? '1st Edition Free Consultations' : '1ère Édition Consultations Gratuites'}
               </h3>
               <p className="text-slate-500 mb-6">
-                First free medical consultation campaign for 200+ seniors in Douala.
+                {language === 'en' ? 'First free medical consultation campaign for 200+ seniors in Douala.' : 'Première campagne de consultations médicales gratuites pour 200+ seniors à Douala.'}
               </p>
               <div className="flex justify-between items-center">
                 <div>
-                  <p className="text-sm text-slate-400">Beneficiaries</p>
+                  <p className="text-sm text-slate-400">{language === 'en' ? 'Beneficiaries' : 'Bénéficiaires'}</p>
                   <p className="text-lg font-bold text-blue-900">200+</p>
                 </div>
                 <div>
-                  <p className="text-sm text-slate-400">Consultations</p>
+                  <p className="text-sm text-slate-400">{language === 'en' ? 'Consultations' : 'Consultations'}</p>
                   <p className="text-lg font-bold text-amber-600">250+</p>
                 </div>
                 <button className="text-blue-900 hover:text-amber-600 font-medium flex items-center gap-2">
-                  Details <ArrowRight size={16} />
+                  {language === 'en' ? 'Details' : 'Détails'} <ArrowRight size={16} />
                 </button>
               </div>
             </div>
@@ -916,7 +952,7 @@ export default function FondationChacalUnifie() {
                 alt="Material donations"
               />
               <div className="absolute top-4 right-4 bg-emerald-500 text-white px-4 py-1 rounded-full text-xs font-bold uppercase">
-                Completed
+                {language === 'en' ? 'Completed' : 'Réalisé'}
               </div>
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6">
                 <span className="text-white text-sm font-medium">June 2025</span>
@@ -924,18 +960,18 @@ export default function FondationChacalUnifie() {
             </div>
             <div className="p-8">
               <h3 className="text-2xl font-bold text-blue-900 mb-3 group-hover:text-amber-600 transition-colors">
-                Care Kit Distribution
+                {language === 'en' ? 'Care Kit Distribution' : 'Distribution de Kits de Soins'}
               </h3>
               <p className="text-slate-500 mb-6">
-                Distribution of first aid kits and essential medications to vulnerable seniors.
+                {language === 'en' ? 'Distribution of first aid kits and essential medications to vulnerable seniors.' : 'Distribution de kits de premiers secours et de médicaments essentiels aux seniors vulnérables.'}
               </p>
               <div className="flex justify-between items-center">
                 <div>
-                  <p className="text-sm text-slate-400">Kits distributed</p>
+                  <p className="text-sm text-slate-400">{language === 'en' ? 'Kits distributed' : 'Kits distribués'}</p>
                   <p className="text-lg font-bold text-blue-900">150</p>
                 </div>
                 <div>
-                  <p className="text-sm text-slate-400">Investment</p>
+                  <p className="text-sm text-slate-400">{language === 'en' ? 'Investment' : 'Investissement'}</p>
                   <p className="text-lg font-bold text-amber-600">5,500€</p>
                 </div>
                 <button className="text-blue-900 hover:text-amber-600 font-medium flex items-center gap-2">
@@ -954,7 +990,7 @@ export default function FondationChacalUnifie() {
                 alt="Health awareness"
               />
               <div className="absolute top-4 right-4 bg-emerald-500 text-white px-4 py-1 rounded-full text-xs font-bold uppercase">
-                Completed
+                {language === 'en' ? 'Completed' : 'Réalisé'}
               </div>
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6">
                 <span className="text-white text-sm font-medium">July 2025</span>
@@ -962,18 +998,18 @@ export default function FondationChacalUnifie() {
             </div>
             <div className="p-8">
               <h3 className="text-2xl font-bold text-blue-900 mb-3 group-hover:text-amber-600 transition-colors">
-                Health Prevention Workshops
+                {language === 'en' ? 'Health Prevention Workshops' : 'Ateliers de Prévention Santé'}
               </h3>
               <p className="text-slate-500 mb-6">
-                Awareness sessions on hygiene, nutrition, and appropriate care for seniors.
+                {language === 'en' ? 'Awareness sessions on hygiene, nutrition, and appropriate care for seniors.' : 'Sessions de sensibilisation sur l\'hygiène, la nutrition et les soins adaptés aux seniors.'}
               </p>
               <div className="flex justify-between items-center">
                 <div>
-                  <p className="text-sm text-slate-400">Participants</p>
+                  <p className="text-sm text-slate-400">{language === 'en' ? 'Participants' : 'Participants'}</p>
                   <p className="text-lg font-bold text-blue-900">120</p>
                 </div>
                 <div>
-                  <p className="text-sm text-slate-400">Sessions</p>
+                  <p className="text-sm text-slate-400">{language === 'en' ? 'Sessions' : 'Séances'}</p>
                   <p className="text-lg font-bold text-amber-600">8</p>
                 </div>
                 <button className="text-blue-900 hover:text-amber-600 font-medium flex items-center gap-2">
@@ -986,7 +1022,7 @@ export default function FondationChacalUnifie() {
 
         <div className="text-center mt-16">
           <button className="group bg-blue-900 text-white px-10 py-4 rounded-full font-bold hover:bg-amber-600 transition-all flex items-center gap-2 mx-auto">
-            View all our completed actions
+            {language === 'en' ? 'View all our completed actions' : 'Voir toutes nos actions réalisées'}
             <ArrowRight className="group-hover:translate-x-2 transition-transform" size={20} />
           </button>
         </div>
@@ -996,7 +1032,7 @@ export default function FondationChacalUnifie() {
       <section className="py-24 bg-slate-50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-serif text-blue-950">Ongoing & Upcoming Projects</h2>
+            <h2 className="text-4xl md:text-5xl font-serif text-blue-950">{language === 'en' ? 'Ongoing & Upcoming Projects' : 'Projets en Cours & À Venir'}</h2>
             <div className="w-24 h-1 bg-amber-500 mx-auto mt-6" />
           </div>
 
@@ -1037,7 +1073,7 @@ export default function FondationChacalUnifie() {
                       <div className="mt-8 flex items-center justify-between gap-4">
                         <Link href={`/projets/${project.id}`} className="flex-1">
                           <button className="w-full bg-blue-900 text-white py-4 rounded-2xl font-bold text-sm hover:bg-amber-500 transition shadow-lg shadow-blue-900/10">
-                            Support this project →
+                            {language === 'en' ? 'Support this project →' : 'Soutenir ce projet →'}
                           </button>
                         </Link>
                         <button className="p-4 bg-slate-50 text-slate-400 rounded-2xl hover:bg-amber-50 hover:text-amber-600 transition">
@@ -1057,10 +1093,10 @@ export default function FondationChacalUnifie() {
       <section id="actualites" className="py-32 px-6 max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16">
           <div className="mb-8">
-            <span className="text-amber-600 font-black tracking-[0.3em] uppercase text-xs">Press</span>
-            <h2 className="text-4xl md:text-5xl font-serif text-blue-950 mt-4">Latest News</h2>
+            <span className="text-amber-600 font-black tracking-[0.3em] uppercase text-xs">{language === 'en' ? 'Press' : 'Presse'}</span>
+            <h2 className="text-4xl md:text-5xl font-serif text-blue-950 mt-4">{language === 'en' ? 'Latest News' : 'Dernières Actualités'}</h2>
           </div>
-          <button className="font-bold text-blue-900 flex items-center gap-2">View all <ArrowRight size={18}/></button>
+          <button className="font-bold text-blue-900 flex items-center gap-2">{language === 'en' ? 'View all' : 'Voir tout'} <ArrowRight size={18}/></button>
         </div>
         <div className="grid md:grid-cols-3 gap-8">
           {NEWS.map((item, i) => (
@@ -1075,34 +1111,21 @@ export default function FondationChacalUnifie() {
         </div>
       </section>
 
-      {/* GALLERY */}
+      {/* GALLERY — Photos uniquement */}
       <section id="galerie" className="py-32 bg-slate-50">
         <div className="max-w-7xl mx-auto px-6">
+          {/* ── Header ── */}
           <div className="text-center mb-20">
-            <span className="text-amber-600 font-black tracking-[0.3em] uppercase text-xs">Visual Memory</span>
+            <span className="text-amber-600 font-black tracking-[0.3em] uppercase text-xs">{language === 'en' ? 'Visual Memory' : 'Mémoire Visuelle'}</span>
             <h2 className="text-5xl font-serif text-blue-950 mt-6 mb-4">
-              Photo & Video <span className="text-amber-700">Gallery</span>
+              {language === 'en' ? 'Photo' : 'Galerie'} <span className="text-amber-700">{language === 'en' ? 'Gallery' : 'Photo'}</span>
             </h2>
             <p className="text-slate-500 max-w-2xl mx-auto text-lg">
-              Captured moments of joy, solidarity, and transformation.
+              {language === 'en' ? 'Captured moments of joy, solidarity, and transformation.' : 'Moments capturés de joie, de solidarité et de transformation.'}
             </p>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-4 mb-12">
-            {['All', 'Photos', 'Videos', 'Events', 'Projects'].map((filter, i) => (
-              <button 
-                key={i}
-                className={`px-6 py-3 rounded-full font-medium transition-all ${
-                  i === 0 
-                    ? 'bg-blue-900 text-white shadow-lg' 
-                    : 'bg-white text-slate-600 hover:bg-amber-50 hover:text-amber-700'
-                }`}
-              >
-                {filter}
-              </button>
-            ))}
-          </div>
-
+          {/* ── Photo grid ── */}
           <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
             <div className="lg:col-span-2 relative rounded-3xl overflow-hidden group">
               <img 
@@ -1114,9 +1137,9 @@ export default function FondationChacalUnifie() {
               <div className="absolute bottom-6 left-6 text-white">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-2 h-2 bg-amber-500 rounded-full" />
-                  <span className="text-sm font-medium">PHOTO</span>
+                  <span className="text-sm font-medium uppercase tracking-widest">Photo</span>
                 </div>
-                <h3 className="text-xl font-bold">Free Medical Consultations</h3>
+                <h3 className="text-xl font-bold">{language === 'en' ? 'Free Medical Consultations' : 'Consultations Médicales Gratuites'}</h3>
                 <p className="text-white/80 text-sm">May 2025</p>
               </div>
             </div>
@@ -1155,13 +1178,161 @@ export default function FondationChacalUnifie() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
 
-          <div className="text-center mt-12">
-            <button className="group bg-blue-900 text-white px-10 py-4 rounded-full font-bold hover:bg-amber-600 transition-all flex items-center gap-2 mx-auto">
-              View full gallery
-              <ArrowRight className="group-hover:translate-x-2 transition-transform" size={20} />
-            </button>
+      {/* VIDEOS SECTION — Événements passés & à venir */}
+      <section id="videos" className="py-32 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+
+          {/* ── Header ── */}
+          <div className="text-center mb-20">
+            <span className="text-amber-600 font-black tracking-[0.3em] uppercase text-xs">{language === 'en' ? 'In Motion' : 'En Mouvement'}</span>
+            <h2 className="text-5xl font-serif text-blue-950 mt-6 mb-4">
+              {language === 'en' ? 'Our' : 'Nos'} <span className="text-amber-700">{language === 'en' ? 'Videos' : 'Vidéos'}</span>
+            </h2>
+            <p className="text-slate-500 max-w-2xl mx-auto text-lg">
+              {language === 'en' ? 'Relive our past events and discover our upcoming actions.' : 'Revivez nos événements passés et découvrez nos prochaines actions.'}
+            </p>
           </div>
+
+          {/* ── PAST EVENTS ── */}
+          <div className="mb-20">
+            <div className="flex items-center gap-4 mb-10">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center">
+                  <Play size={18} className="text-emerald-600 fill-emerald-600" />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold text-blue-950">{language === 'en' ? 'Past Events' : 'Événements Passés'}</h3>
+                  <p className="text-slate-400 text-sm">{language === 'en' ? 'Watch the highlights of our actions' : 'Revivez les temps forts de nos actions'}</p>
+                </div>
+              </div>
+              <div className="flex-1 h-px bg-slate-100 hidden md:block" />
+              <span className="hidden md:inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-full border border-emerald-200">
+                <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full" />
+                {language === 'en' ? 'Archived' : 'Archivé'}
+              </span>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {/* Past video 1 — Foundation video */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="group bg-slate-50 rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300"
+              >
+                <div
+                  className="relative h-52 cursor-pointer"
+                  onClick={() => setShowVideoModal(true)}
+                >
+                  <img
+                    src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027105/WhatsApp_Image_2026-01-20_at_13.21.37_syduvr.jpg"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    alt="Fondation Le Chacal video"
+                  />
+                  <div className="absolute inset-0 bg-blue-950/50 group-hover:bg-blue-950/30 transition-colors flex items-center justify-center">
+                    <div className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform">
+                      <Play size={24} className="text-blue-900 fill-blue-900 ml-1" />
+                    </div>
+                  </div>
+                  <div className="absolute top-4 left-4">
+                    <span className="bg-emerald-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">
+                      {language === 'en' ? 'Recap' : 'Récap'}
+                    </span>
+                  </div>
+                  <div className="absolute bottom-4 right-4 bg-black/60 text-white text-xs px-2 py-1 rounded-lg font-mono">
+                    2:47
+                  </div>
+                </div>
+                <div className="p-6">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Calendar size={14} className="text-amber-500" />
+                    <span className="text-amber-600 text-xs font-bold uppercase tracking-wider">May 2025</span>
+                  </div>
+                  <h4 className="text-lg font-bold text-blue-950 mb-2 group-hover:text-amber-600 transition-colors">
+                    {language === 'en' ? 'Fondation Le Chacal — Official Presentation' : 'Fondation Le Chacal — Présentation Officielle'}
+                  </h4>
+                  <p className="text-slate-500 text-sm leading-relaxed">
+                    {language === 'en' ? 'Discover the story and mission of the Chacal Foundation, dedicated to the health and dignity of the elderly in Cameroon.' : 'Découvrez l\'histoire et la mission de la Fondation Le Chacal, dédiée à la santé et à la dignité des aînés au Cameroun.'}
+                  </p>
+                </div>
+              </motion.div>
+
+              {/* Past video 3 — placeholder */}
+
+            </div>
+          </div>
+
+          {/* ── UPCOMING EVENTS ── */}
+          <div>
+            <div className="flex items-center gap-4 mb-10">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
+                  <Calendar size={18} className="text-blue-700" />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold text-blue-950">{language === 'en' ? 'Upcoming Events' : 'Événements à Venir'}</h3>
+                  <p className="text-slate-400 text-sm">{language === 'en' ? 'Don\'t miss our next actions' : 'Ne manquez pas nos prochaines actions'}</p>
+                </div>
+              </div>
+              <div className="flex-1 h-px bg-slate-100 hidden md:block" />
+              <span className="hidden md:inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-full border border-blue-200">
+                <div className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse" />
+                {language === 'en' ? 'Announced' : 'Annoncé'}
+              </span>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* Upcoming event 1 */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="relative bg-gradient-to-br from-blue-950 to-blue-900 rounded-3xl overflow-hidden group"
+              >
+                <img
+                  src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027102/WhatsApp_Image_2026-01-20_at_13.21.35_s6m8at.jpg"
+                  className="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:opacity-30 transition-opacity duration-500 scale-105"
+                  alt="Upcoming event"
+                />
+                <div className="relative z-10 p-8 md:p-10">
+                  <div className="flex items-start justify-between mb-6">
+                    <span className="inline-flex items-center gap-2 bg-amber-500 text-white text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider">
+                      <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
+                      {language === 'en' ? 'Upcoming' : 'À Venir'}
+                    </span>
+                    <div className="text-right">
+                      <p className="text-amber-400 font-black text-2xl leading-none">23</p>
+                      <p className="text-white/60 text-xs uppercase">{language === 'en' ? 'May 2026' : 'Mai 2026'}</p>
+                    </div>
+                  </div>
+                  <h4 className="text-2xl font-bold text-white mb-3">
+                    {language === 'en' ? '2nd Edition — Free Medical Consultations' : '2ème Édition — Consultations Médicales Gratuites'}
+                  </h4>
+                  <p className="text-white/70 text-sm leading-relaxed mb-6">
+                    {language === 'en'
+                      ? 'A full day of free medical consultations at École Publique Newbell Bamiléké, Douala. Volunteer physicians, medicine distribution and personalized support.'
+                      : 'Une journée entière de consultations médicales gratuites à l\'École Publique Newbell Bamiléké, Douala. Médecins bénévoles, distribution de médicaments et accompagnement personnalisé.'}
+                  </p>
+                  <div className="flex items-center gap-3 text-white/60 text-sm mb-6">
+                    <MapPin size={16} className="text-amber-400 flex-shrink-0" />
+                    <span>École Publique Newbell Bamiléké, Douala</span>
+                  </div>
+                  <a href="#dons">
+                    <button className="w-full bg-amber-500 hover:bg-amber-400 text-white py-3 rounded-2xl font-bold text-sm transition-all shadow-lg shadow-amber-500/20 flex items-center justify-center gap-2">
+                      {language === 'en' ? 'Support this event' : 'Soutenir cet événement'}
+                      <ArrowRight size={16} />
+                    </button>
+                  </a>
+                </div>
+              </motion.div>
+
+           
+            </div>
+          </div>
+
         </div>
       </section>
 
@@ -1169,16 +1340,21 @@ export default function FondationChacalUnifie() {
       <section id="impact" className="py-24 px-6 bg-blue-950 text-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <span className="text-amber-400 font-bold tracking-[0.4em] uppercase text-xs">Our Impact</span>
-            <h2 className="text-5xl font-serif mt-4">Numbers that <span className="text-amber-400 italic">speak.</span></h2>
+            <span className="text-amber-400 font-bold tracking-[0.4em] uppercase text-xs">{language === 'en' ? 'Our Impact' : 'Notre Impact'}</span>
+            <h2 className="text-5xl font-serif mt-4">{language === 'en' ? 'Numbers that' : 'Des chiffres qui'} <span className="text-amber-400 italic">{language === 'en' ? 'speak.' : 'parlent.'}</span></h2>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[
+            {(language === 'en' ? [
               { n: "500+", label: "Beneficiaries" },
               { n: "2", label: "Annual Editions" },
               { n: "200+", label: "Consultations" },
               { n: "2023", label: "Founded" },
-            ].map((stat, i) => (
+            ] : [
+              { n: "500+", label: "Bénéficiaires" },
+              { n: "2", label: "Éditions Annuelles" },
+              { n: "200+", label: "Consultations" },
+              { n: "2023", label: "Fondée" },
+            ]).map((stat, i) => (
               <motion.div 
                 key={i}
                 initial={{ opacity: 0, y: 30 }}
@@ -1199,24 +1375,24 @@ export default function FondationChacalUnifie() {
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-20 items-center">
             <div>
-              <span className="text-amber-600 font-black tracking-[0.3em] uppercase text-xs">Support Us</span>
+              <span className="text-amber-600 font-black tracking-[0.3em] uppercase text-xs">{language === 'en' ? 'Support Us' : 'Soutenez-Nous'}</span>
               <h2 className="text-5xl font-serif text-blue-950 mt-4 mb-6 leading-tight">
-                Support our <span className="text-amber-600 italic">mission</span>
+                {language === 'en' ? 'Support our' : 'Soutenez notre'} <span className="text-amber-600 italic">{language === 'en' ? 'mission' : 'mission'}</span>
               </h2>
               <p className="text-slate-500 text-lg leading-relaxed mb-8">
-                Every donation, however small, allows us to reach more seniors in need. Your generosity directly funds free medical consultations, medications, and essential equipment.
+                {language === 'en' ? 'Every donation, however small, allows us to reach more seniors in need. Your generosity directly funds free medical consultations, medications, and essential equipment.' : 'Chaque don, aussi petit soit-il, nous permet d\'atteindre plus de seniors dans le besoin. Votre générosité finance directement les consultations médicales gratuites, les médicaments et les équipements essentiels.'}
               </p>
               <blockquote className="border-l-4 border-amber-500 pl-6 italic text-blue-900 text-xl">
-                "Just one gesture of love is enough for them."
+                {language === 'en' ? '"Just one gesture of love is enough for them."' : '"Juste un geste d\'amour leur suffit."'}
               </blockquote>
             </div>
 
             <div className="bg-white rounded-[3rem] p-10 shadow-2xl border border-slate-100">
-              <h3 className="text-2xl font-bold text-blue-950 mb-8">Make a Donation</h3>
+              <h3 className="text-2xl font-bold text-blue-950 mb-8">{language === 'en' ? 'Make a Donation' : 'Faire un Don'}</h3>
               
               <div className="space-y-4">
                 <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200">
-                  <p className="text-sm text-slate-500 mb-2 font-medium">Bank Transfer</p>
+                  <p className="text-sm text-slate-500 mb-2 font-medium">{language === 'en' ? 'Bank Transfer' : 'Virement Bancaire'}</p>
                   <p className="font-bold text-blue-900">Chacal Foundation</p>
                   <div className="flex items-center gap-2 mt-2">
                     <p className="text-slate-600 font-mono text-sm">XXXX XXXX XXXX XXXX</p>
@@ -1266,7 +1442,7 @@ export default function FondationChacalUnifie() {
               </div>
 
               <p className="text-xs text-slate-500 text-center mt-5">
-                Every donation counts for our mission
+                {language === 'en' ? 'Every donation counts for our mission' : 'Chaque don compte pour notre mission'}
               </p>
             </div>
           </div>
@@ -1276,17 +1452,17 @@ export default function FondationChacalUnifie() {
       {/* CONTACT */}
       <section id="contact" className="py-20 px-6 bg-slate-50">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-serif text-blue-900 mb-4">Contact <span className="text-amber-500 italic">Us</span></h2>
-          <p className="text-slate-600 mb-10">A question, a partnership, an initiative? Write to us.</p>
+          <h2 className="text-4xl md:text-5xl font-serif text-blue-900 mb-4">{language === 'en' ? 'Contact' : 'Contactez'} <span className="text-amber-500 italic">{language === 'en' ? 'Us' : 'Nous'}</span></h2>
+          <p className="text-slate-600 mb-10">{language === 'en' ? 'A question, a partnership, an initiative? Write to us.' : 'Une question, un partenariat, une initiative ? Écrivez-nous.'}</p>
           <div className="grid sm:grid-cols-3 gap-6">
             <a href="tel:+13019929492" className="flex flex-col items-center gap-3 p-6 bg-white rounded-3xl shadow-sm hover:shadow-md transition">
               <div className="w-12 h-12 bg-blue-900 rounded-2xl flex items-center justify-center"><Phone size={20} className="text-white"/></div>
-              <span className="font-bold text-blue-900">Phone US</span>
+              <span className="font-bold text-blue-900">{language === 'en' ? 'Phone US' : 'Téléphone US'}</span>
               <span className="text-sm text-slate-500">+1 301-992-9492</span>
             </a>
             <a href="tel:+23797069267" className="flex flex-col items-center gap-3 p-6 bg-white rounded-3xl shadow-sm hover:shadow-md transition">
               <div className="w-12 h-12 bg-amber-500 rounded-2xl flex items-center justify-center"><Phone size={20} className="text-white"/></div>
-              <span className="font-bold text-blue-900">Phone Cameroon</span>
+              <span className="font-bold text-blue-900">{language === 'en' ? 'Phone Cameroon' : 'Téléphone Cameroun'}</span>
               <span className="text-sm text-slate-500">+237 97069267</span>
             </a>
             <a href="mailto:chacalfoundation@gmail.com" className="flex flex-col items-center gap-3 p-6 bg-white rounded-3xl shadow-sm hover:shadow-md transition">
@@ -1310,7 +1486,7 @@ export default function FondationChacalUnifie() {
                 </h2>
               </div>
               <p className="max-w-sm text-base md:text-lg leading-relaxed text-slate-400 mb-4">
-                Committed to health and dignity for the elderly in Cameroon and beyond.
+                {language === 'en' ? 'Committed to health and dignity for the elderly in Cameroon and beyond.' : 'Engagés pour la santé et la dignité des personnes âgées au Cameroun et au-delà.'}
               </p>
               <p className="text-amber-400 italic text-sm mb-6">"Just one gesture of love is enough for them."</p>
               <div className="flex gap-3 md:gap-4">
@@ -1327,14 +1503,14 @@ export default function FondationChacalUnifie() {
             </div>
 
             <div>
-              <h4 className="text-white font-bold mb-4 md:mb-6 uppercase tracking-widest text-xs md:text-sm">Navigation</h4>
+              <h4 className="text-white font-bold mb-4 md:mb-6 uppercase tracking-widest text-xs md:text-sm">{language === 'en' ? 'Navigation' : 'Navigation'}</h4>
               <ul className="space-y-3 md:space-y-4">
-                <li><a href="#preface" className="text-sm md:text-base hover:text-amber-500 transition-colors">Preface</a></li>
-                <li><a href="#mission" className="text-sm md:text-base hover:text-amber-500 transition-colors">Our Mission</a></li>
-                <li><a href="#values" className="text-sm md:text-base hover:text-amber-500 transition-colors">Our Values</a></li>
-                <li><a href="#equipe" className="text-sm md:text-base hover:text-amber-500 transition-colors">Our Team</a></li>
-                <li><a href="#galerie" className="text-sm md:text-base hover:text-amber-500 transition-colors">Gallery</a></li>
-                <li><a href="#impact" className="text-sm md:text-base hover:text-amber-500 transition-colors">Our Impact</a></li>
+                <li><a href="#preface" className="text-sm md:text-base hover:text-amber-500 transition-colors">{language === 'en' ? 'Preface' : 'Préface'}</a></li>
+                <li><a href="#mission" className="text-sm md:text-base hover:text-amber-500 transition-colors">{language === 'en' ? 'Our Mission' : 'Notre Mission'}</a></li>
+                <li><a href="#values" className="text-sm md:text-base hover:text-amber-500 transition-colors">{language === 'en' ? 'Our Values' : 'Nos Valeurs'}</a></li>
+                <li><a href="#equipe" className="text-sm md:text-base hover:text-amber-500 transition-colors">{language === 'en' ? 'Our Founders' : 'Nos Fondateurs'}</a></li>
+                <li><a href="#galerie" className="text-sm md:text-base hover:text-amber-500 transition-colors">{language === 'en' ? 'Gallery' : 'Galerie'}</a></li>
+                <li><a href="#impact" className="text-sm md:text-base hover:text-amber-500 transition-colors">{language === 'en' ? 'Our Impact' : 'Notre Impact'}</a></li>
               </ul>
             </div>
 
@@ -1368,11 +1544,11 @@ export default function FondationChacalUnifie() {
 
             <div>
               <h4 className="text-white font-bold mb-4 md:mb-6 uppercase tracking-widest text-xs md:text-sm">Newsletter</h4>
-              <p className="text-sm text-white/60 mb-4">Stay informed about our actions</p>
+              <p className="text-sm text-white/60 mb-4">{language === 'en' ? 'Stay informed about our actions' : 'Restez informé de nos actions'}</p>
               <div className="flex flex-col sm:flex-row gap-2">
                 <input 
                   type="email" 
-                  placeholder="Your email" 
+                  placeholder={language === 'en' ? 'Your email' : 'Votre email'} 
                   className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-amber-500 transition-colors"
                 />
                 <button className="bg-amber-500 p-2.5 rounded-lg hover:bg-amber-600 transition-colors flex items-center justify-center">
@@ -1385,12 +1561,12 @@ export default function FondationChacalUnifie() {
           <div className="pt-8 md:pt-12 border-t border-white/5">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs md:text-sm text-center md:text-left">
               <p className="text-white/60">
-                © 2026 CHACAL FOUNDATION • Based in the United States • Serving Cameroon & Africa
+                {language === 'en' ? '© 2026 CHACAL FOUNDATION • Based in the United States • Serving Cameroon & Africa' : '© 2026 CHACAL FOUNDATION • Basée aux États-Unis • Au service du Cameroun et de l\'Afrique'}
               </p>
               <div className="flex flex-wrap justify-center md:justify-end gap-4">
-                <a href="#" className="text-white/60 hover:text-amber-500 transition-colors">Legal Notice</a>
+                <a href="#" className="text-white/60 hover:text-amber-500 transition-colors">{language === 'en' ? 'Legal Notice' : 'Mentions Légales'}</a>
                 <span className="text-white/20">•</span>
-                <a href="#" className="text-white/60 hover:text-amber-500 transition-colors">Privacy Policy</a>
+                <a href="#" className="text-white/60 hover:text-amber-500 transition-colors">{language === 'en' ? 'Privacy Policy' : 'Politique de Confidentialité'}</a>
               </div>
             </div>
           </div>
@@ -1446,7 +1622,7 @@ export default function FondationChacalUnifie() {
               className="bg-white rounded-3xl p-8 md:p-12 w-full max-w-md shadow-2xl"
             >
               <div className="flex justify-between items-center mb-6">
-                <h3 className="text-2xl font-bold text-blue-900">Join the Cause</h3>
+                <h3 className="text-2xl font-bold text-blue-900">{language === 'en' ? 'Join the Cause' : 'Rejoindre la Cause'}</h3>
                 <button onClick={() => setShowFormModal(false)} className="text-slate-400 hover:text-slate-600">
                   <X size={24} />
                 </button>
@@ -1455,7 +1631,7 @@ export default function FondationChacalUnifie() {
               <form onSubmit={handleFormSubmit} className="space-y-4">
                 <input
                   type="text"
-                  placeholder="Full name"
+                  placeholder={language === 'en' ? 'Full name' : 'Nom complet'}
                   required
                   value={formData.nom}
                   onChange={(e) => setFormData({...formData, nom: e.target.value})}
@@ -1463,7 +1639,7 @@ export default function FondationChacalUnifie() {
                 />
                 <input
                   type="email"
-                  placeholder="Email"
+                  placeholder={language === 'en' ? 'Email' : 'Email'}
                   required
                   value={formData.email}
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
@@ -1471,14 +1647,14 @@ export default function FondationChacalUnifie() {
                 />
                 <input
                   type="tel"
-                  placeholder="Phone"
+                  placeholder={language === 'en' ? 'Phone' : 'Téléphone'}
                   required
                   value={formData.phone}
                   onChange={(e) => setFormData({...formData, phone: e.target.value})}
                   className="w-full bg-slate-50 border-none rounded-xl p-4 focus:ring-2 ring-blue-900"
                 />
                 <textarea
-                  placeholder="Message (optional)"
+                  placeholder={language === 'en' ? 'Message (optional)' : 'Message (facultatif)'}
                   rows={3}
                   value={formData.message}
                   onChange={(e) => setFormData({...formData, message: e.target.value})}
@@ -1488,7 +1664,7 @@ export default function FondationChacalUnifie() {
                   type="submit"
                   className="w-full bg-amber-500 text-white py-4 rounded-2xl font-bold hover:bg-amber-600 transition shadow-lg"
                 >
-                  Send via WhatsApp
+                  {language === 'en' ? 'Send via WhatsApp' : 'Envoyer via WhatsApp'}
                 </button>
               </form>
             </motion.div>
