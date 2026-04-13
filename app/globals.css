@@ -52,3 +52,23 @@ body {
   animation-delay: 4s;
 }
 
+.input-field {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  font-size: 0.875rem;
+  color: #111827;
+  background: white;
+  transition: box-shadow 0.15s;
+}
+
+.input-field:focus {
+  outline: none;
+  ring: 2px solid #3b82f6;
+  border-color: transparent;
+}
+
+.input-field::placeholder {
+  color: #d1d5db;
+}

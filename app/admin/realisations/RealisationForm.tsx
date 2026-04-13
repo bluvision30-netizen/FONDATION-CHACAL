@@ -26,12 +26,6 @@ export default function RealisationForm({ realisation, onSave }: Props) {
     formData.set('stats_en', JSON.stringify(statsEn.filter(s => s.label)));
     if (realisation) formData.set('image_url_existing', realisation.image_url);
 
-    // ✅ Validation client : image obligatoire à la création
-    if (!realisation && !imagePreview) {
-      setError('Veuillez sélectionner une image avant de soumettre.');
-      return;
-    }
-
     setError('');
     startTransition(async () => {
       try {

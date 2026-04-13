@@ -10,6 +10,7 @@ import {
   MapPin, Share2, Facebook, Twitter, Instagram, 
   Mail, Phone, ExternalLink, ArrowRight
 } from 'lucide-react';
+import { createClient } from '@supabase/supabase-js';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -43,6 +44,22 @@ const itemVariants = {
 
 export default function FondationChacalUnifie() {
   const { language, toggleLanguage } = useLanguage();
+
+  // ── Real data from Supabase — must be declared BEFORE any const that uses them ──
+  const [dbProjets, setDbProjets] = useState<any[]>([]);
+  const [dbRealisations, setDbRealisations] = useState<any[]>([]);
+  const [dbActualites, setDbActualites] = useState<any[]>([]);
+
+  useEffect(() => {
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    );
+    supabase.from('projets').select('*').order('ordre').then(({ data }) => { if (data?.length) setDbProjets(data); });
+    supabase.from('realisations').select('*').order('ordre').then(({ data }) => { if (data?.length) setDbRealisations(data); });
+    supabase.from('actualites').select('*').eq('publie', true).order('date_publication', { ascending: false }).limit(3).then(({ data }) => { if (data?.length) setDbActualites(data); });
+  }, []);
+
 
   // ── Dynamic translated NAV_LINKS ──────────────────────────────────────
   const NAV_LINKS = [
@@ -92,16 +109,13 @@ export default function FondationChacalUnifie() {
     }
   ];
 
-  // ── Dynamic translated NEWS ─────────────────────────────────────────────
-  const NEWS = language === 'en' ? [
-    { date: "24 Dec 2025", title: "Announcement of the 2nd edition of free consultations", cat: "Health" },
-    { date: "15 Dec 2025", title: "Partnership with volunteer physicians", cat: "Partnership" },
-    { date: "10 Dec 2025", title: "Preparation for the May 23, 2026 event", cat: "Event" }
-  ] : [
-    { date: "24 Déc 2025", title: "Annonce de la 2ème édition des consultations gratuites", cat: "Santé" },
-    { date: "15 Déc 2025", title: "Partenariat avec des médecins bénévoles", cat: "Partenariat" },
-    { date: "10 Déc 2025", title: "Préparation de l'événement du 23 mai 2026", cat: "Événement" }
-  ];
+  // ── Dynamic NEWS — from Supabase or fallback ─────────────────────────────
+  const NEWS = (dbActualites.length > 0 ? dbActualites : []).map(a => ({
+    date: new Date(a.date_publication).toLocaleDateString(language === 'en' ? 'en-GB' : 'fr-FR', { day: '2-digit', month: 'short', year: 'numeric' }),
+    title: language === 'en' ? (a.titre_en || a.titre) : a.titre,
+    cat: language === 'en' ? (a.categorie_en || a.categorie) : a.categorie,
+    image: a.image_url,
+  }));
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -905,119 +919,51 @@ export default function FondationChacalUnifie() {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* Project 1 */}
-          <div className="group bg-white rounded-[2rem] overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border border-slate-100">
-            <div className="relative h-64 overflow-hidden">
-              <img 
-                src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1000" 
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                alt="Consultations 2025"
-              />
-              <div className="absolute top-4 right-4 bg-emerald-500 text-white px-4 py-1 rounded-full text-xs font-bold uppercase">
-                {language === 'en' ? 'Completed' : 'Réalisé'}
-              </div>
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6">
-                <span className="text-white text-sm font-medium">May 2025</span>
-              </div>
-            </div>
-            <div className="p-8">
-              <h3 className="text-2xl font-bold text-blue-900 mb-3 group-hover:text-amber-600 transition-colors">
-                {language === 'en' ? '1st Edition Free Consultations' : '1ère Édition Consultations Gratuites'}
-              </h3>
-              <p className="text-slate-500 mb-6">
-                {language === 'en' ? 'First free medical consultation campaign for 200+ seniors in Douala.' : 'Première campagne de consultations médicales gratuites pour 200+ seniors à Douala.'}
-              </p>
-              <div className="flex justify-between items-center">
-                <div>
-                  <p className="text-sm text-slate-400">{language === 'en' ? 'Beneficiaries' : 'Bénéficiaires'}</p>
-                  <p className="text-lg font-bold text-blue-900">200+</p>
+          {dbRealisations.length > 0 ? dbRealisations.map((r) => (
+            <Link key={r.id} href={`/realisations/${r.id}`}>
+              <div className="group bg-white rounded-[2rem] overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border border-slate-100 h-full cursor-pointer">
+                <div className="relative h-64 overflow-hidden">
+                  <img
+                    src={r.image_url}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    alt={r.titre}
+                  />
+                  <div className="absolute top-4 right-4 bg-emerald-500 text-white px-4 py-1 rounded-full text-xs font-bold uppercase">
+                    {language === 'en' ? 'Completed' : 'Réalisé'}
+                  </div>
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6">
+                    <span className="text-white text-sm font-medium">{language === 'en' ? (r.date_en || r.date_fr) : r.date_fr}</span>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-sm text-slate-400">{language === 'en' ? 'Consultations' : 'Consultations'}</p>
-                  <p className="text-lg font-bold text-amber-600">250+</p>
+                <div className="p-8">
+                  <h3 className="text-2xl font-bold text-blue-900 mb-3 group-hover:text-amber-600 transition-colors">
+                    {language === 'en' ? (r.titre_en || r.titre) : r.titre}
+                  </h3>
+                  <p className="text-slate-500 mb-6 line-clamp-3">
+                    {language === 'en' ? (r.description_en || r.description) : r.description}
+                  </p>
+                  {r.beneficiaires && (
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="text-sm text-slate-400">{language === 'en' ? 'Beneficiaries' : 'Bénéficiaires'}</p>
+                        <p className="text-lg font-bold text-blue-900">{language === 'en' ? (r.beneficiaires_en || r.beneficiaires) : r.beneficiaires}</p>
+                      </div>
+                      {r.lieu && (
+                        <div>
+                          <p className="text-sm text-slate-400">{language === 'en' ? 'Location' : 'Lieu'}</p>
+                          <p className="text-lg font-bold text-amber-600">{language === 'en' ? (r.lieu_en || r.lieu) : r.lieu}</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
-                <button className="text-blue-900 hover:text-amber-600 font-medium flex items-center gap-2">
-                  {language === 'en' ? 'Details' : 'Détails'} <ArrowRight size={16} />
-                </button>
               </div>
+            </Link>
+          )) : (
+            <div className="col-span-3 text-center text-slate-400 py-12">
+              {language === 'en' ? 'No completed actions yet.' : 'Aucune action réalisée pour l\'instant.'}
             </div>
-          </div>
-
-          {/* Project 2 */}
-          <div className="group bg-white rounded-[2rem] overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border border-slate-100">
-            <div className="relative h-64 overflow-hidden">
-              <img 
-                src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027105/WhatsApp_Image_2026-01-20_at_13.21.39_ri3mn4.jpg" 
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                alt="Material donations"
-              />
-              <div className="absolute top-4 right-4 bg-emerald-500 text-white px-4 py-1 rounded-full text-xs font-bold uppercase">
-                {language === 'en' ? 'Completed' : 'Réalisé'}
-              </div>
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6">
-                <span className="text-white text-sm font-medium">June 2025</span>
-              </div>
-            </div>
-            <div className="p-8">
-              <h3 className="text-2xl font-bold text-blue-900 mb-3 group-hover:text-amber-600 transition-colors">
-                {language === 'en' ? 'Care Kit Distribution' : 'Distribution de Kits de Soins'}
-              </h3>
-              <p className="text-slate-500 mb-6">
-                {language === 'en' ? 'Distribution of first aid kits and essential medications to vulnerable seniors.' : 'Distribution de kits de premiers secours et de médicaments essentiels aux seniors vulnérables.'}
-              </p>
-              <div className="flex justify-between items-center">
-                <div>
-                  <p className="text-sm text-slate-400">{language === 'en' ? 'Kits distributed' : 'Kits distribués'}</p>
-                  <p className="text-lg font-bold text-blue-900">150</p>
-                </div>
-                <div>
-                  <p className="text-sm text-slate-400">{language === 'en' ? 'Investment' : 'Investissement'}</p>
-                  <p className="text-lg font-bold text-amber-600">5,500€</p>
-                </div>
-                <button className="text-blue-900 hover:text-amber-600 font-medium flex items-center gap-2">
-                  Details <ArrowRight size={16} />
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Project 3 */}
-          <div className="group bg-white rounded-[2rem] overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border border-slate-100">
-            <div className="relative h-64 overflow-hidden">
-              <img 
-                src="https://res.cloudinary.com/dkuciagop/image/upload/v1769027102/WhatsApp_Image_2026-01-20_at_13.21.35_s6m8at.jpg" 
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                alt="Health awareness"
-              />
-              <div className="absolute top-4 right-4 bg-emerald-500 text-white px-4 py-1 rounded-full text-xs font-bold uppercase">
-                {language === 'en' ? 'Completed' : 'Réalisé'}
-              </div>
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6">
-                <span className="text-white text-sm font-medium">July 2025</span>
-              </div>
-            </div>
-            <div className="p-8">
-              <h3 className="text-2xl font-bold text-blue-900 mb-3 group-hover:text-amber-600 transition-colors">
-                {language === 'en' ? 'Health Prevention Workshops' : 'Ateliers de Prévention Santé'}
-              </h3>
-              <p className="text-slate-500 mb-6">
-                {language === 'en' ? 'Awareness sessions on hygiene, nutrition, and appropriate care for seniors.' : 'Sessions de sensibilisation sur l\'hygiène, la nutrition et les soins adaptés aux seniors.'}
-              </p>
-              <div className="flex justify-between items-center">
-                <div>
-                  <p className="text-sm text-slate-400">{language === 'en' ? 'Participants' : 'Participants'}</p>
-                  <p className="text-lg font-bold text-blue-900">120</p>
-                </div>
-                <div>
-                  <p className="text-sm text-slate-400">{language === 'en' ? 'Sessions' : 'Séances'}</p>
-                  <p className="text-lg font-bold text-amber-600">8</p>
-                </div>
-                <button className="text-blue-900 hover:text-amber-600 font-medium flex items-center gap-2">
-                  Details <ArrowRight size={16} />
-                </button>
-              </div>
-            </div>
-          </div>
+          )}
         </div>
 
         <div className="text-center mt-16">
@@ -1102,7 +1048,7 @@ export default function FondationChacalUnifie() {
           {NEWS.map((item, i) => (
             <div key={i} className="group cursor-pointer">
               <div className="overflow-hidden rounded-3xl mb-6">
-                <img src={`https://res.cloudinary.com/dkuciagop/image/upload/v1769027104/WhatsApp_Image_2026-01-20_at_13.21.33_fmzfs6.jpg`} className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-700" />
+                <img src={item.image || "https://res.cloudinary.com/dkuciagop/image/upload/v1769027104/WhatsApp_Image_2026-01-20_at_13.21.33_fmzfs6.jpg"} className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-700" />
               </div>
               <span className="text-amber-600 font-bold text-xs uppercase tracking-widest">{item.cat} — {item.date}</span>
               <h4 className="text-xl font-bold text-blue-950 mt-3 group-hover:text-amber-600 transition-colors">{item.title}</h4>
